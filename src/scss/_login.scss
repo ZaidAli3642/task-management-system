@@ -1,0 +1,35 @@
+.login {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-container {
+    border-radius: 10px;
+    border: 1px solid $border-grey;
+    width: 31.25rem;
+    padding: 40px 0 10px 0;
+    background-color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .logo {
+      width: 3.125rem;
+      height: 3rem;
+    }
+
+    .logo-heading {
+      width: 13.5rem;
+      height: 2.188rem;
+      margin: 10px 0 10px 0;
+    }
+
+    .tag-line {
+      width: 11.875rem;
+      height: 0.875rem;
+    }
+  }
+}
