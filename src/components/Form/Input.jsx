@@ -1,6 +1,14 @@
-import { Input as ChakraInput, Box } from '@chakra-ui/react'
+import { Input as ChakraInput, Box, FormErrorMessage } from '@chakra-ui/react'
 
-const Input = ({ placeholder, type = 'text', name, label }) => {
+const Input = ({
+  placeholder,
+  type = 'text',
+  name,
+  label,
+  isInvalid = false,
+  onChange,
+  errorMessage,
+}) => {
   return (
     <Box className='input-container'>
       {label && (
@@ -9,12 +17,16 @@ const Input = ({ placeholder, type = 'text', name, label }) => {
         </label>
       )}
       <ChakraInput
+        isInvalid={errorMessage}
+        onChange={e => onChange(e)}
         type={type}
+        name={name}
         id={name}
         focusBorderColor='#e5ecea'
         className='input-box'
         placeholder={placeholder}
       />
+      {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
     </Box>
   )
 }

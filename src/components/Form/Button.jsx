@@ -3,11 +3,12 @@ import { useMemo } from 'react'
 
 import { buttonStyle } from '../../utils/buttonStyle'
 
-const Button = ({ title, color = 'green', size = 'small' }) => {
+const Button = ({ title, color = 'green', size = 'small', type }) => {
   const { classes, style } = useMemo(() => buttonStyle(size, color), [])
 
   return (
     <ChakraButton
+      type={type}
       backgroundColor={style.backgroundColor}
       textColor={style.textColor}
       borderColor={style.borderColor}
