@@ -8,6 +8,7 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path='/login' element={<Login />} />
+          <Route path='*' element={<Login />} />
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
