@@ -1,0 +1,16 @@
+.icon-container {
+  width: 20px;
+  height: 20px;
+
+  .icon:nth-child(2) {
+    display: none;
+  }
+
+  &:hover .icon:nth-child(1) {
+    display: none;
+  }
+
+  &:hover .icon:nth-child(2) {
+    display: block;
+  }
+}

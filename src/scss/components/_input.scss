@@ -25,7 +25,8 @@
       font-weight: 400;
     }
 
-    &:active {
+    &:active,
+    &:focus {
       border-color: $medium-green;
     }
 
