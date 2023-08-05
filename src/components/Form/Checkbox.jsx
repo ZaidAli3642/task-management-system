@@ -1,18 +1,13 @@
-import assets from '../../assets/assets'
-import { useState } from 'react'
+import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
+import colors from '../../config/colors'
 
-const CheckBox = ({ onClick }) => {
-  const [checked, setChecked] = useState(false)
+const CheckBox = () => {
   return (
-    <div
-      className={`checkbox ${checked ? 'checkbox-green' : 'checkbox-white'}`}
-      onClick={() => {
-        setChecked(!checked)
-        onClick()
-      }}
-    >
-      {checked && <img src={assets.icons.check} alt='Checked' />}
-    </div>
+    <Checkbox
+      defaultChecked
+      colorScheme='green'
+      _hover={{ borderColor: colors.darkGreen }}
+    />
   )
 }
 

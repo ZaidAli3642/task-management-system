@@ -1,21 +1,26 @@
+import { Button as ChakraButton } from '@chakra-ui/react'
 import { useMemo } from 'react'
 
+import { buttonStyle } from '../../utils/buttonStyle'
+
 const Button = ({ title, color = 'green', size = 'small' }) => {
-  const classes = useMemo(() => {
-    let classes = ''
-    if (size === 'small') classes += 'button-small '
-    if (size === 'large') classes += 'button-big '
-    if (color === 'default') classes += 'button-default '
-    if (color === 'red') classes += 'button-red '
-    if (color === 'grey') classes += 'button-grey '
-    if (color === 'green') classes += 'button-green '
+  const { classes, style } = useMemo(() => buttonStyle(size, color), [])
 
-    return classes
-  }, [])
-
-  console.log(classes)
-
-  return <button className={`button ${classes}`}>{title}</button>
+  return (
+    <ChakraButton
+      backgroundColor={style.backgroundColor}
+      textColor={style.textColor}
+      borderColor={style.borderColor}
+      border={style.border}
+      _hover={{
+        backgroundColor: style.hoverBackgroundColor,
+        color: style.hoverTextColor,
+      }}
+      className={`button ${classes}`}
+    >
+      {title}
+    </ChakraButton>
+  )
 }
 
 export default Button

@@ -55,12 +55,12 @@ body {
 
 .button {
   border-radius: 5px;
-  padding: 15px;
+  padding: 25px;
   margin: 10px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
   outline: none;
-  border: 0;
+  font-size: 16px;
+  font-weight: 600;
 }
 .button-big {
   width: 28.125rem;
@@ -69,58 +69,6 @@ body {
 .button-small {
   width: 13.438rem;
   height: 3.125rem;
-}
-.button-default {
-  border: 1px solid rgba(251, 67, 100, 0.2);
-  background-color: #ffffff;
-  color: #fb4364;
-}
-.button-default:hover {
-  border-width: 0px;
-  background-color: #fb4364;
-  color: #ffffff;
-}
-.button-red {
-  background-color: #fb4364;
-  color: #ffffff;
-}
-.button-red:hover {
-  background-color: #d22b49;
-}
-.button-grey {
-  background-color: #f0f4f3;
-  color: #04261c;
-}
-.button-grey:hover {
-  background-color: #bfd7cf;
-}
-.button-green {
-  background-color: #61c0a2;
-  color: #ffffff;
-}
-.button-green:hover {
-  background-color: #1ba076;
-}
-
-.checkbox {
-  width: 20px;
-  height: 20px;
-  border-radius: 5px;
-  border: 1px solid #bfd7cf;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color border-color 0.2s ease;
-}
-.checkbox:hover {
-  border-color: #1ba076;
-}
-.checkbox-white {
-  background-color: #ffffff;
-}
-.checkbox-green {
-  border: 0;
-  background-color: #1ba076;
 }
 
 .login {

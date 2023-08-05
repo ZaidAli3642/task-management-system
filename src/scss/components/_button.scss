@@ -1,11 +1,11 @@
 .button {
   border-radius: 5px;
-  padding: 15px;
+  padding: 25px;
   margin: 10px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
   outline: none;
-  border: 0;
+  font-size: 16px;
+  font-weight: 600;
 
   &-big {
     width: 28.125rem;
@@ -15,44 +15,5 @@
   &-small {
     width: 13.438rem;
     height: 3.125rem;
-  }
-
-  &-default {
-    border: 1px solid $light-red;
-    background-color: $white;
-    color: $red;
-
-    &:hover {
-      border-width: 0px;
-      background-color: $red;
-      color: $white;
-    }
-  }
-
-  &-red {
-    background-color: $red;
-    color: $white;
-
-    &:hover {
-      background-color: $dark-red;
-    }
-  }
-
-  &-grey {
-    background-color: $light-grey;
-    color: $black;
-
-    &:hover {
-      background-color: $grey-green;
-    }
-  }
-
-  &-green {
-    background-color: $medium-green;
-    color: $white;
-
-    &:hover {
-      background-color: $dark-green;
-    }
   }
 }
