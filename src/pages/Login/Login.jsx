@@ -2,10 +2,8 @@ import { useState } from 'react'
 import { Box, Image, useToast } from '@chakra-ui/react'
 import * as yup from 'yup'
 
-import { Input } from '../../components/Form'
+import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
-import Button from '../../components/Form/Button'
-import Form from '../../components/Form/Form'
 
 const loginSchema = yup.object().shape({
   password: yup.string().required().label('Password'),
