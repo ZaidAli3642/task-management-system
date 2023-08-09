@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Box, Image, useToast } from '@chakra-ui/react'
 import * as yup from 'yup'
 
 import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const loginSchema = yup.object().shape({
   password: yup.string().required().label('Password'),
@@ -15,10 +18,18 @@ const loginSchema = yup.object().shape({
 })
 
 const Login = () => {
+  const navigate = useNavigate();
   const toast = useToast()
   const [isInvalid, setIsInvalid] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
   const [errorMessage, setErrorMessage] = useState({ email: '', password: '' })
+
+  useEffect(()=>{
+    let login = localStorage.getItem('login');
+    if(login){
+        navigate('/admin')
+    }
+  },)
 
   const handleChange = ({ target: { name, value } }) => {
     setIsInvalid(false)
@@ -27,11 +38,15 @@ const Login = () => {
   }
 
   const handleSubmit = async () => {
+    
+    
     try {
       await loginSchema.validate(user)
 
       setIsInvalid(false)
 
+      localStorage.setItem('login',true)
+      navigate('/admin');
       toast({
         title: 'Congrats!!!',
         description: 'You are logged in.',
@@ -39,6 +54,7 @@ const Login = () => {
         duration: 9000,
         isClosable: true,
       })
+      
     } catch (error) {
       setIsInvalid(true)
       let errorObj = { ...errorMessage }
@@ -59,7 +75,7 @@ const Login = () => {
         <Form isInvalid={isInvalid} onSubmit={handleSubmit}>
           <Input
             onChange={handleChange}
-            placeholder='Enter you email'
+            placeholder='Enter your email'
             label='Email address'
             name='email'
             isInvalid={isInvalid}
