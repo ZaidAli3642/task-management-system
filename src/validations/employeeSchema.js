@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-const addEmployeeSchema = yup.object().shape({
+const employeeSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .required()
@@ -12,4 +12,4 @@ const addEmployeeSchema = yup.object().shape({
   firstname: yup.string().required().label('First name'),
 })
 
-export default addEmployeeSchema
+export default employeeSchema

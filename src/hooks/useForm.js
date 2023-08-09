@@ -17,6 +17,7 @@ const useForm = fields => {
       setIsInvalid(false)
       if (func) func()
 
+      setInputFields(fields)
       return true
     } catch (error) {
       setIsInvalid(true)
@@ -24,7 +25,7 @@ const useForm = fields => {
     }
   }
 
-  return { inputFields, errorMessages, isInvalid, setIsInvalid, onChange, onSubmit }
+  return [errorMessages, isInvalid, inputFields, setIsInvalid, onChange, onSubmit]
 }
 
 export default useForm

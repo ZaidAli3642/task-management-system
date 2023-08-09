@@ -17,6 +17,7 @@ const colors = {
   // red
   red: '#fb4364',
   darkRed: '#d22b49',
+  mediumRed: 'rgba(251, 67, 100, 0.5)',
   lightRed: 'rgba(251, 67, 100, 0.2)',
 
   // white

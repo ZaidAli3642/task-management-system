@@ -7,7 +7,7 @@ import useForm from '../../hooks/useForm'
 
 const Login = () => {
   const toast = useToast()
-  const { errorMessages, isInvalid, onChange, onSubmit } = useForm({ email: '', password: '' })
+  const [errorMessages, isInvalid, , , onChange, onSubmit] = useForm({ email: '', password: '' })
 
   const handleSubmit = async () => {
     const result = await onSubmit(loginSchema)
