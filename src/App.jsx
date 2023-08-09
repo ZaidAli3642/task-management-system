@@ -10,7 +10,7 @@ const { store, persistor } = configureStore()
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/'>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ChakraProvider>
