@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -10,7 +10,7 @@ const { store, persistor } = configureStore()
 
 function App() {
   return (
-    <BrowserRouter basename='/'>
+    <HashRouter basename='/'>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ChakraProvider>
@@ -18,7 +18,7 @@ function App() {
           </ChakraProvider>
         </PersistGate>
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
