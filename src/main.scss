@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-@import './scss/variables';
-@import './scss/globals';
+@import './app/scss/variables';
+@import './app/scss/globals';
 
 // components
-@import './scss/components/input';
-@import './scss/components/button';
-@import './scss/components/icon';
-@import './scss/components/table';
+@import './app/scss/components/input';
+@import './app/scss/components/button';
+@import './app/scss/components/icon';
+@import './app/scss/components/table';
 
 // pages
-@import './scss/login';
+@import './app/scss/login';
+@import './app/scss/not_found';

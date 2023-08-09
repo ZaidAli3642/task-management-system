@@ -1,24 +1,23 @@
 import { ChakraProvider } from '@chakra-ui/react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
-import Login from './pages/Login/Login'
-import ProtectedRoutes from './routes/ProtectedRoutes'
-import UnProtectedRoutes from './routes/UnProtectedRoutes'
-import Employees from './pages/Employee/Employees'
+import configureStore from './app/redux/store'
+import Root from './app/Root'
+
+const { store, persistor } = configureStore()
 
 function App() {
   return (
     <BrowserRouter>
-      <ChakraProvider>
-        <Routes>
-          <Route element={<UnProtectedRoutes />}>
-            <Route path='/login' element={<Login />} />
-          </Route>
-          <Route element={<ProtectedRoutes />}>
-            <Route path='/employees' element={<Employees />} />
-          </Route>
-        </Routes>
-      </ChakraProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ChakraProvider>
+            <Root />
+          </ChakraProvider>
+        </PersistGate>
+      </Provider>
     </BrowserRouter>
   )
 }

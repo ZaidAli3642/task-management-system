@@ -1,5 +1,7 @@
 import { Box, Image, useToast } from '@chakra-ui/react'
+import { useDispatch } from 'react-redux'
 
+import { login } from '../../redux/reducers/auth'
 import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
 import loginSchema from '../../validations/loginSchema'
@@ -7,10 +9,11 @@ import useForm from '../../hooks/useForm'
 
 const Login = () => {
   const toast = useToast()
+  const dispatch = useDispatch()
   const [errorMessages, isInvalid, , , onChange, onSubmit] = useForm({ email: '', password: '' })
 
   const handleSubmit = async () => {
-    const result = await onSubmit(loginSchema)
+    const result = await onSubmit(loginSchema, () => dispatch(login()))
     if (!result) return
     toast({
       title: 'Congrats!!!',
@@ -27,7 +30,7 @@ const Login = () => {
         <Image src={assets.images.logo} className='logo' />
         <Image src={assets.images.logoHeading} className='logo-heading' />
         <Image src={assets.images.tagLine} className='tag-line' />
-        <Form isInvalid={isInvalid} onSubmit={handleSubmit}>
+        <Form style={{ width: '100%', padding: 20 }} isInvalid={isInvalid} onSubmit={handleSubmit}>
           <Input onChange={onChange} placeholder='Enter you email' label='Email address' name='email' errorMessage={errorMessages.email} />
           <Input onChange={onChange} placeholder='Enter Password' label='Password' type='password' name='password' errorMessage={errorMessages.password} />
           <Button title='Login' color='default' size='large' type='submit' />

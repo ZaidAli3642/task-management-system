@@ -1,13 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import Navbar from '../components/Nav/Navbar'
 
 const ProtectedRoutes = () => {
-  const auth = {
-    token: true,
-  }
+  const token = useSelector(state => state.auth.token)
 
-  if (!auth.token) return <Navigate to='/login' />
+  if (!token) return <Navigate to='/login' />
 
   return (
     <>

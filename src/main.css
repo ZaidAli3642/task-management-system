@@ -17,7 +17,8 @@ body {
 }
 
 .input-container {
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .input-container .input-label {
   display: block;
@@ -146,4 +147,22 @@ body {
 .login-container .tag-line {
   width: 11.875rem;
   height: 0.875rem;
+}
+
+/* NotFound.css */
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.not-found-container h1 {
+  font-size: 3rem;
+  color: #fb4364; /* Heading color */
+}
+.not-found-container p {
+  font-size: 1.5rem;
+  color: #1ba076; /* Paragraph color */
+  margin-top: 1rem;
 }/*# sourceMappingURL=main.css.map */

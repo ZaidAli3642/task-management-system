@@ -1,10 +1,18 @@
+import { useDispatch } from 'react-redux'
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import { Box, Flex, useColorModeValue, Image, Button, MenuButton, Menu, MenuList, MenuItem } from '@chakra-ui/react'
+
 import NavItems from './NavItems'
 import assets from '../../assets/assets'
-import { ChevronDownIcon } from '@chakra-ui/icons'
 import colors from '../../config/colors'
+import { logout } from '../../redux/reducers/auth'
 
 const Navbar = () => {
+  const dispatch = useDispatch()
+
+  const logoutUser = () => {
+    dispatch(logout())
+  }
   return (
     <Box>
       <Flex bg={useColorModeValue('white', 'gray.800')} color={useColorModeValue('gray.600', 'white')} minH='60px' py={{ base: 2 }} px={{ base: 4 }} align='center'>
@@ -18,7 +26,7 @@ const Navbar = () => {
               Dilawer
             </MenuButton>
             <MenuList p={3} minWidth={170}>
-              <MenuItem as={Button} fontWeight={600} backgroundColor={colors.lightGrey} textColor={colors.black} _hover={{ backgroundColor: colors.lightGrey }}>
+              <MenuItem onClick={logoutUser} as={Button} fontWeight={600} backgroundColor={colors.lightGrey} textColor={colors.black} _hover={{ backgroundColor: colors.lightGrey }}>
                 Logout
               </MenuItem>
             </MenuList>

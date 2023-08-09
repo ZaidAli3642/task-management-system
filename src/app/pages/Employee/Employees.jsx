@@ -61,7 +61,7 @@ const Employees = () => {
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Breadcrumbs navigationLocation={navigationLocation} iconImage={assets.icons.employees} />
-        <ButtonWithIcon onClick={() => setOpenEditEmployee(true)} />
+        <ButtonWithIcon onClick={() => setOpenAddEmployee(true)} />
       </Box>
       <Box mx='30px'>
         <Box border={1} borderColor={colors.lightGrey} borderStyle='solid' borderRadius='20px' overflow='hidden'>
