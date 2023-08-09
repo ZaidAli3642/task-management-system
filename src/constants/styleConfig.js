@@ -35,4 +35,10 @@ const buttonStyles = {
   },
 }
 
-export { buttonStyles }
+const mediumButtonSize = {
+  medium: 'button-with-icon-medium-height',
+  big: '',
+  small: 'button-with-icon-small-height',
+}
+
+export { buttonStyles, mediumButtonSize }

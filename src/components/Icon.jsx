@@ -1,8 +1,8 @@
-import { Box, Image, Icon as ChakraIcon } from '@chakra-ui/react'
+import { Box, Image } from '@chakra-ui/react'
 
-const Icon = ({ image, hoveredImage }) => {
+const Icon = ({ image, hoveredImage, ...props }) => {
   return (
-    <Box className='icon-container'>
+    <Box {...props} className='icon-container'>
       <Image src={image} className={hoveredImage && 'icon'} />
       {hoveredImage && <Image src={hoveredImage} className='icon' />}
     </Box>

@@ -1,53 +1,24 @@
-import { useState } from 'react'
 import { Box, Image, useToast } from '@chakra-ui/react'
-import * as yup from 'yup'
 
 import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
-
-const loginSchema = yup.object().shape({
-  password: yup.string().required().label('Password'),
-  email: yup
-    .string()
-    .email('Email must be a valid email')
-    .required()
-    .label('Email'),
-})
+import loginSchema from '../../validations/loginSchema'
+import useForm from '../../hooks/useForm'
 
 const Login = () => {
   const toast = useToast()
-  const [isInvalid, setIsInvalid] = useState(false)
-  const [user, setUser] = useState({ email: '', password: '' })
-  const [errorMessage, setErrorMessage] = useState({ email: '', password: '' })
-
-  const handleChange = ({ target: { name, value } }) => {
-    setIsInvalid(false)
-    setUser(prevState => ({ ...prevState, [name]: value }))
-    setErrorMessage(prevState => ({ ...prevState, [name]: '' }))
-  }
+  const { errorMessages, isInvalid, onChange, onSubmit } = useForm({ email: '', password: '' })
 
   const handleSubmit = async () => {
-    try {
-      await loginSchema.validate(user)
-
-      setIsInvalid(false)
-
-      toast({
-        title: 'Congrats!!!',
-        description: 'You are logged in.',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-    } catch (error) {
-      setIsInvalid(true)
-      let errorObj = { ...errorMessage }
-      let errorMes = error.message
-      if (error?.message?.includes('Email')) errorObj['email'] = errorMes
-      if (error?.message?.includes('Password')) errorObj['password'] = errorMes
-
-      setErrorMessage(errorObj)
-    }
+    const result = await onSubmit(loginSchema)
+    if (!result) return
+    toast({
+      title: 'Congrats!!!',
+      description: 'You are logged in.',
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
   }
 
   return (
@@ -57,24 +28,8 @@ const Login = () => {
         <Image src={assets.images.logoHeading} className='logo-heading' />
         <Image src={assets.images.tagLine} className='tag-line' />
         <Form isInvalid={isInvalid} onSubmit={handleSubmit}>
-          <Input
-            onChange={handleChange}
-            placeholder='Enter you email'
-            label='Email address'
-            name='email'
-            isInvalid={isInvalid}
-            errorMessage={errorMessage.email}
-          />
-          <Input
-            onChange={handleChange}
-            placeholder='Enter Password'
-            label='Password'
-            type='password'
-            name='password'
-            isInvalid={isInvalid}
-            errorMessage={errorMessage.password}
-          />
-
+          <Input onChange={onChange} placeholder='Enter you email' label='Email address' name='email' errorMessage={errorMessages.email} />
+          <Input onChange={onChange} placeholder='Enter Password' label='Password' type='password' name='password' errorMessage={errorMessages.password} />
           <Button title='Login' color='default' size='large' type='submit' />
         </Form>
       </Box>
