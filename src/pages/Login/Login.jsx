@@ -24,12 +24,12 @@ const Login = () => {
   const [user, setUser] = useState({ email: '', password: '' })
   const [errorMessage, setErrorMessage] = useState({ email: '', password: '' })
 
-  useEffect(()=>{
-    let login = localStorage.getItem('login');
-    if(login){
-        navigate('/admin')
-    }
-  },)
+  // useEffect(() =>{
+  //   let login =  localStorage.getItem('login');
+  //   if(login){
+  //       navigate('/admin')
+  //   }
+  // },)
 
   const handleChange = ({ target: { name, value } }) => {
     setIsInvalid(false)

@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../../assets/images/logo-heading.png'
+
 import {
   Box,
   Image,
@@ -13,15 +14,23 @@ import {
   useColorModeValue,
   Spacer,
   AspectRatio,
+  Center,
 } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom'
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [activeLink, setActiveLink] = useState(null)
+  const navigate = useNavigate();
 
+ const handleClick = ()=>{
+  localStorage.setItem('login',false)
+    navigate('/login')
+
+ } 
   const handleNavLinkClick = link => {
     setActiveLink(link)
   }
@@ -40,7 +49,6 @@ function Navbar() {
           />
 
           <NavLink
-          
             isActive={() => activeLink === 'link1'}
             onClick={() => handleNavLinkClick('link1')}
           >
@@ -56,7 +64,6 @@ function Navbar() {
               fontWeight={500}
               fontSize='16px'
               lineHeight='20px'
-              
             >
               Employess
             </Flex>
@@ -104,14 +111,15 @@ function Navbar() {
           </NavLink>
           <Spacer />
           <Flex>
-            <Menu ml={1300} w={116} h={20} mt={24} isOpen={isOpen}>
+            <Menu ml={1300} w={116} h={20} mt={24} isOpen={isOpen} >
               <MenuButton
                 variant='ghost'
+                
                 mx={1}
                 py={[1, 2, 2]}
                 px={4}
                 borderRadius={5}
-                gap='10px'                // _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
+                gap='10px' // _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
                 aria-label='Courses'
                 fontWeight={700}
                 onClick={onOpen}
@@ -119,10 +127,14 @@ function Navbar() {
               >
                 James Smith {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
               </MenuButton>
-              <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
-                <MenuItem>Menu Item 1</MenuItem>
-                <MenuItem>Menu Item 2</MenuItem>
-                <MenuItem>Menu Item 3</MenuItem>
+              <MenuList  onMouseEnter={onOpen} onMouseLeave={onClose}  >
+                <MenuItem bg={'white'}>
+                  {' '}
+                  <Button onClick={handleClick} bg='#F0F4F3' borderRadius={5} padding='15px' gap='10px' size='lg' width='175px' height='50px' ms='10px' >
+                    Log out
+                  </Button>
+                </MenuItem>
+                
               </MenuList>
             </Menu>
           </Flex>
