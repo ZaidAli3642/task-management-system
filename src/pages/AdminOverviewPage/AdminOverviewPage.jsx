@@ -12,6 +12,7 @@ import {
   Box,
 } from '@chakra-ui/react'
 import Icon from '../../components/Icon'
+import Customer from '../Login/Customer/Customer'
 
 
 
@@ -22,23 +23,10 @@ function AdminOverviewPage() {
       <Navbar />
       <Flex>
         <Box ms='24px' mt={5}  align="center"  borderRadius='50px' gap='20px' padding={'5px'}  bg={'white'} fontWeight={600}  >
-        {/* <Breadcrumb spacing="8px"  mb={4}>
-      {breadcrumbItems.map((item, index) => (
-        <BreadcrumbItem key={index}>
-          <Flex align="center" bg="#CFF0E6" borderRadius="40px" w="141px" h="40px" padding="10px" gap="10px" >
-            {item.imageSrc && (
-              <Image src={item.imageSrc} bgColor="#1BA076" padding="4px" w="30px" h="25px" borderRadius="20px" />
-            )}
-            <BreadcrumbLink as={Link} to={item.link}>
-              {item.text}
-            </BreadcrumbLink>
-          </Flex>
-        </BreadcrumbItem>
-      ))}
-    </Breadcrumb> */}
+      
         <Breadcrumb>
           <BreadcrumbItem bg='#CFF0E6' borderRadius='40px' w='141px' h='40px' padding='10px'  gap='10px'>
-             <Box w='30px' display='flex' h='30px' borderRadius={'full'} backgroundColor={'green'} align='center'padding='7px'  >
+             <Box w='30px' display='flex' h='30px' borderRadius={'full'} backgroundColor={'#1BA076'} align='center'padding='7px'  >
               <Icon image={empicon}  />
              </Box>
             <BreadcrumbLink to='/login' >Employees</BreadcrumbLink>
@@ -55,6 +43,7 @@ function AdminOverviewPage() {
           <ButtonwithIcon title='Employee' />
         </Flex>
       </Flex>
+      <Customer/>
     </>
   )
 }
