@@ -10,7 +10,7 @@ const { store, persistor } = configureStore()
 
 function App() {
   return (
-    <HashRouter basename='/'>
+    <HashRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ChakraProvider>
