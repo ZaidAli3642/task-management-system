@@ -32,6 +32,8 @@ const Login = () => {
 
       setIsInvalid(false)
 
+      localStorage.setItem('isLogged', true)
+
       toast({
         title: 'Congrats!!!',
         description: 'You are logged in.',

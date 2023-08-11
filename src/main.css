@@ -8,7 +8,7 @@
 }
 
 body {
-  background-color: #f6f9f8;
+  background-color: #f6f9f8 !important;
   font-family: "Roboto", sans-serif;
 }
 
