@@ -22,11 +22,11 @@
 
 .button-with-icon {
   width: 9.688rem !important;
-
   background-color: $white !important;
-  color: $dark-green !important;
+  color: $medium-green !important;
   border: 1px solid $light-green;
   border-radius: 5px;
+  font-weight: 700 !important;
 
   &-medium-height {
     height: 3rem !important;

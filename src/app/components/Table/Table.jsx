@@ -1,15 +1,13 @@
-import { Table as ChakraTable, Td, Text, Tfoot, Tr } from '@chakra-ui/react'
-
 import TableHead from './TableHead'
-import colors from '../../config/colors'
 import TableBody from './TableBody'
+import TableWrapper from './TableWrapper'
 
 const Table = ({ columns = [], data }) => {
   return (
-    <ChakraTable w={'100%'} variant={'simple'} className='table' backgroundColor={colors.white} outline={'none'}>
+    <TableWrapper>
       <TableHead columns={columns} />
       <TableBody columns={columns} data={data} />
-    </ChakraTable>
+    </TableWrapper>
   )
 }
 

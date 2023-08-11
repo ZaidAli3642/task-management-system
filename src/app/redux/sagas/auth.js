@@ -1,5 +1,5 @@
 import { put, takeEvery } from 'redux-saga/effects'
-import { login, failed, success } from '../reducers/auth'
+import { login, failed, success } from '../reducers/auth/auth'
 
 function* loginUser() {
   try {

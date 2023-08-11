@@ -14,10 +14,10 @@ const NavItems = () => {
   }
 
   return (
-    <Stack direction={'row'} spacing={4}>
+    <Stack direction={'row'}>
       {routes.map(navItem => (
         <Box key={navItem.id}>
-          <Box p={2} fontSize={16} fontWeight={500} textTransform={'none'} letterSpacing={'normal'} color={navItem.active ? colors.mediumGreen : colors.black}>
+          <Box py={2} px='20px' fontSize={16} fontWeight={500} textTransform={'none'} letterSpacing={'normal'} color={navItem.active ? colors.mediumGreen : colors.black}>
             <Link onClick={() => changeActiveColor(navItem.id)} to={navItem.path}>
               {navItem.label}
             </Link>

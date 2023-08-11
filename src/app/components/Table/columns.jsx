@@ -6,8 +6,8 @@ const columns = [
   {
     id: 1,
     title: 'Name',
-    content: (value, color) => (
-      <Text _groupHover={{ textColor: colors.darkGreen }} className='table-heading' color={color}>
+    content: (value, isEdit, color) => (
+      <Text _groupHover={{ textColor: isEdit ? colors.darkGreen : colors.black }} fontSize='12px' className='table-heading' color={color}>
         {value.name}
       </Text>
     ),
@@ -17,9 +17,9 @@ const columns = [
     title: 'Unsolved',
     highlight: true,
     color: colors.red,
-    lightColor: colors.lightRed,
-    content: (value, color) => (
-      <Text className='table-heading table-heading-light-weight' color={color}>
+    lightColor: colors.veryLightRed,
+    content: (value, isEdit, color) => (
+      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
         {value.unsolved}
       </Text>
     ),
@@ -30,9 +30,9 @@ const columns = [
     subTitle: 'Week 19',
     highlight: true,
     color: colors.darkGreen,
-    lightColor: colors.lightGreen,
-    content: (value, color) => (
-      <Text className='table-heading table-heading-light-weight' color={color}>
+    lightColor: colors.veryLightGreen,
+    content: (value, isEdit, color) => (
+      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
         {value.week1}
       </Text>
     ),
@@ -41,8 +41,8 @@ const columns = [
     id: 4,
     title: '8 May - 21 May',
     subTitle: 'Week 19',
-    content: (value, color) => (
-      <Text className='table-heading table-heading-light-weight' color={color}>
+    content: (value, isEdit, color) => (
+      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
         {value.week2}
       </Text>
     ),
@@ -51,8 +51,8 @@ const columns = [
     id: 5,
     title: '8 May - 21 May',
     subTitle: 'Week 19',
-    content: (value, color) => (
-      <Text className='table-heading table-heading-light-weight' color={color}>
+    content: (value, isEdit, color) => (
+      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
         {value.week3}
       </Text>
     ),
@@ -61,8 +61,8 @@ const columns = [
     id: 6,
     title: '8 May - 21 May',
     subTitle: 'Week 19',
-    content: (value, color) => (
-      <Text className='table-heading table-heading-light-weight' color={color}>
+    content: (value, isEdit, color) => (
+      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
         {value.week4}
       </Text>
     ),
@@ -71,8 +71,8 @@ const columns = [
     id: 7,
     title: '8 May - 21 May',
     subTitle: 'Week 19',
-    content: (value, color) => (
-      <Text className='table-heading table-heading-light-weight' color={color}>
+    content: (value, isEdit, color) => (
+      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
         {value.week5}
       </Text>
     ),

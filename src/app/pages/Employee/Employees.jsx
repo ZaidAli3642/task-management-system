@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Box, useToast } from '@chakra-ui/react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Table, columns } from '../../components/Table'
 import { ButtonWithIcon } from '../../components/Form'
@@ -9,30 +10,31 @@ import TableFoot from '../../components/Table/TableFoot'
 import TableWrapper from '../../components/Table/TableWrapper'
 import DATA from '../../assets/MOCK_DATA.json'
 import assets from '../../assets/assets'
-import colors from '../../config/colors'
 import employeeSchema from '../../validations/employeeSchema'
 import useForm from '../../hooks/useForm'
 import EditEmployee from '../../components/Modal/Employee/EditEmployee'
 import DeleteEmployee from '../../components/Modal/Employee/DeleteEmployee'
+import { employeeAddModal, employeeDeleteModal, employeeEditModal } from '../../redux/reducers/employee/employees'
 
 const Employees = () => {
   const toast = useToast()
+  const dispatch = useDispatch()
+  const isEmployeeAddModal = useSelector(state => state.employees.employeeAddModal)
+  const isEmployeeEditModal = useSelector(state => state.employees.employeeEditModal)
+  const isEmployeeDeleteModal = useSelector(state => state.employees.employeeDeleteModal)
   const navigationLocation = ['employess']
-  const [openAddEmployee, setOpenAddEmployee] = useState(false)
-  const [openEditEmployee, setOpenEditEmployee] = useState(false)
-  const [openDeleteEmployee, setOpenDeleteEmployee] = useState(false)
   const [errorMessages, isInvalid, , , onChange, onSubmit] = useForm({ firstname: '', lastname: '', username: '', password: '', confirmPassword: '' })
 
   const addEmployee = async () => {
     const result = await onSubmit(employeeSchema)
     if (!result) return
-    setOpenAddEmployee(false)
+    dispatch(employeeAddModal(false))
   }
 
   const editEmployee = async () => {
     const result = await onSubmit(employeeSchema)
     if (!result) return
-    setOpenEditEmployee(false)
+    dispatch(employeeEditModal(false))
   }
 
   const onSubmitForm = async (edit = false) => {
@@ -42,7 +44,7 @@ const Employees = () => {
   }
 
   const deleteEmployee = () => {
-    setOpenDeleteEmployee(false)
+    dispatch(employeeDeleteModal(false))
     toast({
       title: 'Deleted',
       description: 'Your have successfully delete employee',
@@ -53,29 +55,25 @@ const Employees = () => {
   }
 
   const showDeleteModal = () => {
-    setOpenEditEmployee(false)
-    setOpenDeleteEmployee(true)
+    dispatch(employeeEditModal(false))
+    dispatch(employeeDeleteModal(true))
   }
 
   return (
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Breadcrumbs navigationLocation={navigationLocation} iconImage={assets.icons.employees} />
-        <ButtonWithIcon onClick={() => setOpenAddEmployee(true)} />
+        <ButtonWithIcon onClick={() => dispatch(employeeAddModal(true))} size='medium' />
       </Box>
       <Box mx='30px'>
-        <Box border={1} borderColor={colors.lightGrey} borderStyle='solid' borderRadius='20px' overflow='hidden'>
-          <Table columns={columns} data={DATA} />
-        </Box>
-        <Box marginY={'30px'} border={1} borderColor={colors.lightGrey} borderStyle='solid' borderRadius='20px' overflow='hidden'>
-          <TableWrapper>
-            <TableFoot columns={columns} data={[DATA[0]]} />
-          </TableWrapper>
-        </Box>
+        <Table columns={columns} data={DATA} />
+        <TableWrapper tableBoxStyles={{ marginTop: '30px' }}>
+          <TableFoot columns={columns} data={[DATA[0]]} />
+        </TableWrapper>
       </Box>
-      <AddEmployee isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={openAddEmployee} onClose={() => setOpenAddEmployee(false)} onAddEmployee={() => onSubmitForm(false)} />
-      <EditEmployee showDeleteModal={showDeleteModal} isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={openEditEmployee} onClose={() => setOpenEditEmployee(false)} onEditEmployee={() => onSubmitForm(true)} />
-      <DeleteEmployee isOpen={openDeleteEmployee} onClose={() => setOpenDeleteEmployee(false)} onDeleteEmployee={() => deleteEmployee()} />
+      <AddEmployee isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddEmployee={() => onSubmitForm(false)} />
+      <EditEmployee showDeleteModal={showDeleteModal} isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeEditModal} onClose={() => dispatch(employeeEditModal(false))} onEditEmployee={() => onSubmitForm(true)} />
+      <DeleteEmployee isOpen={isEmployeeDeleteModal} onClose={() => dispatch(employeeDeleteModal(false))} onDeleteEmployee={() => deleteEmployee()} />
     </>
   )
 }
