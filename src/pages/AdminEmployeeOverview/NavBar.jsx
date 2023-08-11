@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import logoHeading from '../../assets/images/logo-heading.png'
 import {
   Box,
@@ -18,9 +19,19 @@ import { HamburgerIcon, CloseIcon, ChevronDownIcon } from '@chakra-ui/icons'
 function NavBar() {
   const [activeLink, setActiveLink] = useState('') // Initialize the active link
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const navigate = useNavigate();
 
   const handleNavLinkClick = linkName => {
     setActiveLink(linkName)
+  }
+
+  const handleClick = ()=>{
+    console.log('clicked');
+    localStorage.setItem('isLogged', false)
+    let auth = localStorage.getItem('isLogged');
+    if(auth === 'false'){
+      navigate('/login');
+    }
   }
 
   return (
@@ -84,7 +95,7 @@ function NavBar() {
               James Smith
             </MenuButton>
             <MenuList>
-              <MenuItem>Logout</MenuItem>
+              <MenuItem onClick={handleClick}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

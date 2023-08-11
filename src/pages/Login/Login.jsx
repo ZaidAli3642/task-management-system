@@ -4,6 +4,7 @@ import * as yup from 'yup'
 
 import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 const loginSchema = yup.object().shape({
   password: yup.string().required().label('Password'),
@@ -19,6 +20,7 @@ const Login = () => {
   const [isInvalid, setIsInvalid] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
   const [errorMessage, setErrorMessage] = useState({ email: '', password: '' })
+  const navigate = useNavigate();
 
   const handleChange = ({ target: { name, value } }) => {
     setIsInvalid(false)
@@ -33,7 +35,12 @@ const Login = () => {
       setIsInvalid(false)
 
       localStorage.setItem('isLogged', true)
-
+      let auth = localStorage.getItem('isLogged')
+      console.log(auth)
+      if(auth === 'true'){
+        navigate('/home');
+      }
+      
       toast({
         title: 'Congrats!!!',
         description: 'You are logged in.',
