@@ -15,7 +15,7 @@ const DeleteEmployee = ({ isOpen, onClose, onDeleteEmployee }) => {
             Their access to the platform will be removed.
           </Text>
         </ModalBody>
-        <ModalFooter paddingX={'15px'} paddingTop={0}>
+        <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
           <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />
           <Button margin={'10px'} title='Delete' size='small' color='red' type='submit' />
         </ModalFooter>

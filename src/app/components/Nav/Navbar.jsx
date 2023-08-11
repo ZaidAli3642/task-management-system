@@ -14,7 +14,7 @@ const Navbar = () => {
     dispatch(logout())
   }
   return (
-    <Box>
+    <Box position='sticky' top={0} boxShadow={'sm'} zIndex={99}>
       <Flex bg={useColorModeValue('white', 'gray.800')} color={useColorModeValue('gray.600', 'white')} minH='60px' py={{ base: 2 }} px='30px' align='center'>
         <Flex flex={1} alignItems='center'>
           <Image src={assets.images.logoHeading} w={136} h={22} mt={1} />

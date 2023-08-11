@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Box, useToast } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -67,7 +66,7 @@ const Employees = () => {
       </Box>
       <Box mx='30px'>
         <Table columns={columns} data={DATA} />
-        <TableWrapper tableBoxStyles={{ marginTop: '30px' }}>
+        <TableWrapper tableBoxStyles={{ marginTop: '30px', marginBottom: '30px' }}>
           <TableFoot columns={columns} data={[DATA[0]]} />
         </TableWrapper>
       </Box>
