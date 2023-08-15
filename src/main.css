@@ -12,19 +12,19 @@ body {
   font-family: "Roboto", sans-serif !important;
 }
 
-.error {
-  color: #fb4364;
+.active-link {
+  color: #61c0a2;
 }
 
 .input-container {
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .input-container .input-label {
   display: block;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 24px;
-  margin-left: 5px;
   color: #04261c;
 }
 .input-container .input-box {
@@ -36,7 +36,7 @@ body {
   height: 3.125rem;
   outline: none;
   padding: 15px;
-  width: 28.125rem;
+  width: "100%";
 }
 .input-container .input-box::-moz-placeholder {
   color: #bfd7cf;
@@ -56,19 +56,38 @@ body {
 .button {
   border-radius: 5px;
   padding: 25px;
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
   outline: none;
   font-size: 16px;
   font-weight: 600;
 }
 .button-big {
-  width: 28.125rem;
+  width: 100%;
   height: 3.125rem;
 }
 .button-small {
   width: 13.438rem;
   height: 3.125rem;
+}
+
+.button-with-icon {
+  width: 9.688rem !important;
+  background-color: #ffffff !important;
+  color: #61c0a2 !important;
+  border: 1px solid #cff0e6;
+  border-radius: 5px;
+  font-weight: 700 !important;
+}
+.button-with-icon-medium-height {
+  height: 3rem !important;
+}
+.button-with-icon .small-height {
+  height: 1.875rem !important;
+}
+.button-with-icon:hover {
+  background-color: #f0f4f3 !important;
 }
 
 .icon-container {
@@ -83,6 +102,19 @@ body {
 }
 .icon-container:hover .icon:nth-child(2) {
   display: block;
+}
+
+.table {
+  border-radius: 20px;
+}
+.table-heading {
+  font-family: "Roboto", sans-serif !important;
+  text-transform: none;
+  text-decoration: none;
+  font-weight: 600;
+}
+.table-heading-light-weight {
+  font-weight: 400;
 }
 
 .login {
@@ -115,4 +147,22 @@ body {
 .login-container .tag-line {
   width: 11.875rem;
   height: 0.875rem;
+}
+
+/* NotFound.css */
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.not-found-container h1 {
+  font-size: 3rem;
+  color: #fb4364; /* Heading color */
+}
+.not-found-container p {
+  font-size: 1.5rem;
+  color: #1ba076; /* Paragraph color */
+  margin-top: 1rem;
 }/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,20 @@
+/* NotFound.css */
+
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  h1 {
+    font-size: 3rem;
+    color: #fb4364; /* Heading color */
+  }
+
+  p {
+    font-size: 1.5rem;
+    color: #1ba076; /* Paragraph color */
+    margin-top: 1rem;
+  }
+}
