@@ -2,7 +2,7 @@ import { Text } from '@chakra-ui/react'
 
 import colors from '../../config/colors'
 
-const columns = [
+const customerColumns = [
   {
     id: 1,
     title: 'Name',
@@ -79,4 +79,4 @@ const columns = [
   },
 ]
 
-export default columns
+export default customerColumns

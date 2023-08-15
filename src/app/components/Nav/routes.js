@@ -8,13 +8,13 @@ const ROUTES = [
   {
     id: 2,
     label: 'Customers',
-    path: '/employees',
+    path: '/customers',
     active: false,
   },
   {
     id: 3,
     label: 'Tasks',
-    path: '/employees',
+    path: '/tasks',
     active: false,
   },
 ]

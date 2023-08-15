@@ -6,8 +6,7 @@ import assets from '../../assets/assets'
 import Icon from '../Icon'
 import { employeeEditModal } from '../../redux/reducers/employee/employees'
 
-const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex }) => {
-  const dispatch = useDispatch()
+const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, onOpenEditModal }) => {
   const renderCell = (item, column) => {
     return column.content(item, isEdit, colorPick(column, colors.black, 'dark'))
   }
@@ -18,17 +17,13 @@ const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex }) 
     return column.highlight ? color : otherColor
   }
 
-  const openEditEmplopyeeModal = () => {
-    dispatch(employeeEditModal(true))
-  }
-
   return (
     <>
       {columns.map((column, index) => (
         <Td
           role='group'
           onClick={() => {
-            isEdit && column.id === 1 && openEditEmplopyeeModal()
+            isEdit && column.id === 1 && onOpenEditModal()
           }}
           pl={index === 0 ? 0 : '18px'}
           key={column.id}

@@ -5,6 +5,7 @@ import UnProtectedRoutes from './routes/UnProtectedRoutes'
 import ProtectedRoutes from './routes/ProtectedRoutes'
 import Employees from './pages/Employee/Employees'
 import NotFound from './pages/404/NotFound'
+import Customers from './pages/Customer/Customers'
 
 const Root = () => {
   return (
@@ -15,6 +16,7 @@ const Root = () => {
       </Route>
       <Route element={<ProtectedRoutes />}>
         <Route path='/employees' element={<Employees />} />
+        <Route path='/customers' element={<Customers />} />
       </Route>
       <Route path='*' element={<NotFound />} />
     </Routes>

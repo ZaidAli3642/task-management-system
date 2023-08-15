@@ -7,7 +7,9 @@ const Modal = ({ isOpen, onClose, children, modalHeading, employeeName, ...props
       <ModalOverlay />
       <ModalContent>
         <ModalHeader display={'flex'} paddingBottom={0} alignItems={'center'}>
-          <Text>{modalHeading}</Text>
+          <Text fontWeight={600} fontSize={'20px'}>
+            {modalHeading}
+          </Text>
           {employeeName && (
             <Text marginLeft='5px' fontSize='15px' fontWeight={400} color={colors.darkGrey}>
               {employeeName}

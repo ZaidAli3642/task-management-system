@@ -7,7 +7,7 @@ const AddEmployee = ({ isOpen, onClose, onAddEmployee, onChangeInput, errorMessa
   return (
     <Modal isOpen={isOpen} onClose={onClose} modalHeading='Add employee'>
       <Form onSubmit={onAddEmployee} isInvalid={isInvalid}>
-        <ModalBody>
+        <ModalBody paddingY={0}>
           <Input errorMessage={errorMessage.firstname} onChange={onChangeInput} label='First name' name='firstname' placeholder='Enter first name' marginX={0} />
           <Input errorMessage={errorMessage.lastname} onChange={onChangeInput} label='Last name' name='lastname' placeholder='Enter last name' marginX={0} />
           <Input errorMessage={errorMessage.username} onChange={onChangeInput} label='Username' name='username' placeholder='Enter username' marginX={0} />
