@@ -8,7 +8,7 @@ const ROUTES = [
   {
     id: 2,
     label: 'Customers',
-    path: '/employees',
+    path: '/customer',
     active: false,
   },
   {

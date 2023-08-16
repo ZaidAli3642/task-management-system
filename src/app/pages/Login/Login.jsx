@@ -31,8 +31,8 @@ const Login = () => {
         <Image src={assets.images.logoHeading} className='logo-heading' />
         <Image src={assets.images.tagLine} className='tag-line' />
         <Form style={{ width: '100%', padding: 20, paddingBottom: 0 }} isInvalid={isInvalid} onSubmit={handleSubmit}>
-          <Input onChange={onChange} placeholder='Enter username' label='Username' name='username' errorMessage={errorMessages.username} />
-          <Input onChange={onChange} placeholder='Enter password' label='Password' type='password' name='password' errorMessage={errorMessages.password} />
+          <Input onChange={onChange} placeholder='Enter username' inputArea='small' label='Username' name='username' errorMessage={errorMessages.username} />
+          <Input onChange={onChange} placeholder='Enter password' inputArea='small' label='Password' type='password' name='password' errorMessage={errorMessages.password} />
           <Button title='Login' color='green' size='large' type='submit' />
         </Form>
       </Box>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Table, columns } from '../../components/Table'
 import { ButtonWithIcon } from '../../components/Form'
-import AddEmployee from '../../components/Modal/Employee/AddEmployee'
+import AddCustomer from '../../components/Modal/Customer/AddCustomer'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import TableFoot from '../../components/Table/TableFoot'
 import TableWrapper from '../../components/Table/TableWrapper'
@@ -21,7 +21,7 @@ const Employees = () => {
   const isEmployeeAddModal = useSelector(state => state.employees.employeeAddModal)
   const isEmployeeEditModal = useSelector(state => state.employees.employeeEditModal)
   const isEmployeeDeleteModal = useSelector(state => state.employees.employeeDeleteModal)
-  const navigationLocation = ['employess']
+  const navigationLocation = ['customer']
   const [errorMessages, isInvalid, , , onChange, onSubmit] = useForm({ firstname: '', lastname: '', username: '', password: '', confirmPassword: '' })
 
   const addEmployee = async () => {
@@ -61,8 +61,8 @@ const Employees = () => {
   return (
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
-        <Breadcrumbs navigationLocation={navigationLocation} iconImage={assets.icons.employees} text="Employee"/>
-        <ButtonWithIcon title='Add employee' onClick={() => dispatch(employeeAddModal(true))} size='medium' />
+        <Breadcrumbs navigationLocation={navigationLocation} iconImage={assets.icons.customers} text='Customers' />
+        <ButtonWithIcon title='Add Customer' onClick={() => dispatch(employeeAddModal(true))} size='medium' />
       </Box>
       <Box mx='30px'>
         <Table columns={columns} data={DATA} />
@@ -70,12 +70,11 @@ const Employees = () => {
           <TableFoot columns={columns} data={[DATA[0]]} />
         </TableWrapper>
       </Box>
-      <AddEmployee isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddEmployee={() => onSubmitForm(false)} />
+      <AddCustomer text='Add Customer' isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddEmployee={() => onSubmitForm(false)} />
       <EditEmployee showDeleteModal={showDeleteModal} isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeEditModal} onClose={() => dispatch(employeeEditModal(false))} onEditEmployee={() => onSubmitForm(true)} />
       <DeleteEmployee isOpen={isEmployeeDeleteModal} onClose={() => dispatch(employeeDeleteModal(false))} onDeleteEmployee={() => deleteEmployee()} />
     </>
   )
 }
-
 
 export default Employees
