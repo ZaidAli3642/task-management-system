@@ -11,7 +11,7 @@ import DATA from '../../assets/MOCK_DATA.json'
 import assets from '../../assets/assets'
 import employeeSchema from '../../validations/employeeSchema'
 import useForm from '../../hooks/useForm'
-import EditEmployee from '../../components/Modal/Employee/EditEmployee'
+import EditCustomer from '../../components/Modal/Customer/EditCustomer'
 import DeleteEmployee from '../../components/Modal/Employee/DeleteEmployee'
 import { employeeAddModal, employeeDeleteModal, employeeEditModal } from '../../redux/reducers/employee/employees'
 
@@ -71,7 +71,7 @@ const Employees = () => {
         </TableWrapper>
       </Box>
       <AddCustomer text='Add Customer' isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddEmployee={() => onSubmitForm(false)} />
-      <EditEmployee showDeleteModal={showDeleteModal} isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeEditModal} onClose={() => dispatch(employeeEditModal(false))} onEditEmployee={() => onSubmitForm(true)} />
+      <EditCustomer showDeleteModal={showDeleteModal} isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeEditModal} onClose={() => dispatch(employeeEditModal(false))} onEditEmployee={() => onSubmitForm(true)} />
       <DeleteEmployee isOpen={isEmployeeDeleteModal} onClose={() => dispatch(employeeDeleteModal(false))} onDeleteEmployee={() => deleteEmployee()} />
     </>
   )

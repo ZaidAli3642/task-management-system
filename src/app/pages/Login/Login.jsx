@@ -1,7 +1,7 @@
 import { Box, Image, useToast } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux'
-
 import { login } from '../../redux/reducers/auth/auth'
+
 import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
 import loginSchema from '../../validations/loginSchema'
