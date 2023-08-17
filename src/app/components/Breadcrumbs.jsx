@@ -2,7 +2,7 @@ import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/reac
 import Icon from './Icon'
 import colors from '../config/colors'
 
-const Breadcrumbs = ({ iconImage, navigationLocation = [] }) => {
+const Breadcrumbs = ({ title, iconImage, navigationLocation = [] }) => {
   return (
     <Breadcrumb border={1} borderColor={colors.lightGrey} borderStyle='solid' p='5px' borderRadius='40px' backgroundColor={colors.white} w='fit-content'>
       {navigationLocation.map((value, index) => (
@@ -13,7 +13,7 @@ const Breadcrumbs = ({ iconImage, navigationLocation = [] }) => {
             </Box>
           )}
           <BreadcrumbLink marginLeft='5px' marginRight='5px' fontWeight={600} fontSize='16px' textDecoration='none'>
-            Employees
+            {title}
           </BreadcrumbLink>
         </BreadcrumbItem>
       ))}
