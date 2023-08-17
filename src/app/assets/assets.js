@@ -11,6 +11,9 @@ import infoHovered from './icons/info-hover.svg'
 import edit from './icons/edit.svg'
 import employees from './icons/employees.svg'
 import bag from './icons/bag.svg'
+import blackBag from './icons/black-bag.svg'
+import task from './icons/task.svg'
+import chevronDownGreen from './icons/chevron-down-green.svg'
 
 const assets = {
   background: {},
@@ -22,6 +25,9 @@ const assets = {
     edit,
     employees,
     bag,
+    blackBag,
+    task,
+    chevronDownGreen,
   },
   images: {
     logo,

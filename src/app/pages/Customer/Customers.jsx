@@ -13,9 +13,11 @@ import AddCustomer from '../../components/Modal/Customer/AddCustomer'
 import useForm from '../../hooks/useForm'
 import customerSchema from '../../validations/customerSchema'
 import EditCustomer from '../../components/Modal/Customer/EditCustomer'
+import { useNavigate } from 'react-router-dom'
 
 const Customers = () => {
   const toast = useToast()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const isCustomerAddModal = useSelector(state => state.customers.customerAddModal)
   const isCustomerEditModal = useSelector(state => state.customers.customerEditModal)
@@ -42,7 +44,7 @@ const Customers = () => {
   return (
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
-        <Breadcrumbs navigationLocation={customerBreadcrumb} iconImage={assets.icons.employees} />
+        <Breadcrumbs onClick={() => navigate('/customers/task-management')} navigationLocation={customerBreadcrumb} iconImage={assets.icons.employees} />
         <ButtonWithIcon title='Add customer' onClick={() => dispatch(customerAddModal(true))} size='medium' />
       </Box>
       <Box mx='30px' mb='20px'>

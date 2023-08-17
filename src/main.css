@@ -32,7 +32,6 @@ body {
   border: 1px solid #e5ecea;
   display: block;
   font-size: 16px;
-  font-weight: 500;
   height: 3.125rem;
   outline: none;
   padding: 15px;
@@ -40,11 +39,9 @@ body {
 }
 .input-container .input-box::-moz-placeholder {
   color: #bfd7cf;
-  font-weight: 400;
 }
 .input-container .input-box::placeholder {
   color: #bfd7cf;
-  font-weight: 400;
 }
 .input-container .input-box:active, .input-container .input-box:focus {
   border-color: #61c0a2;
@@ -108,10 +105,8 @@ body {
   border-radius: 20px;
 }
 .table-heading {
-  font-family: "Roboto", sans-serif !important;
   text-transform: none;
   text-decoration: none;
-  font-weight: 600;
 }
 .table-heading-light-weight {
   font-weight: 400;

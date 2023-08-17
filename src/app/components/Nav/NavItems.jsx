@@ -12,7 +12,7 @@ const NavItems = () => {
     <Stack direction={'row'}>
       {ROUTES.map(navItem => (
         <Box key={navItem.id}>
-          <Box py={2} px='20px' fontSize={16} fontWeight={500} textTransform={'none'} letterSpacing={'normal'} color={location.pathname === navItem.path ? colors.mediumGreen : colors.black}>
+          <Box py={2} px='20px' fontSize={16} fontWeight={500} textTransform={'none'} letterSpacing={'normal'} color={location.pathname.includes(navItem.path) ? colors.mediumGreen : colors.black}>
             <Link to={navItem.path}>{navItem.label}</Link>
           </Box>
         </Box>

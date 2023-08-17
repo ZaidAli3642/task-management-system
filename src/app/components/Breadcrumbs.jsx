@@ -2,13 +2,15 @@ import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/reac
 import Icon from './Icon'
 import colors from '../config/colors'
 
-const Breadcrumbs = ({ navigationLocation = [] }) => {
+const Breadcrumbs = ({ navigationLocation = [], onClick }) => {
+  const lastIndex = index => index === navigationLocation.length - 1
+
   return (
     <Breadcrumb border={1} borderColor={colors.lightGrey} borderStyle='solid' p='5px' borderRadius='40px' backgroundColor={colors.white} w='fit-content'>
       {navigationLocation.map((value, index) => (
-        <BreadcrumbItem key={value.id} backgroundColor={index === navigationLocation.length - 1 ? colors.lightGreen : colors.white} padding='5px' paddingRight='10px' height='40px' borderRadius='40px' display='flex' justifyContent='space-between' alignItems='center' cursor='pointer'>
+        <BreadcrumbItem onClick={onClick} key={value.id} backgroundColor={lastIndex(index) ? colors.lightGreen : 'transparent'} padding={lastIndex(index) ? '5px' : 0} paddingRight='10px' height='40px' borderRadius='40px' display='flex' justifyContent='space-between' alignItems='center' cursor='pointer'>
           {value.icon && (
-            <Box marginRight='5px' display='flex' justifyContent='center' alignItems='center' w='30px' height='30px' borderRadius='full' backgroundColor={colors.darkGreen}>
+            <Box marginRight='5px' display='flex' justifyContent='center' alignItems='center' w={lastIndex(index) ? '30px' : '40px'} height={lastIndex(index) ? '30px' : '40px'} borderRadius='full' backgroundColor={lastIndex(index) ? colors.darkGreen : colors.borderGrey}>
               <Icon display='flex' justifyContent='center' alignItems='center' image={value.icon} />
             </Box>
           )}

@@ -7,7 +7,7 @@ const employeeColumns = [
     id: 1,
     title: 'Name',
     content: (value, isEdit, color) => (
-      <Text _groupHover={{ textColor: isEdit ? colors.darkGreen : colors.black }} fontSize='12px' className='table-heading' color={color}>
+      <Text _groupHover={{ textColor: isEdit ? colors.darkGreen : colors.black }} className='table-heading' color={color}>
         {value.name}
       </Text>
     ),
@@ -19,7 +19,7 @@ const employeeColumns = [
     color: colors.red,
     lightColor: colors.veryLightRed,
     content: (value, isEdit, color) => (
-      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
+      <Text className='table-heading table-heading-light-weight' color={color}>
         {value.unsolved}
       </Text>
     ),
@@ -32,7 +32,7 @@ const employeeColumns = [
     color: colors.darkGreen,
     lightColor: colors.veryLightGreen,
     content: (value, isEdit, color) => (
-      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
+      <Text className='table-heading table-heading-light-weight' color={color}>
         {value.week1}
       </Text>
     ),
@@ -42,7 +42,7 @@ const employeeColumns = [
     title: '8 May - 21 May',
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
-      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
+      <Text className='table-heading table-heading-light-weight' color={color}>
         {value.week2}
       </Text>
     ),
@@ -52,7 +52,7 @@ const employeeColumns = [
     title: '8 May - 21 May',
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
-      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
+      <Text className='table-heading table-heading-light-weight' color={color}>
         {value.week3}
       </Text>
     ),
@@ -62,7 +62,7 @@ const employeeColumns = [
     title: '8 May - 21 May',
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
-      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
+      <Text className='table-heading table-heading-light-weight' color={color}>
         {value.week4}
       </Text>
     ),
@@ -72,7 +72,7 @@ const employeeColumns = [
     title: '8 May - 21 May',
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
-      <Text className='table-heading table-heading-light-weight' fontSize='12px' color={color}>
+      <Text className='table-heading table-heading-light-weight' color={color}>
         {value.week5}
       </Text>
     ),
