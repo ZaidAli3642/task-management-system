@@ -28,6 +28,7 @@ const colors = {
 
   // other
   snowColor: '#f6f9f8',
+  silver: 'rgba(238, 238, 238, 0.35)',
 }
 
 export default colors

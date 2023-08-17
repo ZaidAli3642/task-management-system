@@ -6,10 +6,12 @@ const Modal = ({ isOpen, onClose, children, modalHeading, employeeName, ...props
     <ChakraModal {...props} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader display={'flex'} paddingBottom={0} alignItems={'center'}>
-          <Text>{modalHeading}</Text>
+        <ModalHeader display={'flex'} paddingBottom={0} alignItems={'center'} justifyContent={'15px'}>
+          <Text fontWeight={600} fontSize={'20px'}>
+            {modalHeading}
+          </Text>
           {employeeName && (
-            <Text marginLeft='5px' fontSize='15px' fontWeight={400} color={colors.darkGrey}>
+            <Text marginLeft='15px' marginTop='5px'   fontSize='15px' fontWeight={400} color={colors.darkGrey} >
               {employeeName}
             </Text>
           )}

@@ -6,6 +6,7 @@ import ProtectedRoutes from './routes/ProtectedRoutes'
 import Employees from './pages/Employee/Employees'
 import NotFound from './pages/404/NotFound'
 import Customers from './pages/Customer/Customers'
+import CustomerTaskManagement from './pages/CustomerTaskManagement/CustomerTaskManagement'
 
 const Root = () => {
   return (
@@ -17,6 +18,7 @@ const Root = () => {
       <Route element={<ProtectedRoutes />}>
         <Route path='/employees' element={<Employees />} />
         <Route path='/customers' element={<Customers />} />
+        <Route path='/customers/task-management' element={<CustomerTaskManagement />} />
       </Route>
       <Route path='*' element={<NotFound />} />
     </Routes>

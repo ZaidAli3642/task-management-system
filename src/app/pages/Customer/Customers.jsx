@@ -1,82 +1,59 @@
-import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Box, useToast } from '@chakra-ui/react'
 
-import { Table,columns } from '../../components/Table'
-import employeeSchema from '../../validations/employeeSchema'
-import useForm from '../../hooks/useForm'
-import DATA from '../../assets/MOCK_DATA.json'
+import { ButtonWithIcon } from '../../components/Form'
+import { Table } from '../../components/Table'
+import { customerAddModal, customerEditModal } from '../../redux/reducers/customer/customer'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import assets from '../../assets/assets'
-import {Box,Image,useToast} from '@chakra-ui/react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ButtonWithIcon } from '../../components/Form'
+import customerColumns from './customerColumns'
+import DATA from '../../assets/MOCK_DATA.json'
+import customerBreadcrumb from './customerBreadcrumbs'
 import AddCustomer from '../../components/Modal/Customer/AddCustomer'
+import useForm from '../../hooks/useForm'
+import customerSchema from '../../validations/customerSchema'
 import EditCustomer from '../../components/Modal/Customer/EditCustomer'
-import DeleteEmployee from '../../components/Modal/Employee/DeleteEmployee'
-import { employeeAddModal,employeeDeleteModal,employeeEditModal } from '../../redux/reducers/employee/employees'
+import { useNavigate } from 'react-router-dom'
+import BulkAssign from '../../components/Modal/Customer/BulkAssign'
 
 const Customers = () => {
   const toast = useToast()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const isEmployeeAddModal = useSelector(state => state.employees.employeeAddModal)
-  const isEmployeeEditModal = useSelector(state => state.employees.employeeEditModal)
-  const isEmployeeDeleteModal = useSelector(state => state.employees.employeeDeleteModal)
-  const navigationLocation = ['customers']
-  const [errorMessages, isInvalid, , , onChange, onSubmit] = useForm({ firstname: '', lastname: '', username: '', password: '', confirmPassword: '' })
+  const isCustomerAddModal = useSelector(state => state.customers.customerAddModal)
+  const isCustomerEditModal = useSelector(state => state.customers.customerEditModal)
+  const [errorMessages, isInvalid, , , onChange, onSubmit] = useForm({ name: '', description: '', code: '' })
 
-  const addEmployee = async () => {
-    const result = await onSubmit(employeeSchema)
+  const addCustomer = async () => {
+    const result = await onSubmit(customerSchema)
     if (!result) return
-    dispatch(employeeAddModal(false))
+    dispatch(customerAddModal(false))
   }
 
-  const editEmployee = async () => {
-    const result = await onSubmit(employeeSchema)
+  const editCustomer = async () => {
+    const result = await onSubmit(customerSchema)
     if (!result) return
-    dispatch(employeeEditModal(false))
+    dispatch(customerEditModal(false))
   }
 
   const onSubmitForm = async (edit = false) => {
-    if (!edit) return await addEmployee()
+    if (!edit) return await addCustomer()
 
-    await editEmployee()
+    await editCustomer()
   }
 
-  const deleteEmployee = () => {
-    dispatch(employeeDeleteModal(false))
-    toast({
-      title: 'Deleted',
-      description: 'Your have successfully delete employee',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    })
-  }
-
-  const showDeleteModal = () => {
-    dispatch(employeeEditModal(false))
-    dispatch(employeeDeleteModal(true))
-  }
-    
   return (
-   <>
-   <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
-        <Breadcrumbs title="Customers" navigationLocation={navigationLocation} iconImage={assets.icons.customer} />
-        <ButtonWithIcon title='Add customer' onClick={() => dispatch(employeeAddModal(true))}   size='medium' />
-       
+    <>
+      <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
+        <Breadcrumbs onClick={() => navigate('/customers/task-management')} navigationLocation={customerBreadcrumb} iconImage={assets.icons.employees} />
+        <ButtonWithIcon title='Add customer' onClick={() => dispatch(customerAddModal(true))} size='medium' />
       </Box>
-      <Box mx='30px'>
-        <Table columns={columns} data={DATA} />
-        {/* <TableWrapper tableBoxStyles={{ marginTop: '30px', marginBottom: '30px' }}>
-          <TableFoot columns={columns} data={[DATA[0]]} />
-        </TableWrapper> */}
+      <Box mx='30px' mb='20px'>
+        <Table columns={customerColumns} data={DATA} onOpenEditModal={() => dispatch(customerEditModal(true))} />
       </Box>
-
-      
-      <AddCustomer isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddCustomer={() => onSubmitForm(false)} />
-      <EditCustomer showDeleteModal={showDeleteModal} isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeEditModal} onClose={() => dispatch(employeeEditModal(false))} onEditEmployee={() => onSubmitForm(true)} />
-      <DeleteEmployee isOpen={isEmployeeDeleteModal} onClose={() => dispatch(employeeDeleteModal(false))} onDeleteEmployee={() => deleteEmployee()} />
-      
-   </>
+      <BulkAssign isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerAddModal} onClose={() => dispatch(customerAddModal(false))} onAddCustomer={() => onSubmitForm()} />
+      <EditCustomer isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerEditModal} onClose={() => dispatch(customerEditModal(false))} onEditCustomer={() => onSubmitForm(true)} />
+    </>
   )
 }
 

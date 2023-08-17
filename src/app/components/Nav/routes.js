@@ -17,7 +17,6 @@ const ROUTES = [
     path: '/tasks',
     active: false,
   },
-  
 ]
 
 export default ROUTES

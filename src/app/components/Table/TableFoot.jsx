@@ -1,6 +1,6 @@
 import { Td, Text, Tfoot, Tr } from '@chakra-ui/react'
 
-import columns from './columns'
+import columns from '../../pages/Employee/employeeColumns'
 import TableRow from './TableRow'
 
 const TableFoot = ({ data }) => {

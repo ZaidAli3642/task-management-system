@@ -10,11 +10,25 @@ import info from './icons/info.svg'
 import infoHovered from './icons/info-hover.svg'
 import edit from './icons/edit.svg'
 import employees from './icons/employees.svg'
-import customer from './icons/customer.svg'
+import bag from './icons/bag.svg'
+import blackBag from './icons/black-bag.svg'
+import task from './icons/task.svg'
+import chevronDownGreen from './icons/chevron-down-green.svg'
 
 const assets = {
   background: {},
-  icons: { book, bookHovered, info, infoHovered, edit, employees ,customer},
+  icons: {
+    book,
+    bookHovered,
+    info,
+    infoHovered,
+    edit,
+    employees,
+    bag,
+    blackBag,
+    task,
+    chevronDownGreen,
+  },
   images: {
     logo,
     logoHeading,

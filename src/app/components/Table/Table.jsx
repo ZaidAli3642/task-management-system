@@ -2,11 +2,11 @@ import TableHead from './TableHead'
 import TableBody from './TableBody'
 import TableWrapper from './TableWrapper'
 
-const Table = ({ columns = [], data }) => {
+const Table = ({ columns = [], data, onOpenEditModal, titleFontSize }) => {
   return (
     <TableWrapper>
-      <TableHead columns={columns} />
-      <TableBody columns={columns} data={data} />
+      <TableHead titleFontSize={titleFontSize} columns={columns} />
+      <TableBody columns={columns} data={data} onOpenEditModal={onOpenEditModal} />
     </TableWrapper>
   )
 }
