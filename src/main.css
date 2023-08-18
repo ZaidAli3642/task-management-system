@@ -107,6 +107,7 @@ body {
 .table-heading {
   text-transform: none;
   text-decoration: none;
+  font-family: "Roboto", sans-serif !important;
 }
 .table-heading-light-weight {
   font-weight: 400;
