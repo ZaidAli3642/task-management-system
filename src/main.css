@@ -161,3 +161,6 @@ body {
   color: #1ba076; /* Paragraph color */
   margin-top: 1rem;
 }/*# sourceMappingURL=main.css.map */
+.custom-checkbox label{
+  font-size:14px;
+}

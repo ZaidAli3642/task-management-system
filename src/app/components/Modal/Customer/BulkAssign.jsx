@@ -5,6 +5,7 @@ import colors from '../../../config/colors'
 import { Button, Form, Input } from '../../Form'
 
 
+
 const BulkAssign = ({ isOpen, onClose, onAddCustomer, onChangeInput, showDeleteModal, errorMessage, isInvalid }) => {
   return (
     <Box maxHeight='708px'>
@@ -13,10 +14,10 @@ const BulkAssign = ({ isOpen, onClose, onAddCustomer, onChangeInput, showDeleteM
         <ModalBody paddingY={0}>
           <Box fontSize={'14px'} bg={colors.lightGreen} fontWeight={500} paddingTop='3px' border='1px'  borderColor={colors.mediumGreen} mt='15px' w='110px' h='30px' gap='10px' align='center' borderRadius='5px' > Responsible</Box>
           <Text mt='10px' fontSize='12px' fontWeight={500} >Responsible</Text>
-          <Select placeholder='Select'>
-                <option value='option1'>Option 1</option>
-                <option value='option2'>Option 2</option>
-                <option value='option3'>Option 3</option>
+          <Select  color={'#BFD7CF'} focusBorderColor={colors.mediumGreen} placeholder='Select'>
+                <option  style={{color:'black'}}  value='option1'>Option 1</option>
+                <option style={{color:'black'}} value='option2'>Option 2</option>
+                <option style={{color:'black'}} value='option3'>Option 3</option>
           </Select>
           <Box bg={colors.lightGreen} fontSize={'14px'} fontWeight={500} paddingTop='3px' border='1px' borderColor={colors.mediumGreen} mt='15px' w='97px' h='30px' gap='10px' align='center' borderRadius='5px' >Repetition</Box>
           <Box mt={'10px'} display="flex" alignItems="center" justifyContent={'space-between'}>
@@ -43,7 +44,9 @@ const BulkAssign = ({ isOpen, onClose, onAddCustomer, onChangeInput, showDeleteM
         
       </Form>
     </Modal>
+   
     </Box>
+
   )
 } 
 
