@@ -14,6 +14,7 @@ import bag from './icons/bag.svg'
 import blackBag from './icons/black-bag.svg'
 import task from './icons/task.svg'
 import chevronDownGreen from './icons/chevron-down-green.svg'
+import swap from './icons/swap_horiz_24px.svg'
 
 const assets = {
   background: {},
@@ -28,6 +29,7 @@ const assets = {
     blackBag,
     task,
     chevronDownGreen,
+    swap,
   },
   images: {
     logo,

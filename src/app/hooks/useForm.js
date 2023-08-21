@@ -5,7 +5,7 @@ const useForm = fields => {
   const [errorMessages, setErrorMessages] = useState(fields)
   const [isInvalid, setIsInvalid] = useState(false)
 
-  const onChange = ({ target: { name, value } }) => {
+  const onChange = ({ target: { value, name } }) => {
     setInputFields(prevState => ({ ...prevState, [name]: value }))
     setErrorMessages(prevState => ({ ...prevState, [name]: '' }))
     setIsInvalid(false)
@@ -18,6 +18,7 @@ const useForm = fields => {
       if (func) func()
 
       setInputFields(fields)
+
       return true
     } catch (error) {
       setIsInvalid(true)
@@ -25,7 +26,7 @@ const useForm = fields => {
     }
   }
 
-  return [errorMessages, isInvalid, inputFields, setIsInvalid, onChange, onSubmit]
+  return [errorMessages, isInvalid, inputFields, setInputFields, setIsInvalid, onChange, onSubmit]
 }
 
 export default useForm

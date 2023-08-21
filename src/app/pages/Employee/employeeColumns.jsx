@@ -8,7 +8,7 @@ const employeeColumns = [
     title: 'Name',
     content: (value, isEdit, color) => (
       <Text _groupHover={{ textColor: isEdit ? colors.darkGreen : colors.black }} className='table-heading' color={color}>
-        {value.name}
+        {value.first_name}
       </Text>
     ),
   },
@@ -20,7 +20,7 @@ const employeeColumns = [
     lightColor: colors.veryLightRed,
     content: (value, isEdit, color) => (
       <Text className='table-heading table-heading-light-weight' color={color}>
-        {value.unsolved}
+        {value.unsolvedTasks}
       </Text>
     ),
   },
@@ -33,7 +33,7 @@ const employeeColumns = [
     lightColor: colors.veryLightGreen,
     content: (value, isEdit, color) => (
       <Text className='table-heading table-heading-light-weight' color={color}>
-        {value.week1}
+        {value.todayTasks}
       </Text>
     ),
   },
@@ -43,7 +43,7 @@ const employeeColumns = [
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
       <Text className='table-heading table-heading-light-weight' color={color}>
-        {value.week2}
+        {value.t1}
       </Text>
     ),
   },
@@ -53,7 +53,7 @@ const employeeColumns = [
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
       <Text className='table-heading table-heading-light-weight' color={color}>
-        {value.week3}
+        {value.t2}
       </Text>
     ),
   },
@@ -63,7 +63,7 @@ const employeeColumns = [
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
       <Text className='table-heading table-heading-light-weight' color={color}>
-        {value.week4}
+        {value.t3}
       </Text>
     ),
   },
@@ -73,7 +73,7 @@ const employeeColumns = [
     subTitle: 'Week 19',
     content: (value, isEdit, color) => (
       <Text className='table-heading table-heading-light-weight' color={color}>
-        {value.week5}
+        {value.t4}
       </Text>
     ),
   },

@@ -4,9 +4,8 @@ import { useDispatch } from 'react-redux'
 import colors from '../../config/colors'
 import assets from '../../assets/assets'
 import Icon from '../Icon'
-import { employeeEditModal } from '../../redux/reducers/employee/employees'
 
-const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, onOpenEditModal }) => {
+const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, onOpenEditModal, setEmployeeId }) => {
   const renderCell = (item, column) => {
     return column.content(item, isEdit, colorPick(column, colors.black, 'dark'))
   }
@@ -23,7 +22,10 @@ const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, on
         <Td
           role='group'
           onClick={() => {
-            isEdit && column.id === 1 && onOpenEditModal()
+            if (isEdit && column.id === 1) {
+              setEmployeeId(item)
+              onOpenEditModal(item)
+            }
           }}
           pl={index === 0 ? 0 : '18px'}
           key={column.id}

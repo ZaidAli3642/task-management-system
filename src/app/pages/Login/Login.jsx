@@ -6,22 +6,16 @@ import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
 import loginSchema from '../../validations/loginSchema'
 import useForm from '../../hooks/useForm'
+import colors from '../../config/colors'
 
 const Login = () => {
   const toast = useToast()
   const dispatch = useDispatch()
-  const [errorMessages, isInvalid, , , onChange, onSubmit] = useForm({ username: '', password: '' })
+  const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ username: '', password: '' })
 
   const handleSubmit = async () => {
-    const result = await onSubmit(loginSchema, () => dispatch(login()))
+    const result = await onSubmit(loginSchema, () => dispatch(login({ inputFields, toast })))
     if (!result) return
-    toast({
-      title: 'Congrats!!!',
-      description: 'You are logged in.',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    })
   }
 
   return (
