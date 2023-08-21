@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { Box, Flex, useColorModeValue, Image, Button, MenuButton, Menu, MenuList, MenuItem } from '@chakra-ui/react'
 
@@ -8,6 +8,7 @@ import colors from '../../config/colors'
 import { logout } from '../../redux/reducers/auth/auth'
 
 const Navbar = () => {
+  const userInfo = useSelector(state => state.auth.userInfo)
   const dispatch = useDispatch()
 
   const logoutUser = () => {
@@ -23,7 +24,7 @@ const Navbar = () => {
           </Flex>
           <Menu>
             <MenuButton ml='5px' padding={0} as={Button} backgroundColor='transparent' fontWeight={700} _hover={{ backgroundColor: 'transparent' }} _active={{ backgroundColor: 'transparent' }} rightIcon={<ChevronDownIcon />}>
-              Dilawer
+              {userInfo.first_name}
             </MenuButton>
             <MenuList p={3} minWidth={170}>
               <MenuItem onClick={logoutUser} as={Button} fontWeight={600} backgroundColor={colors.lightGrey} textColor={colors.black} _hover={{ backgroundColor: colors.lightGrey }}>
