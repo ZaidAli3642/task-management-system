@@ -3,7 +3,7 @@ import colors from '../../../config/colors'
 import Modal from '../Modal'
 import { Button, Form, Input } from '../../Form'
 
-const RepeatModal = ({ isOpen, onClose, onEditCustomer, onChangeInput, errorMessage, isInvalid }) => {
+const EditRepeatModal = ({ isOpen, onClose, onEditCustomer, onChangeInput, errorMessage, isInvalid }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} modalHeading='Edit repeat' employeeName='Capital budgeting'>
       <Form onSubmit={onEditCustomer} isInvalid={isInvalid}>
@@ -22,26 +22,26 @@ const RepeatModal = ({ isOpen, onClose, onEditCustomer, onChangeInput, errorMess
           <Box >
             <Text fontSize={'14px'} mt='15px' color='black' fontWeight={500} >Specify repeat days</Text>
           <Stack  mt='10px' w={'426px'} spacing={5} fontWeight={500} color={'black'}   direction='row' flexWrap='wrap'>
-            <Checkbox size={'sm'}   colorScheme='green'  >
-                Monday
+          <Checkbox  size={'md'}   colorScheme='green'  >
+               <Text fontSize={'14px'}>Monday</Text>
             </Checkbox>
-            <Checkbox size={'sm'} colorScheme='green' >
-                Tuesday
+            <Checkbox borderTopRadius={'10px'} size={'md'} colorScheme='green' >
+            <Text fontSize={'14px'}>Tuesday</Text>  
             </Checkbox>
-            <Checkbox size={'sm'} colorScheme='green' >
-                Wednesday
+            <Checkbox size={'md'} colorScheme='green' >
+                <Text fontSize={'14px'}>Wednesday</Text>    
             </Checkbox>
-            <Checkbox size={'sm'} colorScheme='green' >
-                Thursday
+            <Checkbox size={'md'} colorScheme='green' >
+                <Text fontSize={'14px'}>Thursday</Text>  
             </Checkbox>
-            <Checkbox size={'sm'} colorScheme='green'>
-                Friday
+            <Checkbox size={'md'} colorScheme='green'>
+                <Text fontSize={'14px'}>Friday</Text> 
             </Checkbox>
-            <Checkbox size={'sm'} colorScheme='green' >
-                Saturday
+            <Checkbox size={'md'} colorScheme='green' >
+                <Text fontSize={'14px'}> Saturday</Text>
             </Checkbox>
-            <Checkbox size={'sm'} colorScheme='green' >
-                Sunday
+            <Checkbox size={'md'} colorScheme='green' >
+               <Text fontSize={'14px'}>Sunday</Text> 
             </Checkbox>
             </Stack>
             </Box>
@@ -64,4 +64,4 @@ const RepeatModal = ({ isOpen, onClose, onEditCustomer, onChangeInput, errorMess
   )
 }
 
-export default RepeatModal
+export default EditRepeatModal

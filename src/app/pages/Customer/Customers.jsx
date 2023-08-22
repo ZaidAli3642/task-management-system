@@ -21,6 +21,8 @@ import AddNote from '../../components/Modal/TaskModals/AddNote'
 import EditNote from '../../components/Modal/TaskModals/EditNote'
 import RepeatModal from '../../components/Modal/TaskModals/RepeatModal'
 import MonthlyRepeat from '../../components/Modal/TaskModals/MonthlyRepeat'
+import YearlyRepeat from '../../components/Modal/TaskModals/YearlyRepeat'
+import EditRepeatModal from '../../components/Modal/TaskModals/EditRepeatModal'
 
 const Customers = () => {
   const toast = useToast()
@@ -57,7 +59,7 @@ const Customers = () => {
       <Box mx='30px' mb='20px'>
         <Table columns={customerColumns} data={DATA} onOpenEditModal={() => dispatch(customerEditModal(true))} />
       </Box>
-      <MonthlyRepeat isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerAddModal} onClose={() => dispatch(customerAddModal(false))} onAddCustomer={() => onSubmitForm()} />
+      <YearlyRepeat isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerAddModal} onClose={() => dispatch(customerAddModal(false))} onAddCustomer={() => onSubmitForm()} />
       <EditCustomer isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerEditModal} onClose={() => dispatch(customerEditModal(false))} onEditCustomer={() => onSubmitForm(true)} />
     </>
   )
