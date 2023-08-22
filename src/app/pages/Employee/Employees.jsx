@@ -35,7 +35,7 @@ const Employees = () => {
   const [employeeId, setEmployeeId] = useState('')
 
   const addEmployee = async () => {
-    const result = await onSubmit(employeeSchema, () => dispatch(employeeAdd({ userCredentials: inputFields })))
+    const result = await onSubmit(employeeSchema, () => dispatch(employeeAdd({ userCredentials: inputFields, toast })))
 
     if (!result) return
     dispatch(employeeAddModal(false))

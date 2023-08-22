@@ -23,8 +23,6 @@ const employeesSlice = createSlice({
       state.employeeDeleteModal = action.payload
     },
     employeeAdd: (state, action) => {
-      const { employee } = action.payload
-      console.log(employee)
       state.loading = true
     },
     employeeDelete: (state, action) => {

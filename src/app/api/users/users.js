@@ -27,17 +27,14 @@ export const users = authToken => {
         const response = await apiClient.delete('/users/' + userId, { headers })
         return response
       } catch (error) {
-        console.log('Error : ', error)
         throw error
       }
     },
     editEmployee: async (updatedUser, userId) => {
       try {
-        console.log('updated : ', updatedUser)
         const response = await apiClient.put('/users/' + userId, updatedUser, { headers })
         return response
       } catch (error) {
-        console.log(error)
         throw error
       }
     },

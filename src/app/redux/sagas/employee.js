@@ -26,7 +26,19 @@ function* addEmplpyee(action) {
     const response = yield call(users().addEmployee, user)
     yield put(employeeAddSuccess({ employee: response.data.data }))
   } catch (error) {
-    yield put(employeeAddFailed({ error }))
+    const errors = error?.response?.data?.errors
+
+    if (errors) {
+      action.payload.toast({
+        title: 'Employee add failed',
+        description: errors.username[0],
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    } else {
+      yield put(employeeAddFailed({ error }))
+    }
   }
 }
 
@@ -35,7 +47,6 @@ function* deleteEmplpyee(action) {
   const userId = action.payload.userId
   try {
     const response = yield call(users(token).deleteEmployee, userId)
-    console.log('Response : ', response)
   } catch (error) {
     yield put(employeeDeleteFailed({ error }))
   }
@@ -47,7 +58,6 @@ function* editEmplpyee(action) {
   const { firstname, lastname, username, password } = action.payload.updatedUser
   try {
     const response = yield call(users(token).editEmployee, { first_name: firstname, last_name: lastname, username, password }, userId)
-    console.log('Response : ', response)
   } catch (error) {
     yield put(employeeEditFailed({ error }))
   }

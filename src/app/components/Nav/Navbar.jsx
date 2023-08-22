@@ -10,7 +10,6 @@ import { logout } from '../../redux/reducers/auth/auth'
 const Navbar = () => {
   const user = useSelector(state => state.auth.userInfo)
   const dispatch = useDispatch()
-  console.log(user)
 
   const logoutUser = () => {
     dispatch(logout())
@@ -20,9 +19,11 @@ const Navbar = () => {
       <Flex bg={useColorModeValue('white', 'gray.800')} color={useColorModeValue('gray.600', 'white')} minH='60px' py={{ base: 2 }} px='30px' align='center'>
         <Flex flex={1} alignItems='center'>
           <Image src={assets.images.logoHeading} w={136} h={22} mt={1} />
-          <Flex align='center' flex={1} ml={'25px'} padding={0}>
-            <NavItems />
-          </Flex>
+          {user.role === 'admin' && (
+            <Flex align='center' flex={1} ml={'25px'} padding={0}>
+              <NavItems />
+            </Flex>
+          )}
           <Menu>
             <MenuButton ml='5px' padding={0} as={Button} backgroundColor='transparent' fontWeight={700} _hover={{ backgroundColor: 'transparent' }} _active={{ backgroundColor: 'transparent' }} rightIcon={<ChevronDownIcon />}>
               {user.first_name}
