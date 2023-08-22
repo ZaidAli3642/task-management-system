@@ -6,7 +6,6 @@ import { Input, Form, Button } from '../../components/Form'
 import assets from '../../assets/assets'
 import loginSchema from '../../validations/loginSchema'
 import useForm from '../../hooks/useForm'
-import colors from '../../config/colors'
 import { useRef } from 'react'
 
 const Login = () => {

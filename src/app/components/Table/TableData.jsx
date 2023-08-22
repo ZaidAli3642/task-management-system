@@ -1,11 +1,12 @@
 import { Box, Td } from '@chakra-ui/react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import colors from '../../config/colors'
 import assets from '../../assets/assets'
 import Icon from '../Icon'
 
 const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, onOpenEditModal, setEmployeeId }) => {
+  const user = useSelector(state => state.auth.userInfo)
   const renderCell = (item, column) => {
     return column.content(item, isEdit, colorPick(column, colors.black, 'dark'))
   }
@@ -20,9 +21,9 @@ const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, on
     <>
       {columns.map((column, index) => (
         <Td
-          role='group'
+          role={user.role === 'admin' ? 'group' : 'none'}
           onClick={() => {
-            if (isEdit && column.id === 1) {
+            if (user.role === 'admin' && isEdit && column.id === 1) {
               setEmployeeId(item)
               onOpenEditModal(item)
             }
@@ -44,7 +45,7 @@ const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, on
           fontSize={'14px'}
           fontWeight={600}
           position={'relative'}
-          cursor={column.id === 1 && isEdit && 'pointer'}
+          cursor={column.id === 1 && user.role === 'admin' && isEdit && 'pointer'}
         >
           {isFirstIndex && column.highlight && <Box backgroundColor={column.color} h='1px' w='100%' position='absolute' zIndex={1} top={'-1px'} left={'0px'}></Box>}
           {renderCell(item, column)}

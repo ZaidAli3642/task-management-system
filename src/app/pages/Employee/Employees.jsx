@@ -23,6 +23,7 @@ import apiClient from '../../api/client'
 const Employees = () => {
   const toast = useToast()
   const dispatch = useDispatch()
+  const user = useSelector(state => state.auth.userInfo)
   const employeeData = useSelector(state => state.employees.employeeData)
   const isEmployeeAddModal = useSelector(state => state.employees.employeeAddModal)
   const isEmployeeEditModal = useSelector(state => state.employees.employeeEditModal)
@@ -82,7 +83,7 @@ const Employees = () => {
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Breadcrumbs navigationLocation={employeeBreadcrumb} iconImage={assets.icons.employees} />
-        <ButtonWithIcon onClick={() => dispatch(employeeAddModal(true))} size='medium' />
+        {user.role === 'admin' && <ButtonWithIcon onClick={() => dispatch(employeeAddModal(true))} size='medium' />}
       </Box>
       <Box mx='30px'>
         {employeeData.length > 0 && <Table setEmployeeId={setEmployeeId} columns={employeeColumns} data={employeeData} onOpenEditModal={openEditModal} />}
