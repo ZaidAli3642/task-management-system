@@ -8,6 +8,7 @@ function* loginUser(action) {
     const { data, token } = response.data
 
     yield put(success({ token: token, userInfo: data }))
+    // action?.payload?.formRef?.current.reset()
     action.payload.toast({
       title: 'Congrats!!!',
       description: 'You are logged in.',
@@ -16,15 +17,19 @@ function* loginUser(action) {
       isClosable: true,
     })
   } catch (error) {
-    yield put(failed({ error: error.message }))
+    // action?.payload?.formRef?.current.reset()
+    const errors = error?.response?.data?.errors
+    if (errors) {
+      yield put(failed({ error: errors.username[0] }))
 
-    action.payload.toast({
-      title: 'Auth failed',
-      description: error.message,
-      status: 'error',
-      duration: 5000,
-      isClosable: true,
-    })
+      action.payload.toast({
+        title: 'Auth failed',
+        description: errors.username[0],
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    }
   }
 }
 

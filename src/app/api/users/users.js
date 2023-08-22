@@ -4,10 +4,11 @@ export const users = authToken => {
   const headers = {
     Authorization: `Bearer ${authToken}`, // Set the Authorization header with the token
   }
+
   return {
     fetchUsers: async (perPage, page) => {
       try {
-        const response = await apiClient.get(`/users?per_page=${perPage}&page=${page}`, { headers })
+        const response = await apiClient.get(`/users?per_page=${perPage}&page=${page}&timestamp=${Date.now()}`, { headers })
         return response
       } catch (error) {
         throw error

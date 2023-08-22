@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, children, modalHeading, employeeName, ...props
             {modalHeading}
           </Text>
           {employeeName && (
-            <Text marginLeft='5px' fontSize='15px' fontWeight={400} color={colors.darkGrey}>
+            <Text marginLeft='12px' fontSize='15px' fontWeight={400} color={colors.darkGrey}>
               {employeeName}
             </Text>
           )}

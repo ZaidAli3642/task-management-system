@@ -17,6 +17,8 @@ import EditEmployee from '../../components/Modal/Employee/EditEmployee'
 import DeleteEmployee from '../../components/Modal/Employee/DeleteEmployee'
 import employeeBreadcrumb from './employeeBreadcrumbs'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import apiClient from '../../api/client'
 
 const Employees = () => {
   const toast = useToast()
@@ -27,6 +29,8 @@ const Employees = () => {
   const isEmployeeDeleteModal = useSelector(state => state.employees.employeeDeleteModal)
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ firstname: '', lastname: '', username: '', password: '', confirmPassword: '' })
   const [errorMessagesEdit, isInvalidEdit, inputFieldsEdit, setInputFieldsEdit, , onChangeEdit, onSubmitEdit] = useForm({ firstname: '', lastname: '', username: '', password: '', confirmPassword: '' })
+  const [perPage, setPerPage] = useState(10)
+  const [page, setPage] = useState(1)
   const [employeeId, setEmployeeId] = useState('')
 
   const addEmployee = async () => {
@@ -71,8 +75,8 @@ const Employees = () => {
   }
 
   useEffect(() => {
-    dispatch(employeeFetch({ perPage: 8, page: 1 }))
-  }, [])
+    dispatch(employeeFetch({ perPage, page }))
+  }, [perPage, page])
 
   return (
     <>
@@ -86,7 +90,7 @@ const Employees = () => {
       </Box>
       <AddEmployee isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddEmployee={() => onSubmitForm(false)} />
       <EditEmployee inputEditFields={inputFieldsEdit} showDeleteModal={showDeleteModal} isInvalid={isInvalidEdit} errorMessage={errorMessagesEdit} onChangeInput={onChangeEdit} isOpen={isEmployeeEditModal} onClose={() => dispatch(employeeEditModal(false))} onEditEmployee={() => onSubmitForm(true)} />
-      <DeleteEmployee isOpen={isEmployeeDeleteModal} onClose={() => dispatch(employeeDeleteModal(false))} onDeleteEmployee={() => deleteEmployee()} />
+      <DeleteEmployee employee={employeeId} isOpen={isEmployeeDeleteModal} onClose={() => dispatch(employeeDeleteModal(false))} onDeleteEmployee={() => deleteEmployee()} />
     </>
   )
 }

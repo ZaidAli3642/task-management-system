@@ -1,8 +1,10 @@
 import { FormControl } from '@chakra-ui/react'
+import React from 'react'
 
-const Form = ({ onSubmit, isInvalid, children, ...props }) => {
+const Form = React.forwardRef(({ onSubmit, isInvalid, children, ...props }, ref) => {
   return (
     <form
+      ref={ref}
       {...props}
       onSubmit={e => {
         e.preventDefault()
@@ -12,6 +14,6 @@ const Form = ({ onSubmit, isInvalid, children, ...props }) => {
       <FormControl isInvalid={isInvalid}>{children}</FormControl>
     </form>
   )
-}
+})
 
 export default Form
