@@ -5,7 +5,7 @@ const Input = ({ placeholder, type = 'text', name, label, sublabel, onChange, er
     <Box className='input-container' {...props}>
       {label && (
         <label className='input-label' htmlFor={name}>
-          {label}
+          {label }
           {sublabel && <span style={{ marginLeft: '2px', fontWeight: 400 }}>{sublabel}</span>}
         </label>
       )}

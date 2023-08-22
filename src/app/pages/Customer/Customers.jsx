@@ -14,15 +14,9 @@ import useForm from '../../hooks/useForm'
 import customerSchema from '../../validations/customerSchema'
 import EditCustomer from '../../components/Modal/Customer/EditCustomer'
 import { useNavigate } from 'react-router-dom'
-import BulkAssign from '../../components/Modal/Customer/BulkAssign'
-import AddTask from '../../components/Modal/TaskModals/AddTask'
-import EditTaskModal from '../../components/Modal/TaskModals/EditTaskModal'
-import AddNote from '../../components/Modal/TaskModals/AddNote'
-import EditNote from '../../components/Modal/TaskModals/EditNote'
-import RepeatModal from '../../components/Modal/TaskModals/RepeatModal'
-import MonthlyRepeat from '../../components/Modal/TaskModals/MonthlyRepeat'
-import YearlyRepeat from '../../components/Modal/TaskModals/YearlyRepeat'
-import EditRepeatModal from '../../components/Modal/TaskModals/EditRepeatModal'
+import EditTask1 from '../../components/Modal/TaskGroupModals/EditTask1'
+import DeleteTask1 from '../../components/Modal/TaskGroupModals/DeleteTask1'
+
 
 const Customers = () => {
   const toast = useToast()
@@ -59,7 +53,7 @@ const Customers = () => {
       <Box mx='30px' mb='20px'>
         <Table columns={customerColumns} data={DATA} onOpenEditModal={() => dispatch(customerEditModal(true))} />
       </Box>
-      <YearlyRepeat isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerAddModal} onClose={() => dispatch(customerAddModal(false))} onAddCustomer={() => onSubmitForm()} />
+      <EditTask1 isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerAddModal} onClose={() => dispatch(customerAddModal(false))} onAddCustomer={() => onSubmitForm()} />
       <EditCustomer isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerEditModal} onClose={() => dispatch(customerEditModal(false))} onEditCustomer={() => onSubmitForm(true)} />
     </>
   )
