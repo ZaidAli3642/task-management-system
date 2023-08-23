@@ -7,7 +7,6 @@ function* fetchEmplpyee(action) {
   const { perPage, page } = action.payload
   try {
     const response = yield call(users(token).fetchUsers, perPage, page)
-    console.log('res : ', response)
     yield put(employeesDataSet(response.data.data))
   } catch (error) {
     yield put(employeeFetchFailed({ error }))
