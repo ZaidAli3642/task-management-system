@@ -19,6 +19,7 @@ const Customers = () => {
   const toast = useToast()
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const userInfo = useSelector(state => state.auth.userInfo)
   const customersData = useSelector(state => state.customers.customersData)
   const isCustomerAddModal = useSelector(state => state.customers.customerAddModal)
   const isCustomerEditModal = useSelector(state => state.customers.customerEditModal)
@@ -57,7 +58,7 @@ const Customers = () => {
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Breadcrumbs onClick={() => navigate('/customers/task-management')} navigationLocation={customerBreadcrumb} iconImage={assets.icons.employees} />
-        <ButtonWithIcon title='Add customer' onClick={() => dispatch(customerAddModal(true))} size='medium' />
+        {userInfo.role === 'admin' && <ButtonWithIcon title='Add customer' onClick={() => dispatch(customerAddModal(true))} size='medium' />}
       </Box>
       {customersData.length > 0 && (
         <Box mx='30px' mb='20px'>
