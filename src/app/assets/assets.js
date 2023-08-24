@@ -10,12 +10,14 @@ import info from './icons/info.svg'
 import infoHovered from './icons/info-hover.svg'
 import edit from './icons/edit.svg'
 import employees from './icons/employees.svg'
+import employeesBlack from './icons/employeesBlack.svg'
 import bag from './icons/bag.svg'
 import blackBag from './icons/black-bag.svg'
 import task from './icons/task.svg'
 import chevronDownGreen from './icons/chevron-down-green.svg'
 import swap from './icons/swap_horiz_24px.svg'
 import add from './icons/add.svg'
+import person from './icons/person.svg'
 
 const assets = {
   background: {},
@@ -26,12 +28,14 @@ const assets = {
     infoHovered,
     edit,
     employees,
+    employeesBlack,
     bag,
     blackBag,
     task,
     chevronDownGreen,
     swap,
     add,
+    person,
   },
   images: {
     logo,

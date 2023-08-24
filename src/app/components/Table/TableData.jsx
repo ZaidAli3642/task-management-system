@@ -21,7 +21,7 @@ const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, on
     <>
       {columns.map((column, index) => (
         <Td
-          role={user.role === 'admin' ? 'group' : 'none'}
+          role={user.role === 'admin' && isEdit ? 'group' : 'none'}
           onClick={() => {
             if (user.role === 'admin' && isEdit && column.id === 1) {
               setEmployeeId(item)

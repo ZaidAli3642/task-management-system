@@ -4,7 +4,8 @@ import { employeeSaga } from './employee'
 import { customersSaga } from './customer'
 import { taskGroupSaga } from './taskGroup'
 import { taskSaga } from './task'
+import { employeeCustomerSaga } from './employeeCustomer'
 
 export function* rootSaga() {
-  yield all([authSaga(), employeeSaga(), customersSaga(), taskGroupSaga(), taskSaga()])
+  yield all([authSaga(), employeeSaga(), customersSaga(), taskGroupSaga(), taskSaga(), employeeCustomerSaga()])
 }

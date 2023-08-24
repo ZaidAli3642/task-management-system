@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import { Box, useToast } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -9,20 +11,18 @@ import AddEmployee from '../../components/Modal/Employee/AddEmployee'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import TableFoot from '../../components/Table/TableFoot'
 import TableWrapper from '../../components/Table/TableWrapper'
-import DATA from '../../assets/MOCK_DATA.json'
 import assets from '../../assets/assets'
 import employeeSchema from '../../validations/employeeSchema'
 import useForm from '../../hooks/useForm'
 import EditEmployee from '../../components/Modal/Employee/EditEmployee'
 import DeleteEmployee from '../../components/Modal/Employee/DeleteEmployee'
 import employeeBreadcrumb from './employeeBreadcrumbs'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import apiClient from '../../api/client'
+import { useNavigate } from 'react-router-dom'
 
 const Employees = () => {
   const toast = useToast()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector(state => state.auth.userInfo)
   const employeeData = useSelector(state => state.employees.employeeData)
   const isEmployeeAddModal = useSelector(state => state.employees.employeeAddModal)
@@ -82,7 +82,7 @@ const Employees = () => {
   return (
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
-        <Breadcrumbs navigationLocation={employeeBreadcrumb} iconImage={assets.icons.employees} />
+        <Breadcrumbs onClick={() => navigate('/employees/customers')} navigationLocation={employeeBreadcrumb} iconImage={assets.icons.employees} />
         {user.role === 'admin' && <ButtonWithIcon onClick={() => dispatch(employeeAddModal(true))} size='medium' />}
       </Box>
       <Box mx='30px'>

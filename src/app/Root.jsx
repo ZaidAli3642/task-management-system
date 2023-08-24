@@ -8,6 +8,7 @@ import NotFound from './pages/404/NotFound'
 import Customers from './pages/Customer/Customers'
 import CustomerTaskManagement from './pages/CustomerTaskManagement/CustomerTaskManagement'
 import Task from './pages/Task/Task'
+import EmployeeCustomer from './pages/EmployeeCustomer/EmployeeCustomer'
 
 const Root = () => {
   return (
@@ -18,6 +19,7 @@ const Root = () => {
       </Route>
       <Route element={<ProtectedRoutes />}>
         <Route path='/employees' element={<Employees />} />
+        <Route path='/employees/customers' element={<EmployeeCustomer />} />
         <Route path='/customers' element={<Customers />} />
         <Route path='/customers/task-management' element={<CustomerTaskManagement />} />
         <Route path='/tasks' element={<Task />} />

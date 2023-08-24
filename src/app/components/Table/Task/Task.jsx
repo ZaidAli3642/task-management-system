@@ -6,7 +6,7 @@ import Icon from '../../Icon'
 import assets from '../../../assets/assets'
 import colors from '../../../config/colors'
 
-const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask }) => {
+const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask }) => {
   return (
     <TableWrapper>
       <TableHead>
@@ -31,7 +31,7 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask }) => {
             <Td role='group' cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'center'} fontSize={'14px'} border={0}>
               <Text>{taskGroup.name}</Text>
               <Box display='none' _groupHover={{ display: 'flex' }} justifyContent={'center'} alignItems={'center'}>
-                <Icon image={assets.icons.add} width='16px' height='16px' />
+                <Icon onClick={() => onAddTask(taskGroup)} image={assets.icons.add} width='16px' height='16px' />
                 <Icon onClick={() => onEditTaskGroup(taskGroup)} image={assets.icons.edit} marginLeft='10px' width='16px' height='16px' />
               </Box>
             </Td>

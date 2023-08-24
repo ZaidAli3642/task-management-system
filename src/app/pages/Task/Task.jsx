@@ -59,6 +59,11 @@ const Task = () => {
     dispatch(deleteTaskGroup({ taskGroupId: taskGroupId }))
   }
 
+  const addTaskModal = data => {
+    handleOptionSelect(data)
+    dispatch(taskAddModal(true))
+  }
+
   const handleOptionSelect = option => {
     onChangeTask({ target: { value: option.id, name: 'id' } })
     setSelectedOption(option.name)
@@ -104,7 +109,7 @@ const Task = () => {
         </Box>
       </Box>
 
-      <Box mx='30px'>{taskGroupsAndTasks.length > 0 && <TaskTable onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
+      <Box mx='30px'>{taskGroupsAndTasks.length > 0 && <TaskTable onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
       <AddTaskGroup isOpen={isTaskGroupAddModal} onClose={() => dispatch(taskGroupAddModal(false))} errorMessages={errorMessages} isInvalid={isInvalid} onChangeInput={onChange} onAddTaskGroup={handleAddTaskGroup} />
       <EditTaskGroup
         deleteTaskGroupModal={() => {
