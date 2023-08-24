@@ -4,23 +4,35 @@ const initialState = {
   loading: false,
   taskGroupsAndTasks: [],
   taskGroupAddModal: false,
+  taskAddModal: false,
   taskGroupEditModal: false,
+  taskEditModal: false,
   taskGroupDeleteModal: false,
+  taskDeleteModal: false,
   error: null,
 }
 
-const tasksSlice = createSlice({
+const taskGroupSlice = createSlice({
   name: 'tasks',
   initialState: initialState,
   reducers: {
     taskGroupAddModal: (state, action) => {
       state.taskGroupAddModal = action.payload
     },
+    taskAddModal: (state, action) => {
+      state.taskAddModal = action.payload
+    },
     taskGroupEditModal: (state, action) => {
       state.taskGroupEditModal = action.payload
     },
+    taskEditModal: (state, action) => {
+      state.taskEditModal = action.payload
+    },
     taskGroupDeleteModal: (state, action) => {
       state.taskGroupDeleteModal = action.payload
+    },
+    taskDeleteModal: (state, action) => {
+      state.taskDeleteModal = action.payload
     },
     fetchTaskGroup: (state, action) => {
       state.loading = true
@@ -85,8 +97,62 @@ const tasksSlice = createSlice({
       state.loading = false
       state.error = action.payload.error
     },
+    addTask: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    addTaskSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+      const { task } = action.payload
+      const taskGroupsAndTasks = [...state.taskGroupsAndTasks]
+      const index = state.taskGroupsAndTasks.findIndex(taskGroup => taskGroup.id === task.task_group_id)
+      taskGroupsAndTasks[index] = { ...taskGroupsAndTasks[index], tasks: [...taskGroupsAndTasks[index].tasks, task] }
+
+      state.taskGroupsAndTasks = taskGroupsAndTasks
+    },
+    addTaskError: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
+    deleteTask: (state, action) => {
+      state.loading = true
+      state.error = null
+      const { task } = action.payload
+      const taskGroupsAndTasks = [...state.taskGroupsAndTasks]
+      const index = state.taskGroupsAndTasks.findIndex(taskGroup => taskGroup.id === task.task_group_id)
+      taskGroupsAndTasks[index] = { ...taskGroupsAndTasks[index], tasks: taskGroupsAndTasks[index].tasks.filter(tasks => tasks.uuid !== task.uuid) }
+
+      state.taskGroupsAndTasks = taskGroupsAndTasks
+    },
+    deleteTaskSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+    },
+    deleteTaskError: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
+    editTask: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    editTaskSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+      const { updatedTask } = action.payload
+      const taskGroupsAndTasks = [...state.taskGroupsAndTasks]
+      const index = state.taskGroupsAndTasks.findIndex(taskGroup => taskGroup.id === updatedTask.task_group_id)
+      taskGroupsAndTasks[index] = { ...taskGroupsAndTasks[index], tasks: taskGroupsAndTasks[index].tasks.map(tasks => (tasks.uuid === updatedTask.uuid ? { ...updatedTask } : { ...tasks })) }
+
+      state.taskGroupsAndTasks = taskGroupsAndTasks
+    },
+    editTaskError: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
   },
 })
 
-export default tasksSlice.reducer
-export const { fetchTaskGroupSuccess, fetchTaskGroup, fetchTaskGroupError, taskGroupAddModal, taskGroupDeleteModal, taskGroupEditModal, addTaskGroup, addTaskGroupError, addTaskGroupSuccess, deleteTaskGroup, deleteTaskGroupError, deleteTaskGroupSuccess, editTaskGroup, editTaskGroupError, editTaskGroupSuccess } = tasksSlice.actions
+export default taskGroupSlice.reducer
+export const { editTask, editTaskError, editTaskSuccess, deleteTask, deleteTaskError, deleteTaskSuccess, fetchTaskGroupSuccess, fetchTaskGroup, fetchTaskGroupError, taskGroupAddModal, taskGroupDeleteModal, taskGroupEditModal, addTaskGroup, addTaskGroupError, addTaskGroupSuccess, deleteTaskGroup, deleteTaskGroupError, deleteTaskGroupSuccess, editTaskGroup, editTaskGroupError, editTaskGroupSuccess, taskAddModal, taskDeleteModal, taskEditModal, addTask, addTaskError, addTaskSuccess } = taskGroupSlice.actions

@@ -21,13 +21,24 @@ function* createTaskGroup(action) {
     yield put(addTaskGroupSuccess({ taskGroup: response.data.data }))
     yield put(taskGroupAddModal(false))
   } catch (error) {
-    yield put(addTaskGroupError({ error }))
+    const errors = error?.response?.data?.errors
+    yield put(taskGroupAddModal(false))
+    if (errors) {
+      action.payload.toast({
+        title: 'Task group failed',
+        description: errors.name[0],
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    } else {
+      yield put(addTaskGroupError({ error }))
+    }
   }
 }
 
 function* removeTaskGroup(action) {
   const token = yield select(state => state.auth.token)
-  console.log('Action : ', action)
 
   try {
     const response = yield call(taskGroup(token).deleteTaskGroups, action.payload.taskGroupId)
@@ -42,7 +53,6 @@ function* editTaskGroup(action) {
   const { updatedTaskGroup, taskGroupId } = action.payload
   try {
     const response = yield call(taskGroup(token).editTaskGroups, updatedTaskGroup, taskGroupId)
-    console.log('Response :', response)
     yield put(deleteTaskGroupSuccess())
   } catch (error) {
     yield put(deleteTaskGroupError({ error }))

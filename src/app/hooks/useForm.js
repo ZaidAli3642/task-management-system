@@ -21,6 +21,7 @@ const useForm = fields => {
 
       return true
     } catch (error) {
+      console.log('Errorr  : ', error)
       setIsInvalid(true)
       if (error.name === 'ValidationError') setErrorMessages(prevState => ({ ...prevState, [error.path]: error.message }))
     }
