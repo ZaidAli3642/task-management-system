@@ -6,13 +6,13 @@ import Icon from '../../Icon'
 import assets from '../../../assets/assets'
 import colors from '../../../config/colors'
 
-const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask }) => {
+const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask, onSortTaskGroup }) => {
   return (
     <TableWrapper>
       <TableHead>
         <TableRow>
           <Td w='20%' display={'flex'} justifyContent={'start'} alignItems='center' borderBottom={0} padding={0} margin={0}>
-            <Text marginLeft={'20px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
+            <Text onClick={onSortTaskGroup} cursor={'pointer'} marginLeft={'20px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
               Task group
             </Text>
             <Icon image={assets.icons.swap} />
@@ -29,7 +29,12 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask 
         {taskGroupsAndTasks.map((taskGroup, index) => (
           <TableRow key={taskGroup.uuid} alignItems={'flex-start'} borderBottom={taskGroupsAndTasks.length - 1 === index ? 0 : 1}>
             <Td role='group' cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'center'} fontSize={'14px'} border={0}>
-              <Text>{taskGroup.name}</Text>
+              <Box>
+                <Text>{taskGroup.name}</Text>
+                <Text fontSize={'14px'} fontWeight={400} color={colors.darkGrey}>
+                  {taskGroup.customers_count} customers with tasks
+                </Text>
+              </Box>
               <Box display='none' _groupHover={{ display: 'flex' }} justifyContent={'center'} alignItems={'center'}>
                 <Icon onClick={() => onAddTask(taskGroup)} image={assets.icons.add} width='16px' height='16px' />
                 <Icon onClick={() => onEditTaskGroup(taskGroup)} image={assets.icons.edit} marginLeft='10px' width='16px' height='16px' />

@@ -12,10 +12,12 @@ import assets from '../../assets/assets'
 import employeeCustomerBreadcrumb from './employeeCustomerBreadcrumb'
 import DropDown from '../../components/DropDown'
 import { employeeCustomerFetch } from '../../redux/reducers/employeeCustomer/employeeCustomer'
+import { useNavigate } from 'react-router-dom'
 
 const EmployeeCustomer = () => {
   const toast = useToast()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector(state => state.auth.userInfo)
   const employeeData = useSelector(state => state.employees.employeeData)
   const employeeCustomerData = useSelector(state => state.employeeCustomer.employeeCustomerData)
@@ -37,7 +39,7 @@ const EmployeeCustomer = () => {
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-          <Breadcrumbs navigationLocation={employeeCustomerBreadcrumb} iconImage={assets.icons.employees} />
+          <Breadcrumbs onClick={() => navigate('/employees')} navigationLocation={employeeCustomerBreadcrumb} iconImage={assets.icons.employees} />
           <DropDown label={selectedEmployeeOption || 'Select'} data={employeeData} onSelectItem={selectedEmployee} />
         </Box>
       </Box>

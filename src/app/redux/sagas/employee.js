@@ -1,13 +1,15 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeEdit, employeeEditFailed, employeeFetch, employeeFetchFailed, employeesDataSet } from '../reducers/employee/employees'
 import { users } from '../../api/users/users'
+import _ from 'lodash'
 
 function* fetchEmplpyee(action) {
   const token = yield select(state => state.auth.token)
   const { perPage, page } = action.payload
   try {
     const response = yield call(users(token).fetchUsers, perPage, page)
-    yield put(employeesDataSet(response.data.data))
+    const employeeData = _.orderBy(response.data.data, ['first_name'], 'asc')
+    yield put(employeesDataSet(employeeData))
   } catch (error) {
     yield put(employeeFetchFailed({ error }))
   }

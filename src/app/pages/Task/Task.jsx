@@ -6,7 +6,7 @@ import Breadcrumbs from '../../components/Breadcrumbs'
 import { ButtonWithIcon } from '../../components/Form'
 import taskBreadcrumb from './taskBreakcrumbs'
 import TaskTable from '../../components/Table/Task/Task'
-import { addTaskGroup, deleteTaskGroup, fetchTaskGroup, taskGroupAddModal, taskGroupDeleteModal, taskGroupEditModal, editTaskGroup as editTaskGroupAction, taskAddModal, addTask, taskEditModal, taskDeleteModal, deleteTask, editTask as editTaskAction } from '../../redux/reducers/taskGroup/taskGroup'
+import { addTaskGroup, deleteTaskGroup, fetchTaskGroup, taskGroupAddModal, taskGroupDeleteModal, taskGroupEditModal, editTaskGroup as editTaskGroupAction, taskAddModal, addTask, taskEditModal, taskDeleteModal, deleteTask, editTask as editTaskAction, fetchTaskGroupSuccess } from '../../redux/reducers/taskGroup/taskGroup'
 import AddTaskGroup from '../../components/Modal/TaskGroup/AddTaskGroup'
 import useForm from '../../hooks/useForm'
 import EditTaskGroup from '../../components/Modal/TaskGroup/EditTaskGroup'
@@ -16,6 +16,7 @@ import AddTask from '../../components/Modal/TaskGroup/AddTask'
 import taskSchema from '../../validations/taskSchema'
 import EditTask from '../../components/Modal/TaskGroup/EditTask'
 import DeleteTask from '../../components/Modal/TaskGroup/DeleteTask'
+import _ from 'lodash'
 
 const Task = () => {
   const toast = useToast()
@@ -30,6 +31,7 @@ const Task = () => {
   const [taskGroupId, setTaskGroupId] = useState('')
   const [taskId, setTaskId] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
+  const [taskGroupSort, setTaskGroupSort] = useState('asc')
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ name: '' })
   const [errorMessagesTask, isInvalidTask, inputFieldsTask, , , onChangeTask, onSubmitTask] = useForm({ name: '', id: '' })
   const [errorMessagesTaskEdit, isInvalidTaskEdit, inputFieldsTaskEdit, setInputFieldEditTask, , onChangeTaskEdit, onSubmitTaskEdit] = useForm({ name: '', id: '' })
@@ -95,6 +97,19 @@ const Task = () => {
     dispatch(taskDeleteModal(false))
   }
 
+  const sortTaskGroup = () => {
+    let sortedTaskGroupsAndTasks
+    if (taskGroupSort === 'desc') {
+      setTaskGroupSort('asc')
+    } else {
+      setTaskGroupSort('desc')
+    }
+
+    sortedTaskGroupsAndTasks = _.orderBy(taskGroupsAndTasks, ['name'], taskGroupSort)
+
+    dispatch(fetchTaskGroupSuccess(sortedTaskGroupsAndTasks))
+  }
+
   useEffect(() => {
     dispatch(fetchTaskGroup({ perPage: 10, page: 1 }))
   }, [])
@@ -109,7 +124,7 @@ const Task = () => {
         </Box>
       </Box>
 
-      <Box mx='30px'>{taskGroupsAndTasks.length > 0 && <TaskTable onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
+      <Box mx='30px'>{taskGroupsAndTasks.length > 0 && <TaskTable onSortTaskGroup={sortTaskGroup} onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
       <AddTaskGroup isOpen={isTaskGroupAddModal} onClose={() => dispatch(taskGroupAddModal(false))} errorMessages={errorMessages} isInvalid={isInvalid} onChangeInput={onChange} onAddTaskGroup={handleAddTaskGroup} />
       <EditTaskGroup
         deleteTaskGroupModal={() => {
@@ -143,7 +158,7 @@ const Task = () => {
         options={taskGroupsAndTasks}
         showOption='name'
       />
-      <DeleteTask isOpen={isTaskDeleteModal} onClose={() => dispatch(taskDeleteModal(false))} onDeleteTask={handleDeleteTask} />
+      <DeleteTask taskName={taskId.name} isOpen={isTaskDeleteModal} onClose={() => dispatch(taskDeleteModal(false))} onDeleteTask={handleDeleteTask} />
     </>
   )
 }

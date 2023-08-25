@@ -18,6 +18,7 @@
     "axios": "^1.4.0",
     "framer-motion": "^10.15.0",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
     "normalize.css": "^8.0.1",
     "prettier": "^3.0.1",

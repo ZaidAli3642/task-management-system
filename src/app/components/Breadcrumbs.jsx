@@ -1,9 +1,12 @@
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import Icon from './Icon'
 import colors from '../config/colors'
+import { useNavigate } from 'react-router-dom'
 
 const Breadcrumbs = ({ navigationLocation = [], onClick }) => {
   const lastIndex = index => index === navigationLocation.length - 1
+
+  const navigate = useNavigate()
 
   return (
     <Breadcrumb border={1} borderColor={colors.lightGrey} borderStyle='solid' p='5px' borderRadius='40px' backgroundColor={colors.white} w='fit-content'>

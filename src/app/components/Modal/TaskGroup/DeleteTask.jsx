@@ -3,9 +3,9 @@ import { ModalBody, ModalFooter, Text } from '@chakra-ui/react'
 import Modal from '../Modal'
 import { Button, Form } from '../../Form'
 
-const DeleteTask = ({ isOpen, onClose, onDeleteTask }) => {
+const DeleteTask = ({ isOpen, onClose, onDeleteTask, taskName }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Delete task' employeeName='Capital budgeting'>
+    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Delete task' employeeName={taskName}>
       <Form onSubmit={onDeleteTask}>
         <ModalBody>
           <Text fontWeight={400} fontSize='14px' color='black'>
