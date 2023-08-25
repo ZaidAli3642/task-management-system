@@ -5,7 +5,7 @@ const customerSchema = yup.object().shape({
   description: yup.string().nullable().label('Description'),
   name: yup
     .string()
-    .matches(/^[a-zA-Z\s]+$/, 'Input must contain only alphabets')
+    .matches(/[a-zA-Z]/, 'Input must contain at least one alphabet character')
     .required()
     .label('Name'),
 })

@@ -31,7 +31,7 @@ const Task = () => {
   const [taskGroupId, setTaskGroupId] = useState('')
   const [taskId, setTaskId] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
-  const [taskGroupSort, setTaskGroupSort] = useState('asc')
+  const [taskGroupSort, setTaskGroupSort] = useState('desc')
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ name: '' })
   const [errorMessagesTask, isInvalidTask, inputFieldsTask, , , onChangeTask, onSubmitTask] = useForm({ name: '', id: '' })
   const [errorMessagesTaskEdit, isInvalidTaskEdit, inputFieldsTaskEdit, setInputFieldEditTask, , onChangeTaskEdit, onSubmitTaskEdit] = useForm({ name: '', id: '' })
