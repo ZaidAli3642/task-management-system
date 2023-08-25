@@ -7,8 +7,9 @@ function* getTaskGroup(action) {
   const { perPage, page } = action.payload
   try {
     const response = yield call(taskGroup(token).fetchTaskGroups, perPage, page)
-    yield put(fetchTaskGroupSuccess(response.data.taskGroups.data))
+    yield put(fetchTaskGroupSuccess(response.data.taskGroups))
   } catch (error) {
+    console.log('error  : ', error)
     yield put(fetchTaskGroupError({ error }))
   }
 }

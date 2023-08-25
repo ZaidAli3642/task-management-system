@@ -37,6 +37,7 @@ const Task = () => {
   const [errorMessagesTaskEdit, isInvalidTaskEdit, inputFieldsTaskEdit, setInputFieldEditTask, , onChangeTaskEdit, onSubmitTaskEdit] = useForm({ name: '', id: '' })
   const [errorMessagesEdit, isInvalidEdit, inputFieldsEdit, setInputFieldsEdit, , onChangeEdit, onSubmitEdit] = useForm({ name: '' })
 
+  console.log(taskGroupsAndTasks)
   const editTaskGroup = data => {
     setInputFieldsEdit({ name: data.name })
     setTaskGroupId(data.uuid)
@@ -124,7 +125,7 @@ const Task = () => {
         </Box>
       </Box>
 
-      <Box mx='30px'>{taskGroupsAndTasks.length > 0 && <TaskTable onSortTaskGroup={sortTaskGroup} onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
+      <Box mx='30px'>{taskGroupsAndTasks?.length > 0 && <TaskTable onSortTaskGroup={sortTaskGroup} onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
       <AddTaskGroup isOpen={isTaskGroupAddModal} onClose={() => dispatch(taskGroupAddModal(false))} errorMessages={errorMessages} isInvalid={isInvalid} onChangeInput={onChange} onAddTaskGroup={handleAddTaskGroup} />
       <EditTaskGroup
         deleteTaskGroupModal={() => {
