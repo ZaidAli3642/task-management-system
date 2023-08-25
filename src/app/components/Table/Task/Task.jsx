@@ -11,11 +11,13 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask,
     <TableWrapper>
       <TableHead>
         <TableRow>
-          <Td w='20%' display={'flex'} justifyContent={'start'} alignItems='center' borderBottom={0} padding={0} margin={0}>
-            <Text onClick={onSortTaskGroup} cursor={'pointer'} marginLeft={'20px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
-              Task group
-            </Text>
-            <Icon image={assets.icons.swap} />
+          <Td w='20%' borderBottom={0} padding={0} margin={0}>
+            <Box onClick={onSortTaskGroup} display={'flex'} justifyContent={'start'} alignItems='center' w={'fit-content'}>
+              <Text cursor={'pointer'} marginLeft={'20px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
+                Task group
+              </Text>
+              <Icon cursor={'pointer'} image={assets.icons.swap} />
+            </Box>
           </Td>
 
           <Td w='20%' borderBottom={0} padding={0} margin={0}>

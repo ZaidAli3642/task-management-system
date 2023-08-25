@@ -37,7 +37,6 @@ const Task = () => {
   const [errorMessagesTaskEdit, isInvalidTaskEdit, inputFieldsTaskEdit, setInputFieldEditTask, , onChangeTaskEdit, onSubmitTaskEdit] = useForm({ name: '', id: '' })
   const [errorMessagesEdit, isInvalidEdit, inputFieldsEdit, setInputFieldsEdit, , onChangeEdit, onSubmitEdit] = useForm({ name: '' })
 
-  console.log(taskGroupsAndTasks)
   const editTaskGroup = data => {
     setInputFieldsEdit({ name: data.name })
     setTaskGroupId(data.uuid)

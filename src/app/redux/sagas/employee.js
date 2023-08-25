@@ -19,8 +19,8 @@ function* addEmplpyee(action) {
   const { username, firstname, lastname, password } = action.payload.userCredentials
   try {
     const user = {
-      first_name: firstname,
-      last_name: lastname,
+      first_name: firstname.charAt(0).toUpperCase() + firstname.slice(1),
+      last_name: lastname.charAt(0).toUpperCase() + lastname.slice(1),
       username,
       password,
     }
