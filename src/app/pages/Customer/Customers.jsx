@@ -28,7 +28,7 @@ const Customers = () => {
   const [employeeId, setEmployeeId] = useState('')
 
   const addCustomer = async () => {
-    const result = await onSubmit(customerSchema, () => dispatch(customerAdd({ customerCredentials: inputFields })))
+    const result = await onSubmit(customerSchema, () => dispatch(customerAdd({ customerCredentials: inputFields, toast })))
     if (!result) return
     dispatch(customerAddModal(false))
   }

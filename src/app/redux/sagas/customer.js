@@ -19,7 +19,18 @@ function* addCustomers(action) {
     const response = yield call(customers(token).addCustomer, action.payload.customerCredentials)
     yield put(customerAddSuccess({ customer: response.data.data }))
   } catch (error) {
-    yield put(customerAddFailed({ error }))
+    const errors = error.response.data.errors
+    if (errors) {
+      action.payload.toast({
+        title: 'Task failed',
+        description: errors.name[0],
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    } else {
+      yield put(customerAddFailed({ error }))
+    }
   }
 }
 
