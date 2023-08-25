@@ -5,7 +5,7 @@ import { Button, Form } from '../../Form'
 
 const DeleteEmployee = ({ isOpen, onClose, onDeleteEmployee, employee }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Delete employee' employeeName={`${employee?.username}`}>
+    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Delete employee' employeeName={`${employee?.first_name} ${employee?.last_name}`}>
       <Form onSubmit={onDeleteEmployee}>
         <ModalBody>
           <Text fontWeight={400} fontSize='14px'>

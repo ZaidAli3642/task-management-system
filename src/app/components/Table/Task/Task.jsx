@@ -28,7 +28,7 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask,
       <Tbody h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
         {taskGroupsAndTasks.map((taskGroup, index) => (
           <TableRow key={taskGroup.uuid} alignItems={'flex-start'} borderBottom={taskGroupsAndTasks.length - 1 === index ? 0 : 1}>
-            <Td role='group' cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'center'} fontSize={'14px'} border={0}>
+            <Td role='group' cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
               <Box>
                 <Text>{taskGroup.name}</Text>
                 <Text fontSize={'14px'} fontWeight={400} color={colors.darkGrey}>

@@ -13,6 +13,7 @@ import TableFoot from '../../components/Table/TableFoot'
 import TableWrapper from '../../components/Table/TableWrapper'
 import assets from '../../assets/assets'
 import employeeSchema from '../../validations/employeeSchema'
+import employeeSchemaEdit from '../../validations/employeeSchemaEdit'
 import useForm from '../../hooks/useForm'
 import EditEmployee from '../../components/Modal/Employee/EditEmployee'
 import DeleteEmployee from '../../components/Modal/Employee/DeleteEmployee'
@@ -42,7 +43,7 @@ const Employees = () => {
   }
 
   const editEmployee = async () => {
-    const result = await onSubmitEdit(employeeSchema, () => dispatch(employeeEdit({ updatedUser: inputFieldsEdit, userId: employeeId.uuid })))
+    const result = await onSubmitEdit(employeeSchemaEdit, () => dispatch(employeeEdit({ updatedUser: inputFieldsEdit, userId: employeeId.uuid, toast })))
     if (!result) return
     dispatch(employeeEditModal(false))
   }

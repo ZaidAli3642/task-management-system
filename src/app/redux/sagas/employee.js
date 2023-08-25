@@ -32,7 +32,7 @@ function* addEmplpyee(action) {
     if (errors) {
       action.payload.toast({
         title: 'Employee add failed',
-        description: errors.username[0],
+        description: errors?.username[0] || errors?.password[0],
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -57,10 +57,28 @@ function* editEmplpyee(action) {
   const token = yield select(state => state.auth.token)
   const userId = action.payload.userId
   const { firstname, lastname, username, password } = action.payload.updatedUser
+  const updatedData = { first_name: firstname, last_name: lastname, username }
+
+  if (password) updatedData.password = password
+
   try {
-    const response = yield call(users(token).editEmployee, { first_name: firstname, last_name: lastname, username, password }, userId)
+    const response = yield call(users(token).editEmployee, updatedData, userId)
+    console.log('response : ', response)
   } catch (error) {
-    yield put(employeeEditFailed({ error }))
+    console.log('Error : ', error)
+    const errors = error?.response?.data?.errors
+
+    if (errors) {
+      action.payload.toast({
+        title: 'Employee Edit failed',
+        description: errors?.username?.[0] || errors?.password?.[0],
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    } else {
+      yield put(employeeEditFailed({ error }))
+    }
   }
 }
 
