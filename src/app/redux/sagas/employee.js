@@ -32,7 +32,7 @@ function* addEmplpyee(action) {
     if (errors) {
       action.payload.toast({
         title: 'Employee add failed',
-        description: errors?.username[0] || errors?.password[0],
+        description: errors?.username?.[0] || errors?.password?.[0],
         status: 'error',
         duration: 5000,
         isClosable: true,
