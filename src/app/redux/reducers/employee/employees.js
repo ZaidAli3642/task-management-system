@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   loading: false,
   employeeData: [],
+  activeEmployees: [],
   employeeAddModal: false,
   employeeDeleteModal: false,
   employeeEditModal: false,
@@ -87,8 +88,21 @@ const employeesSlice = createSlice({
       state.loading = false
       state.error = action.payload.error
     },
+    activeEmployeeFetch: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    activeEmployeeFetchSuccess: (state, action) => {
+      state.loading = true
+      state.error = null
+      state.activeEmployees = action.payload
+    },
+    activeEmployeeFetchFailed: (state, action) => {
+      state.loading = true
+      state.error = action.payload.error
+    },
   },
 })
 
 export default employeesSlice.reducer
-export const { employeeAddModal, employeeDeleteModal, employeeEditModal, employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeDeleteSuccess, employeeEdit, employeeEditFailed, employeeEditSuccess, employeeFetch, employeesDataSet, employeeFetchFailed } = employeesSlice.actions
+export const { activeEmployeeFetch, activeEmployeeFetchFailed, activeEmployeeFetchSuccess, employeeAddModal, employeeDeleteModal, employeeEditModal, employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeDeleteSuccess, employeeEdit, employeeEditFailed, employeeEditSuccess, employeeFetch, employeesDataSet, employeeFetchFailed } = employeesSlice.actions

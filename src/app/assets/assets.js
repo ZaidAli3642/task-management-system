@@ -18,6 +18,9 @@ import chevronDownGreen from './icons/chevron-down-green.svg'
 import swap from './icons/swap_horiz_24px.svg'
 import add from './icons/add.svg'
 import person from './icons/person.svg'
+import taskNote from './icons/taskNote.svg'
+import noteIcon from './icons/note-icon.svg'
+import chevronUpGreen from './icons/chevron-up-green.svg'
 
 const assets = {
   background: {},
@@ -36,6 +39,9 @@ const assets = {
     swap,
     add,
     person,
+    taskNote,
+    noteIcon,
+    chevronUpGreen,
   },
   images: {
     logo,

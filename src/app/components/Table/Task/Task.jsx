@@ -34,7 +34,7 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask,
               <Box>
                 <Text>{taskGroup.name}</Text>
                 <Text fontSize={'14px'} fontWeight={400} color={colors.darkGrey}>
-                  {taskGroup.customers_count} customers with tasks
+                  {taskGroup?.customers_count || 0} customers with tasks
                 </Text>
               </Box>
               <Box display='none' _groupHover={{ display: 'flex' }} justifyContent={'center'} alignItems={'center'}>

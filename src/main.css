@@ -112,6 +112,49 @@ body {
   font-weight: 400;
 }
 
+.radio {
+  margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.radio input[type=radio] {
+  position: absolute;
+  opacity: 0;
+}
+.radio input[type=radio] + .radio-label:before {
+  content: "";
+  background: white;
+  border-radius: 100%;
+  border: 1px solid #bfbfbf;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  position: relative;
+  margin-right: 10px;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  transition: all 250ms ease;
+}
+.radio input[type=radio]:checked + .radio-label:before {
+  background-color: #1ba076;
+  box-shadow: inset 0 0 0 4px white;
+  border-color: #1ba076;
+}
+.radio input[type=radio]:focus + .radio-label:before {
+  outline: none;
+  border-color: #1ba076;
+}
+.radio input[type=radio]:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px white;
+  border-color: #bfbfbf;
+  background: #bfbfbf;
+}
+.radio input[type=radio] + .radio-label:empty:before {
+  margin-right: 0;
+}
+
 .login {
   height: 100vh;
   width: 100%;

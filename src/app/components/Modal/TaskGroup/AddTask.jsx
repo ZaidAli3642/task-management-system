@@ -10,7 +10,7 @@ const AddTask = ({ isOpen, onClose, onAddTask, onChangeInput, errorMessage, onSe
     <Modal isOpen={isOpen} onClose={onClose} modalHeading='Add task'>
       <Form onSubmit={onAddTask} isInvalid={isInvalid}>
         <ModalBody paddingY={0}>
-          <SelectBox errorMessage={errorMessage.id} showOption={showOption} width='400px' h='500px' label='Task group' options={options} selectedOption={selectedOption} onSelect={onSelect} />
+          <SelectBox errorMessage={errorMessage.id} showOption={showOption} width='400px' label='Task group' options={options} selectedOption={selectedOption} onSelect={onSelect} />
           <Input errorMessage={errorMessage.name} onChange={onChangeInput} label='Task' name='name' placeholder='Enter task title' marginX={0} />
         </ModalBody>
         <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>

@@ -83,6 +83,7 @@ const Task = () => {
 
   const handleEditTask = async () => {
     await onSubmitTaskEdit(taskSchema, () => dispatch(editTaskAction({ updatedTask: inputFieldsTaskEdit, taskId: taskId.uuid, toast })))
+    dispatch(taskEditModal(false))
   }
 
   const editTask = (taskGroup, task) => {

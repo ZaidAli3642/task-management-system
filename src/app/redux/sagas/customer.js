@@ -1,6 +1,6 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { customers } from '../../api/customers/customers'
-import { customerAdd, customerAddFailed, customerAddSuccess, customerEdit, customerEditFailed, customerFetch, customerFetchFailed, customerFetchSuccess } from '../reducers/customer/customer'
+import { customerAdd, customerAddFailed, customerAddSuccess, customerEdit, customerEditFailed, customerFetch, customerFetchFailed, customerFetchSuccess, getActiveCustomers, getActiveCustomersFailed, getActiveCustomersSuccess } from '../reducers/customer/customer'
 
 function* fetchCustomers(action) {
   const token = yield select(state => state.auth.token)
@@ -10,6 +10,16 @@ function* fetchCustomers(action) {
     yield put(customerFetchSuccess(response.data.data))
   } catch (error) {
     yield put(customerFetchFailed({ error }))
+  }
+}
+
+function* fetchActiveCustomers(action) {
+  const token = yield select(state => state.auth.token)
+  try {
+    const response = yield call(customers(token).fetchActiveCustomers)
+    yield put(getActiveCustomersSuccess(response.data))
+  } catch (error) {
+    yield put(getActiveCustomersFailed({ error }))
   }
 }
 
@@ -46,6 +56,7 @@ function* editCustomers(action) {
 
 export function* customersSaga() {
   yield takeEvery(customerFetch.type, fetchCustomers)
+  yield takeEvery(getActiveCustomers.type, fetchActiveCustomers)
   yield takeEvery(customerAdd.type, addCustomers)
   yield takeEvery(customerEdit.type, editCustomers)
 }

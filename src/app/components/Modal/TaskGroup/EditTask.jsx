@@ -10,7 +10,7 @@ const EditTask = ({ isOpen, onClose, onEditTask, onChangeInput, errorMessage, is
     <Modal isOpen={isOpen} onClose={onClose} modalHeading='Edit task'>
       <Form onSubmit={onEditTask} isInvalid={isInvalid}>
         <ModalBody paddingY={0}>
-          <SelectBox errorMessage={errorMessage.id} showOption={showOption} width='400px' h='500px' label='Task group' options={options} selectedOption={selectedOption} onSelect={onSelect} />
+          <SelectBox errorMessage={errorMessage.id} showOption={showOption} width='400px' label='Task group' options={options} selectedOption={selectedOption} onSelect={onSelect} />
           <Input value={inputFields.name} errorMessage={errorMessage.task} onChange={onChangeInput} label='Task' name='name' placeholder='Enter task title' marginX={0} />
           <Button onClick={deleteTaskModal} title='Delete task' size='large' color='default' />
         </ModalBody>

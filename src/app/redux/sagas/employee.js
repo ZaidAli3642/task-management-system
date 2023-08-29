@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
-import { employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeEdit, employeeEditFailed, employeeFetch, employeeFetchFailed, employeesDataSet } from '../reducers/employee/employees'
+import { activeEmployeeFetch, activeEmployeeFetchFailed, activeEmployeeFetchSuccess, employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeEdit, employeeEditFailed, employeeFetch, employeeFetchFailed, employeesDataSet } from '../reducers/employee/employees'
 import { users } from '../../api/users/users'
 import _ from 'lodash'
 
@@ -12,6 +12,19 @@ function* fetchEmplpyee(action) {
     yield put(employeesDataSet(employeeData))
   } catch (error) {
     yield put(employeeFetchFailed({ error }))
+  }
+}
+
+function* fetchActiveEmplpyees(action) {
+  const token = yield select(state => state.auth.token)
+
+  try {
+    const response = yield call(users(token).fetchActiveEmployees)
+    const employeeData = _.orderBy(response.data, ['first_name'], 'asc')
+    employeeData.push({ id: null, first_name: 'customer' })
+    yield put(activeEmployeeFetchSuccess(employeeData))
+  } catch (error) {
+    yield put(activeEmployeeFetchFailed({ error }))
   }
 }
 
@@ -87,4 +100,5 @@ export function* employeeSaga() {
   yield takeEvery(employeeDelete.type, deleteEmplpyee)
   yield takeEvery(employeeEdit.type, editEmplpyee)
   yield takeEvery(employeeFetch.type, fetchEmplpyee)
+  yield takeEvery(activeEmployeeFetch.type, fetchActiveEmplpyees)
 }

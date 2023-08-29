@@ -3,7 +3,7 @@ import { Box, Text } from '@chakra-ui/react'
 import colors from '../config/colors'
 import { useState } from 'react'
 
-const DropDown = ({ data, onSelectItem, label }) => {
+const DropDown = ({ data, onSelectItem, label, optionKey }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleToggle = () => {
@@ -41,17 +41,17 @@ const DropDown = ({ data, onSelectItem, label }) => {
                 },
               }}
             >
-              {data.map(employee => (
+              {data.map(d => (
                 <Box
-                  key={employee.id}
+                  key={d.id}
                   onClick={() => {
-                    onSelectItem(employee)
+                    onSelectItem(d)
                     setIsOpen(false)
                   }}
                   cursor={'pointer'}
                 >
                   <Text margin={'15px'} fontSize={'14px'} fontWeight={400}>
-                    {employee.first_name}
+                    {d[optionKey]}
                   </Text>
                 </Box>
               ))}
@@ -62,21 +62,5 @@ const DropDown = ({ data, onSelectItem, label }) => {
     </>
   )
 }
-
-// css={{
-//     '&::-webkit-scrollbar': {
-//       width: '6px',
-//       height: '24px',
-//       marginRight: '10px',
-//     },
-//     '&::-webkit-scrollbar-track': {
-//       width: '6px',
-//       marginRight: '10px',
-//     },
-//     '&::-webkit-scrollbar-thumb': {
-//       background: colors.darkGreen,
-//       borderRadius: '24px',
-//     },
-//   }}
 
 export default DropDown

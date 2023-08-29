@@ -40,7 +40,7 @@ const EmployeeCustomer = () => {
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
           <Breadcrumbs onClick={() => navigate('/employees')} navigationLocation={employeeCustomerBreadcrumb} iconImage={assets.icons.employees} />
-          <DropDown label={selectedEmployeeOption || 'Select'} data={employeeData} onSelectItem={selectedEmployee} />
+          <DropDown label={selectedEmployeeOption || 'Select'} optionKey={'first_name'} data={employeeData} onSelectItem={selectedEmployee} />
         </Box>
       </Box>
       <Box mx='30px'>{employeeCustomerData.length > 0 && <Table isEdit={false} setEmployeeId={setEmployeeId} columns={employeeColumns} data={employeeCustomerData} />}</Box>

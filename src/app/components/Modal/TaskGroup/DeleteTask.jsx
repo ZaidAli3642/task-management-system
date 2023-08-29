@@ -5,7 +5,7 @@ import { Button, Form } from '../../Form'
 
 const DeleteTask = ({ isOpen, onClose, onDeleteTask, taskName }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Delete task' employeeName={taskName}>
+    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Delete task' subHeading={taskName}>
       <Form onSubmit={onDeleteTask}>
         <ModalBody>
           <Text fontWeight={400} fontSize='14px' color='black'>

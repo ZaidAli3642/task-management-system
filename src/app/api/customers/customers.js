@@ -14,6 +14,14 @@ export const customers = authToken => {
         throw error
       }
     },
+    fetchActiveCustomers: async () => {
+      try {
+        const response = await apiClient.get(`/customers/activeCustomers?timestamp=${Date.now()}`, { headers })
+        return response
+      } catch (error) {
+        throw error
+      }
+    },
     addCustomer: async userCredentials => {
       try {
         const response = await apiClient.post('/customers/add', userCredentials, { headers })

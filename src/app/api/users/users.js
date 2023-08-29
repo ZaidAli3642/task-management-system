@@ -14,6 +14,14 @@ export const users = authToken => {
         throw error
       }
     },
+    fetchActiveEmployees: async () => {
+      try {
+        const response = await apiClient.get(`/users/activeEmployees?timestamp=${Date.now()}`, { headers })
+        return response
+      } catch (error) {
+        throw error
+      }
+    },
     addEmployee: async userCredentials => {
       try {
         const response = await apiClient.post('/users/register', userCredentials)

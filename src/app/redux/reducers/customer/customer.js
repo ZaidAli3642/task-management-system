@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   loading: false,
   customersData: [],
+  activeCustomers: [],
   customerAddModal: false,
   customerDeleteModal: false,
   customerEditModal: false,
@@ -74,8 +75,21 @@ const customersSlice = createSlice({
       state.loading = false
       state.error = null
     },
+    getActiveCustomers: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    getActiveCustomersSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+      state.activeCustomers = action.payload
+    },
+    getActiveCustomersFailed: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
   },
 })
 
 export default customersSlice.reducer
-export const { customerAddModal, customerDeleteModal, customerEditModal, customerFetch, customerFetchFailed, customerFetchSuccess, customerAdd, customerAddFailed, customerAddSuccess, customerEdit, customerEditFailed, customerEditSucccess } = customersSlice.actions
+export const { getActiveCustomers, getActiveCustomersFailed, getActiveCustomersSuccess, customerAddModal, customerDeleteModal, customerEditModal, customerFetch, customerFetchFailed, customerFetchSuccess, customerAdd, customerAddFailed, customerAddSuccess, customerEdit, customerEditFailed, customerEditSucccess } = customersSlice.actions
