@@ -1,42 +1,47 @@
-import { Box, ModalBody, ModalFooter, Text, Collapse } from '@chakra-ui/react'
-import { Button, Form, Input, Switch } from '../../Form'
-import Modal from '../Modal'
 import { useState } from 'react'
-import colors from '../../../config/colors'
-import CheckBox from '../../Form/Checkbox'
-import Radio from '../../Form/Radio'
-import SelectBox from '../../SelectBox'
+import { ModalBody, ModalFooter } from '@chakra-ui/react'
+import { Button, Form } from '../../Form'
+import Modal from '../Modal'
 import RepeatMonthly from '../../Collapsibles/RepeatMonthly'
 import RepeatWeekly from '../../Collapsibles/RepeatWeekly'
 import RepeatYearly from '../../Collapsibles/RepeatYearly'
 
-const Repeat = ({ isOpen, onClose, onEditTask, errorMessage, onChangeInput, isInvalid, showOption, options, selectedOption, onSelect }) => {
+const Repeat = ({ inputFieldsYearly, onChangeYearly, setYearlyRadio, yearlyRadio, monthlyRadio, isOpen, onClose, onSaveRepetition, errorMessagesWeekly, onChangeWeekly, onChangeMonthly, isInvalid, inputFieldsWeekly, errorMessagesMonthly, inputFieldsMonthly, setMonthlyRadio, setRepetitionType }) => {
   const [isOpenWeekly, setIsOpenWeekly] = useState(false)
   const [isOpenMonthly, setIsOpenMonthly] = useState(false)
   const [isOpenYearly, setIsOpenYearly] = useState(false)
 
   const toggleWeekly = e => {
+    setRepetitionType('weekly')
     setIsOpenWeekly(e.target.checked)
+    setIsOpenMonthly(false)
+    setIsOpenYearly(false)
   }
 
   const toggleMonthly = e => {
+    setRepetitionType('monthly')
     setIsOpenMonthly(e.target.checked)
+    setIsOpenYearly(false)
+    setIsOpenWeekly(false)
   }
 
   const toggleYearly = e => {
+    setRepetitionType('yearly')
     setIsOpenYearly(e.target.checked)
+    setIsOpenWeekly(false)
+    setIsOpenMonthly(false)
   }
 
   return (
     <Modal minW={'fit-content'} isOpen={isOpen} onClose={onClose} modalHeading='Repeat' subHeading={'Capital budgeting'}>
-      <Form onSubmit={onEditTask} isInvalid={isInvalid}>
+      <Form onSubmit={onSaveRepetition} isInvalid={isInvalid}>
         <ModalBody paddingY={0}>
           {/* Weekly */}
-          <RepeatWeekly toggleWeekly={toggleWeekly} isOpenWeekly={isOpenWeekly} />
+          <RepeatWeekly inputFieldsWeekly={inputFieldsWeekly} onChange={onChangeWeekly} errorMessage={errorMessagesWeekly} toggleWeekly={toggleWeekly} isOpenWeekly={isOpenWeekly} />
           {/* Monthly */}
-          <RepeatMonthly isOpenMonthly={isOpenMonthly} toggleMonthly={toggleMonthly} />
+          <RepeatMonthly monthlyRadio={monthlyRadio} setMonthlyRadio={setMonthlyRadio} onChange={onChangeMonthly} inputFieldsMonthly={inputFieldsMonthly} errorMessage={errorMessagesMonthly} isOpenMonthly={isOpenMonthly} toggleMonthly={toggleMonthly} />
           {/* Yearly */}
-          <RepeatYearly toggleYearly={toggleYearly} isOpenYearly={isOpenYearly} />
+          <RepeatYearly inputFieldsYearly={inputFieldsYearly} onChangeYearly={onChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} toggleYearly={toggleYearly} isOpenYearly={isOpenYearly} />
         </ModalBody>
         <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
           <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />

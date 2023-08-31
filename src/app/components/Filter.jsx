@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from '@chakra-ui/icons'
 import { Box, Text } from '@chakra-ui/react'
 import colors from '../config/colors'
 import { useState } from 'react'

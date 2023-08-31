@@ -21,6 +21,7 @@ import person from './icons/person.svg'
 import taskNote from './icons/taskNote.svg'
 import noteIcon from './icons/note-icon.svg'
 import chevronUpGreen from './icons/chevron-up-green.svg'
+import warning from './icons/warning.svg'
 
 const assets = {
   background: {},
@@ -41,6 +42,7 @@ const assets = {
     person,
     taskNote,
     noteIcon,
+    warning,
     chevronUpGreen,
   },
   images: {

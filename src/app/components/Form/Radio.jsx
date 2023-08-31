@@ -1,8 +1,8 @@
-const Radio = ({ label, radioContainerStyles }) => {
+const Radio = ({ label, radioContainerStyles, name, id, defaultChecked, onChange, checked }) => {
   return (
     <div className='radio' style={radioContainerStyles}>
-      <input id='radio-1' name='radio' type='radio' />
-      <label htmlFor='radio-1' className='radio-label'>
+      <input id={id} name={name} type='radio' defaultChecked={defaultChecked} checked={checked} onChange={e => onChange(e.target.checked)} />
+      <label htmlFor={id} className='radio-label'>
         {label}
       </label>
     </div>

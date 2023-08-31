@@ -17,6 +17,7 @@ function* fetchActiveCustomers(action) {
   const token = yield select(state => state.auth.token)
   try {
     const response = yield call(customers(token).fetchActiveCustomers)
+    response.data.unshift({ id: 'all', name: 'All' })
     yield put(getActiveCustomersSuccess(response.data))
   } catch (error) {
     yield put(getActiveCustomersFailed({ error }))

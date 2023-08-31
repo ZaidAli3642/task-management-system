@@ -3,9 +3,9 @@ import { Button, Form } from '../../Form'
 import Modal from '../Modal'
 import SelectBox from '../../SelectBox'
 
-const AddResponsible = ({ isOpen, onClose, onAddResponsible, errorMessage, isInvalid, showOption, options, selectedOption, onSelect }) => {
+const AddResponsible = ({ isOpen, onClose, onAddResponsible, errorMessage, isInvalid, showOption, options, selectedOption, onSelect, subHeading }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Add responsible' subHeading={'Capital budgeting'}>
+    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Add responsible' subHeading={subHeading}>
       <Form onSubmit={onAddResponsible} isInvalid={isInvalid}>
         <ModalBody paddingY={0}>
           <SelectBox errorMessage={errorMessage.id} showOption={showOption} width='full' w='100%' label='Responsible' options={options} selectedOption={selectedOption} onSelect={onSelect} />

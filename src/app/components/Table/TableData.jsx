@@ -26,7 +26,7 @@ const TableData = ({ item, columns, isEdit = true, isLastIndex, isFirstIndex, on
             w={'150px'}
             onClick={() => {
               if (user.role === 'admin' && isEdit && column.id === 1) {
-                onCustomerClick()
+                onCustomerClick(item)
               }
             }}
           >

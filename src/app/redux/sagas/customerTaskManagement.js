@@ -1,6 +1,6 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { call, put, select, take, takeEvery } from 'redux-saga/effects'
 import { customerTaskManagement } from '../../api/customerTaskManagement/customerTaskManagement'
-import { addResponsible, addResponsibleFailed, addResponsibleSuccess, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess, filters } from '../reducers/customerTaskManagement/customerTaskManagement'
+import { addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addNoteModal, clearSectionModal, addResponsible, addResponsibleFailed, addResponsibleModal, addResponsibleSuccess, allCustomerFilters, clearSection, editNoteModal, editResponsibleModal, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess, filters, manageRepetition, manageRepetitionError, manageRepetitionSuccess, repeatModal, clearSectionSuccess, clearSectionFailed, bulkAssignFailed, bulkAssignSuccess, bulkAssignModal, bulkAssign, editRepeatModal } from '../reducers/customerTaskManagement/customerTaskManagement'
 
 function* getTaskGroupWithSchedules(action) {
   const token = yield select(state => state.auth.token)
@@ -16,19 +16,140 @@ function* getTaskGroupWithSchedules(action) {
   }
 }
 
+function* getCustomersWithTaskGroups(action) {
+  const token = yield select(state => state.auth.token)
+  const { customerId, selectedTaskGroups, selectedTasks, selectedResponsibles } = action.payload
+  try {
+    const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId, selectedTaskGroups, selectedTasks, selectedResponsibles)
+    yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+    if (!selectedTaskGroups?.length && !selectedTasks?.length && !selectedResponsibles?.length) {
+      yield put(allCustomerFilters(response.data))
+    }
+  } catch (error) {
+    yield put(fetchCustomersWithTaskGroupFailed({ error }))
+  }
+}
+
 function* createResponsible(action) {
   const token = yield select(state => state.auth.token)
-  const { data } = action.payload
-  console.log('Data : ', data)
+  const { data, customerId, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).addResponsible, data)
+    if (response) {
+      if (isCustomerAll) {
+        const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
+        yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+      } else {
+        const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
+        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+      }
+    }
+    yield put(addResponsibleModal(false))
+    yield put(editResponsibleModal(false))
     yield put(addResponsibleSuccess({ data: response.data }))
   } catch (error) {
     yield put(addResponsibleFailed({ error }))
   }
 }
 
+function* manageNotes(action) {
+  const token = yield select(state => state.auth.token)
+  const { data, customerId, isCustomerAll } = action.payload
+  try {
+    const response = yield call(customerTaskManagement(token).addEditRemoveNote, data)
+    if (response) {
+      if (isCustomerAll) {
+        const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
+        yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+      } else {
+        const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
+        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+      }
+    }
+    yield put(addNoteModal(false))
+    yield put(editNoteModal(false))
+    yield put(addEditRemoveNoteSuccess({ data: response.data }))
+  } catch (error) {
+    yield put(addEditRemoveNoteFailed({ error }))
+  }
+}
+
+function* manageRepetitionFunc(action) {
+  const token = yield select(state => state.auth.token)
+  const { data, customerId, isCustomerAll } = action.payload
+  try {
+    const response = yield call(customerTaskManagement(token).manageRepetition, data)
+    if (response) {
+      if (isCustomerAll) {
+        const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
+        yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+      } else {
+        const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
+        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+      }
+    }
+
+    yield put(editRepeatModal(false))
+    yield put(repeatModal(false))
+    yield put(manageRepetitionSuccess({ data: response.data }))
+  } catch (error) {
+    yield put(manageRepetitionError({ error }))
+  }
+}
+
+function* clearSectionTasks(action) {
+  const token = yield select(state => state.auth.token)
+  const { data, customerId, isCustomerAll } = action.payload
+  try {
+    const response = yield call(customerTaskManagement(token).clearSection, data)
+    if (response) {
+      if (isCustomerAll) {
+        const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
+        yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+      } else {
+        const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
+        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+      }
+    }
+    yield put(clearSectionModal(false))
+    yield put(clearSectionSuccess())
+  } catch (error) {
+    yield put(clearSectionFailed({ error }))
+  }
+}
+
+function* bulkAssignFunc(action) {
+  const token = yield select(state => state.auth.token)
+  const { data, customerId, isCustomerAll, inputFieldsSet } = action.payload
+  try {
+    const response = yield call(customerTaskManagement(token).bulkAssign, data)
+    if (response) {
+      if (isCustomerAll) {
+        const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
+        yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+      } else {
+        const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
+        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+      }
+    }
+
+    yield put(bulkAssignSuccess())
+    yield put(bulkAssignModal(false))
+    inputFieldsSet.setInputFieldsNote({ note: '' })
+    inputFieldsSet.setInputFieldsResponsible({ id: '', first_name: '' })
+    inputFieldsSet.setRepetitionType('')
+    inputFieldsSet.setResponsibleSelectedOption(null)
+  } catch (error) {
+    yield put(bulkAssignFailed({ error }))
+  }
+}
+
 export function* customerTaskManagementSaga() {
   yield takeEvery(fetchTaskGroupWithSchedules.type, getTaskGroupWithSchedules)
+  yield takeEvery(fetchCustomersWithTaskGroup.type, getCustomersWithTaskGroups)
   yield takeEvery(addResponsible.type, createResponsible)
+  yield takeEvery(addEditRemoveNote.type, manageNotes)
+  yield takeEvery(manageRepetition.type, manageRepetitionFunc)
+  yield takeEvery(clearSection.type, clearSectionTasks)
+  yield takeEvery(bulkAssign.type, bulkAssignFunc)
 }

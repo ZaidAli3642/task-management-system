@@ -76,9 +76,7 @@ function* editEmplpyee(action) {
 
   try {
     const response = yield call(users(token).editEmployee, updatedData, userId)
-    console.log('response : ', response)
   } catch (error) {
-    console.log('Error : ', error)
     const errors = error?.response?.data?.errors
 
     if (errors) {

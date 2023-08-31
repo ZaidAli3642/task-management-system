@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-const useForm = fields => {
+const useForm = (fields, errorFields) => {
   const [inputFields, setInputFields] = useState(fields)
-  const [errorMessages, setErrorMessages] = useState(fields)
+  const [errorMessages, setErrorMessages] = useState(errorFields || fields)
   const [isInvalid, setIsInvalid] = useState(false)
 
   const onChange = ({ target: { value, name } }) => {
@@ -13,7 +13,7 @@ const useForm = fields => {
 
   const onSubmit = async (schema, func) => {
     try {
-      await schema.validate(inputFields)
+      schema && (await schema.validate(inputFields))
       setIsInvalid(false)
       if (func) func()
 
@@ -21,7 +21,6 @@ const useForm = fields => {
 
       return true
     } catch (error) {
-      console.log('Errorr  : ', error)
       setIsInvalid(true)
       if (error.name === 'ValidationError') setErrorMessages(prevState => ({ ...prevState, [error.path]: error.message }))
     }

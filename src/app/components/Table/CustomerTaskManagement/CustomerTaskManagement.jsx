@@ -8,46 +8,53 @@ import Icon from '../../Icon'
 import colors from '../../../config/colors'
 import { ButtonWithIcon } from '../../Form'
 import Filter from '../../Filter'
+import { repetitionWeeklyDays } from '../../../constants/repetitions'
+import { getDay, getMonthlyRepetition, getWeeklyRepetition, getYearlyRepetition } from '../../../utils/taskManagement'
 
-const repititionType = {
-  weekly: 'week',
-  monthly: 'month',
-  yearly: 'year',
+const repetitionFunc = {
+  weekly: getWeeklyRepetition,
+  monthly: getMonthlyRepetition,
+  yearly: getYearlyRepetition,
 }
 
-const repitetionNo = {
-  weekly: 'repetition_weekly_no',
-  monthly: 'repetition_monthly_no',
-  yearly: 'year',
+const getTaskRepetition = taskRepetition => {
+  let text = ''
+
+  text = repetitionFunc[taskRepetition?.repetition_type](taskRepetition)
+
+  if (!text) return null
+
+  return (
+    <Text paddingBottom={'5px'} borderStyle={'solid'} color={colors.darkGrey} fontWeight={400} fontSize={'14px'} w={'100%'}>
+      {text}
+    </Text>
+  )
 }
 
-const repetitionWeeklyDays = {
-  1: 'Monday',
-  2: 'Tuesday',
-  3: 'Wednesday',
-  4: 'Thursday',
-  5: 'Friday',
-  6: 'Saturday',
-  7: 'Sunday',
-}
+const getWeeklyDays = taskRepetition => {
+  let weeklyDays = ''
 
-const CustomerTaskManagement = ({ data, onSortTaskGroup, onOpenBulkAssign, taskGroups, tasks, onFilter, taskGroupsFilter, tasksFilter, responsibles, responsiblesFilter, onOpenAddResponsible }) => {
-  const getWeeklyDays = weekDaysInNumber => {
-    let weeklyDays = ''
-
-    for (let [index, value] of weekDaysInNumber.entries()) {
-      weeklyDays += index === weekDaysInNumber.length - 1 ? repetitionWeeklyDays[value] : `${repetitionWeeklyDays[value]}, `
+  if (taskRepetition?.repetition_type === 'weekly') {
+    if (!taskRepetition.repetition_weekly_days) return null
+    for (let [index, value] of taskRepetition.repetition_weekly_days.entries() || [].entries()) {
+      weeklyDays += index === taskRepetition.repetition_weekly_days.length - 1 ? repetitionWeeklyDays[value] : `${repetitionWeeklyDays[value]}, `
     }
-
-    if (!weeklyDays) return null
-
-    return (
-      <Text paddingTop={'10px'} paddingX={0} borderStyle={'solid'} color={colors.black} fontWeight={400} fontSize={'14px'} w={'fit-content'}>
-        {weeklyDays}
-      </Text>
-    )
+  } else if (taskRepetition?.repetition_type === 'monthly') {
+    weeklyDays += getDay(taskRepetition?.repetition_monthly_week_day)?.day ?? ''
+  } else {
+    weeklyDays += getDay(taskRepetition?.repetition_yearly_day)?.day ?? ''
   }
 
+  if (!weeklyDays) return null
+
+  return (
+    <Text paddingTop={'10px'} paddingX={0} borderStyle={'solid'} color={colors.black} fontWeight={400} fontSize={'14px'} w={'fit-content'}>
+      {weeklyDays}
+    </Text>
+  )
+}
+
+const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpenBulkAssign, taskGroups, tasks, onFilter, taskGroupsFilter, tasksFilter, responsibles, responsiblesFilter, onOpenAddResponsible, onOpenNoteModal, onOpenRepeat }) => {
   return (
     <TableWrapper>
       <TableHead>
@@ -109,14 +116,14 @@ const CustomerTaskManagement = ({ data, onSortTaskGroup, onOpenBulkAssign, taskG
                   <Text>{taskGroup.name}</Text>
                 </Box>
                 <Box display='none' _groupHover={{ display: 'flex' }}>
-                  <Icon onClick={() => onOpenBulkAssign()} image={assets.icons.taskNote} w='18px' h='20px' />
+                  <Icon onClick={() => onOpenBulkAssign(taskGroup)} image={assets.icons.taskNote} w='18px' h='20px' />
                 </Box>
               </Td>
 
               <Td w={'100%'} paddingLeft={'10px'} paddingY={0} border={0}>
                 {taskGroup.tasks.map((task, index) => (
                   <Box borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
-                    <Box w={'37%'}>
+                    <Box w={'36%'}>
                       <Text paddingY={'15px'} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
                         {task.name}
                       </Text>
@@ -125,26 +132,26 @@ const CustomerTaskManagement = ({ data, onSortTaskGroup, onOpenBulkAssign, taskG
                     <>
                       <Box w={'21%'}>
                         {task.task_item?.responsible ? (
-                          <Text paddingY={'15px'} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
-                            {task.task_item?.responsible?.first_name}
-                          </Text>
+                          <Box onClick={() => onOpenAddResponsible(taskGroup, task, true)} paddingX={'10px'} paddingY={'5px'} borderRadius='5px' role='group' _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen }} cursor={'pointer'} w={'fit-content'}>
+                            <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _groupHover={{ color: colors.darkGreen }} w={'100%'}>
+                              {task.task_item?.responsible?.first_name}
+                            </Text>
+                          </Box>
                         ) : (
                           <ButtonWithIcon title='Add responsible' onClick={() => onOpenAddResponsible(taskGroup, task)} size='small' height='30px' fontSize='14px' fontWeight={600} />
                         )}
                       </Box>
                       <Box w={'21%'}>
                         {task.task_item?.tasks_repetition ? (
-                          <Box display={'flex'} flexDirection={'column'}>
-                            <Box display={'flex'}>{getWeeklyDays(task.task_item?.tasks_repetition?.repetition_weekly_days || [])}</Box>
-                            <Text paddingBottom={'5px'} borderStyle={'solid'} color={colors.darkGrey} fontWeight={400} fontSize={'14px'} w={'100%'}>
-                              Every {task.task_item?.tasks_repetition?.[repitetionNo[task.task_item?.tasks_repetition?.repetition_type]]} {repititionType[task.task_item?.tasks_repetition?.repetition_type]}
-                            </Text>
+                          <Box w={'fit-content'} onClick={() => onOpenEditRepeat(taskGroup, task)} cursor={'pointer'} display={'flex'} flexDirection={'column'}>
+                            <Box display={'flex'}>{getWeeklyDays(task.task_item?.tasks_repetition || {})}</Box>
+                            {getTaskRepetition(task.task_item?.tasks_repetition || {})}
                           </Box>
                         ) : (
-                          <ButtonWithIcon title='Add repetition' size='small' height='30px' fontSize='14px' fontWeight={600} />
+                          <ButtonWithIcon onClick={() => onOpenRepeat(taskGroup, task)} title='Add repetition' size='small' height='30px' fontSize='14px' fontWeight={600} />
                         )}
                       </Box>
-                      <Box w={'21%'}>{task?.task_item?.notes ? <Icon image={assets.icons.noteIcon} w='20px' h='18px' /> : <ButtonWithIcon title='Add note' size='small' height='30px' fontSize='14px' fontWeight={600} />}</Box>
+                      <Box w={'21%'}>{task?.task_item?.notes ? <Icon onClick={() => onOpenNoteModal(taskGroup, task, true)} cursor='pointer' image={assets.icons.noteIcon} w='20px' h='18px' /> : <ButtonWithIcon onClick={() => onOpenNoteModal(taskGroup, task)} title='Add note' size='small' height='30px' fontSize='14px' fontWeight={600} />}</Box>
                     </>
                   </Box>
                 ))}

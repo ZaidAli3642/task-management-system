@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
-import { addTaskGroup, addTaskGroupError, addTaskGroupSuccess, deleteTaskGroup, deleteTaskGroupError, deleteTaskGroupSuccess, fetchTaskGroup, fetchTaskGroupError, fetchTaskGroupSuccess, taskGroupAddModal, editTaskGroup as editTaskGroupAction } from '../reducers/taskGroup/taskGroup'
+import { addTaskGroup, addTaskGroupError, addTaskGroupSuccess, deleteTaskGroup, deleteTaskGroupError, deleteTaskGroupSuccess, fetchTaskGroup, fetchTaskGroupError, fetchTaskGroupSuccess, taskGroupAddModal, editTaskGroup as editTaskGroupAction, editTaskGroupSuccess, editTaskGroupError, taskEditModal } from '../reducers/taskGroup/taskGroup'
 import { taskGroup } from '../../api/taskGroup/taskGroup'
 
 function* getTaskGroup(action) {
@@ -9,7 +9,6 @@ function* getTaskGroup(action) {
     const response = yield call(taskGroup(token).fetchTaskGroups, perPage, page)
     yield put(fetchTaskGroupSuccess(response.data.taskGroups))
   } catch (error) {
-    console.log('error  : ', error)
     yield put(fetchTaskGroupError({ error }))
   }
 }
@@ -51,12 +50,23 @@ function* removeTaskGroup(action) {
 
 function* editTaskGroup(action) {
   const token = yield select(state => state.auth.token)
-  const { updatedTaskGroup, taskGroupId } = action.payload
+  const { updatedTaskGroup, taskGroupId, toast } = action.payload
   try {
     const response = yield call(taskGroup(token).editTaskGroups, updatedTaskGroup, taskGroupId)
-    yield put(deleteTaskGroupSuccess())
+    yield put(editTaskGroupSuccess({ updatedTaskGroup, taskGroupId }))
   } catch (error) {
-    yield put(deleteTaskGroupError({ error }))
+    const errors = error?.response?.data?.errors
+    if (errors) {
+      action.payload.toast({
+        title: 'Task group failed',
+        description: errors.name[0],
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    } else {
+      yield put(editTaskGroupError({ error }))
+    }
   }
 }
 

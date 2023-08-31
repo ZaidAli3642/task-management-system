@@ -82,16 +82,16 @@ const taskGroupSlice = createSlice({
     editTaskGroup: (state, action) => {
       state.loading = true
       state.error = null
+    },
+    editTaskGroupSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
       const { taskGroupId, updatedTaskGroup } = action.payload
       const taskGroup = [...state.taskGroupsAndTasks]
       const index = state.taskGroupsAndTasks.findIndex(taskGroup => taskGroup.uuid === taskGroupId)
       taskGroup[index] = { ...taskGroup[index], name: updatedTaskGroup.name }
 
       state.taskGroupsAndTasks = taskGroup
-    },
-    editTaskGroupSuccess: (state, action) => {
-      state.loading = false
-      state.error = null
     },
     editTaskGroupError: (state, action) => {
       state.loading = false

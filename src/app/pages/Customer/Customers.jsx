@@ -62,7 +62,15 @@ const Customers = () => {
       </Box>
       {customersData.length > 0 && (
         <Box mx='30px' mb='20px'>
-          <Table onCustomerClick={() => navigate('/customers/task-management')} setEmployeeId={setEmployeeId} columns={customerColumns} data={customersData} onOpenEditModal={openEditModal} />
+          <Table
+            onCustomerClick={item => {
+              navigate('/customers/task-management', { state: { customerData: item } })
+            }}
+            setEmployeeId={setEmployeeId}
+            columns={customerColumns}
+            data={customersData}
+            onOpenEditModal={openEditModal}
+          />
         </Box>
       )}
       <AddCustomer isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isCustomerAddModal} onClose={() => dispatch(customerAddModal(false))} onAddCustomer={() => onSubmitForm()} />
