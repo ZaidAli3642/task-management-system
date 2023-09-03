@@ -22,10 +22,15 @@ import taskNote from './icons/taskNote.svg'
 import noteIcon from './icons/note-icon.svg'
 import chevronUpGreen from './icons/chevron-up-green.svg'
 import warning from './icons/warning.svg'
+import personBlack from './icons/personBlack.svg'
+import chevronLeftGreen from './icons/chevronLeftGreen.svg'
+import chevronRightGreen from './icons/chevronRightGreen.svg'
+import chevronDown from './icons/chevronDown.svg'
 
 const assets = {
   background: {},
   icons: {
+    chevronDown,
     book,
     bookHovered,
     info,
@@ -44,6 +49,9 @@ const assets = {
     noteIcon,
     warning,
     chevronUpGreen,
+    personBlack,
+    chevronRightGreen,
+    chevronLeftGreen,
   },
   images: {
     logo,

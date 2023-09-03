@@ -12,28 +12,36 @@ import assets from '../../assets/assets'
 import employeeCustomerBreadcrumb from './employeeCustomerBreadcrumb'
 import DropDown from '../../components/DropDown'
 import { employeeCustomerFetch } from '../../redux/reducers/employeeCustomer/employeeCustomer'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const EmployeeCustomer = () => {
   const toast = useToast()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const user = useSelector(state => state.auth.userInfo)
+  const { state } = useLocation()
   const employeeData = useSelector(state => state.employees.employeeData)
   const employeeCustomerData = useSelector(state => state.employeeCustomer.employeeCustomerData)
   const [perPage, setPerPage] = useState(10)
   const [page, setPage] = useState(1)
   const [employeeId, setEmployeeId] = useState('')
   const [selectedEmployeeOption, setSelectedEmployeeOption] = useState('')
+  const [selectedEmployeeData, setSelectedEmployeeData] = useState(null)
 
   const selectedEmployee = employee => {
+    setSelectedEmployeeData(employee)
     setSelectedEmployeeOption(employee.first_name)
     dispatch(employeeCustomerFetch({ perPage, page, employeeId: employee.id }))
   }
 
   useEffect(() => {
     dispatch(employeeFetch({ perPage, page }))
-  }, [perPage, page])
+  }, [])
+
+  useEffect(() => {
+    if (state?.employeeData) {
+      selectedEmployee(state?.employeeData)
+    }
+  }, [])
 
   return (
     <>
@@ -43,7 +51,24 @@ const EmployeeCustomer = () => {
           <DropDown label={selectedEmployeeOption || 'Select'} optionKey={'first_name'} data={employeeData} onSelectItem={selectedEmployee} />
         </Box>
       </Box>
-      <Box mx='30px'>{employeeCustomerData.length > 0 && <Table isEdit={false} setEmployeeId={setEmployeeId} columns={employeeColumns} data={employeeCustomerData} />}</Box>
+      <Box mx='30px'>
+        {employeeCustomerData.length > 0 && (
+          <Table
+            onClickItem={item => {
+              navigate('/employees/task-management', {
+                state: {
+                  customerData: item,
+                  employeeData: selectedEmployeeData,
+                },
+              })
+            }}
+            isEdit={false}
+            setEmployeeId={setEmployeeId}
+            columns={employeeColumns}
+            data={employeeCustomerData}
+          />
+        )}
+      </Box>
     </>
   )
 }

@@ -122,7 +122,7 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
 
               <Td w={'100%'} paddingLeft={'10px'} paddingY={0} border={0}>
                 {taskGroup.tasks.map((task, index) => (
-                  <Box borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
+                  <Box role='group' cursor={'pointer'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
                     <Box w={'36%'}>
                       <Text paddingY={'15px'} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
                         {task.name}
@@ -133,12 +133,12 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
                       <Box w={'21%'}>
                         {task.task_item?.responsible ? (
                           <Box onClick={() => onOpenAddResponsible(taskGroup, task, true)} paddingX={'10px'} paddingY={'5px'} borderRadius='5px' role='group' _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen }} cursor={'pointer'} w={'fit-content'}>
-                            <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _groupHover={{ color: colors.darkGreen }} w={'100%'}>
+                            <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _hover={{ color: colors.darkGreen }} w={'100%'}>
                               {task.task_item?.responsible?.first_name}
                             </Text>
                           </Box>
                         ) : (
-                          <ButtonWithIcon title='Add responsible' onClick={() => onOpenAddResponsible(taskGroup, task)} size='small' height='30px' fontSize='14px' fontWeight={600} />
+                          <ButtonWithIcon display='none' _groupHover={{ display: 'block' }} title='Add responsible' onClick={() => onOpenAddResponsible(taskGroup, task)} size='small' height='30px' fontSize='14px' fontWeight={600} />
                         )}
                       </Box>
                       <Box w={'21%'}>
@@ -148,10 +148,10 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
                             {getTaskRepetition(task.task_item?.tasks_repetition || {})}
                           </Box>
                         ) : (
-                          <ButtonWithIcon onClick={() => onOpenRepeat(taskGroup, task)} title='Add repetition' size='small' height='30px' fontSize='14px' fontWeight={600} />
+                          <ButtonWithIcon display='none' _groupHover={{ display: 'block' }} onClick={() => onOpenRepeat(taskGroup, task)} title='Add repetition' size='small' height='30px' fontSize='14px' fontWeight={600} />
                         )}
                       </Box>
-                      <Box w={'21%'}>{task?.task_item?.notes ? <Icon onClick={() => onOpenNoteModal(taskGroup, task, true)} cursor='pointer' image={assets.icons.noteIcon} w='20px' h='18px' /> : <ButtonWithIcon onClick={() => onOpenNoteModal(taskGroup, task)} title='Add note' size='small' height='30px' fontSize='14px' fontWeight={600} />}</Box>
+                      <Box w={'21%'}>{task?.task_item?.notes ? <Icon onClick={() => onOpenNoteModal(taskGroup, task, true)} cursor='pointer' image={assets.icons.noteIcon} w='20px' h='18px' /> : <ButtonWithIcon display='none' _groupHover={{ display: 'block' }} onClick={() => onOpenNoteModal(taskGroup, task)} title='Add note' size='small' height='30px' fontSize='14px' fontWeight={600} />}</Box>
                     </>
                   </Box>
                 ))}

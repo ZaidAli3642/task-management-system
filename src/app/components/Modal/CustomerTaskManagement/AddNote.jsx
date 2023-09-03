@@ -2,9 +2,9 @@ import { ModalBody, ModalFooter } from '@chakra-ui/react'
 import { Button, Form, Input } from '../../Form'
 import Modal from '../Modal'
 
-const AddNote = ({ isOpen, onClose, onAddNote, errorMessage, onChangeInput, isInvalid }) => {
+const AddNote = ({ isOpen, onClose, onAddNote, errorMessage, onChangeInput, isInvalid, subHeading }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Add note' subHeading={'Capital budgeting'}>
+    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Add note' subHeading={subHeading}>
       <Form onSubmit={onAddNote} isInvalid={isInvalid}>
         <ModalBody paddingY={0}>
           <Input textArea errorMessage={errorMessage.note} onChange={onChangeInput} label='Note' name='note' placeholder='Enter note' marginX={0} />

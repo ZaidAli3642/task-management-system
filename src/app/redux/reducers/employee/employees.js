@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   employeeData: [],
   activeEmployees: [],
+  customersAssignedTask: {},
   employeeAddModal: false,
   employeeDeleteModal: false,
   employeeEditModal: false,
@@ -93,16 +94,29 @@ const employeesSlice = createSlice({
       state.error = null
     },
     activeEmployeeFetchSuccess: (state, action) => {
-      state.loading = true
+      state.loading = false
       state.error = null
       state.activeEmployees = action.payload
     },
     activeEmployeeFetchFailed: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
+    fetchCustomersAssignedTask: (state, action) => {
       state.loading = true
+      state.error = null
+    },
+    fetchCustomersAssignedTaskSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+      state.customersAssignedTask = action.payload
+    },
+    fetchCustomersAssignedTaskFailed: (state, action) => {
+      state.loading = false
       state.error = action.payload.error
     },
   },
 })
 
 export default employeesSlice.reducer
-export const { activeEmployeeFetch, activeEmployeeFetchFailed, activeEmployeeFetchSuccess, employeeAddModal, employeeDeleteModal, employeeEditModal, employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeDeleteSuccess, employeeEdit, employeeEditFailed, employeeEditSuccess, employeeFetch, employeesDataSet, employeeFetchFailed } = employeesSlice.actions
+export const { fetchCustomersAssignedTask, fetchCustomersAssignedTaskFailed, fetchCustomersAssignedTaskSuccess, activeEmployeeFetch, activeEmployeeFetchFailed, activeEmployeeFetchSuccess, employeeAddModal, employeeDeleteModal, employeeEditModal, employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeDeleteSuccess, employeeEdit, employeeEditFailed, employeeEditSuccess, employeeFetch, employeesDataSet, employeeFetchFailed } = employeesSlice.actions

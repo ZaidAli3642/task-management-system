@@ -9,6 +9,7 @@ import Customers from './pages/Customer/Customers'
 import CustomerTaskManagement from './pages/CustomerTaskManagement/CustomerTaskManagement'
 import Task from './pages/Task/Task'
 import EmployeeCustomer from './pages/EmployeeCustomer/EmployeeCustomer'
+import EmployeeTaskManagement from './pages/EmployeeTaskManagement/EmployeeTaskManagement'
 
 const Root = () => {
   return (
@@ -20,6 +21,7 @@ const Root = () => {
       <Route element={<ProtectedRoutes />}>
         <Route path='/employees' element={<Employees />} />
         <Route path='/employees/customers' element={<EmployeeCustomer />} />
+        <Route path='/employees/task-management' element={<EmployeeTaskManagement />} />
         <Route path='/customers' element={<Customers />} />
         <Route path='/customers/task-management' element={<CustomerTaskManagement />} />
         <Route path='/tasks' element={<Task />} />

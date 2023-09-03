@@ -6,9 +6,9 @@ export const customers = authToken => {
   }
 
   return {
-    fetchCustomers: async (perPage, page) => {
+    fetchCustomersForAdmin: async (perPage, page) => {
       try {
-        const response = await apiClient.get(`/customers?per_page=${perPage}&page=${page}&timestamp=${Date.now()}`, { headers })
+        const response = await apiClient.get(`/counts_data/get_tasks_count_for_customers?timestamp=${Date.now()}`, { headers })
         return response
       } catch (error) {
         throw error

@@ -1,13 +1,17 @@
 import { call, put, select, take, takeEvery } from 'redux-saga/effects'
 import { customerTaskManagement } from '../../api/customerTaskManagement/customerTaskManagement'
-import { addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addNoteModal, clearSectionModal, addResponsible, addResponsibleFailed, addResponsibleModal, addResponsibleSuccess, allCustomerFilters, clearSection, editNoteModal, editResponsibleModal, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess, filters, manageRepetition, manageRepetitionError, manageRepetitionSuccess, repeatModal, clearSectionSuccess, clearSectionFailed, bulkAssignFailed, bulkAssignSuccess, bulkAssignModal, bulkAssign, editRepeatModal } from '../reducers/customerTaskManagement/customerTaskManagement'
+import { addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addNoteModal, clearSectionModal, addResponsible, addResponsibleFailed, addResponsibleModal, addResponsibleSuccess, allCustomerFilters, clearSection, editNoteModal, editResponsibleModal, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess, filters, manageRepetition, manageRepetitionError, manageRepetitionSuccess, repeatModal, clearSectionSuccess, clearSectionFailed, bulkAssignFailed, bulkAssignSuccess, bulkAssignModal, bulkAssign, editRepeatModal, setPageCount } from '../reducers/customerTaskManagement/customerTaskManagement'
 
 function* getTaskGroupWithSchedules(action) {
   const token = yield select(state => state.auth.token)
-  const { customerId, selectedTaskGroups, selectedTasks, selectedResponsibles } = action.payload
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
+  const { customerId, selectedTaskGroups, selectedTasks, selectedResponsibles, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId, selectedTaskGroups, selectedTasks, selectedResponsibles)
     yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+    yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
+
     if (!selectedTaskGroups?.length && !selectedTasks?.length && !selectedResponsibles?.length) {
       yield put(filters(response.data))
     }
@@ -18,10 +22,13 @@ function* getTaskGroupWithSchedules(action) {
 
 function* getCustomersWithTaskGroups(action) {
   const token = yield select(state => state.auth.token)
-  const { customerId, selectedTaskGroups, selectedTasks, selectedResponsibles } = action.payload
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
+  const { customerId, selectedTaskGroups, selectedTasks, selectedResponsibles, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId, selectedTaskGroups, selectedTasks, selectedResponsibles)
     yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+    yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
     if (!selectedTaskGroups?.length && !selectedTasks?.length && !selectedResponsibles?.length) {
       yield put(allCustomerFilters(response.data))
     }
@@ -32,6 +39,8 @@ function* getCustomersWithTaskGroups(action) {
 
 function* createResponsible(action) {
   const token = yield select(state => state.auth.token)
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
   const { data, customerId, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).addResponsible, data)
@@ -39,9 +48,11 @@ function* createResponsible(action) {
       if (isCustomerAll) {
         const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
         yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
         yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
     yield put(addResponsibleModal(false))
@@ -54,6 +65,7 @@ function* createResponsible(action) {
 
 function* manageNotes(action) {
   const token = yield select(state => state.auth.token)
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
   const { data, customerId, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).addEditRemoveNote, data)
@@ -61,9 +73,11 @@ function* manageNotes(action) {
       if (isCustomerAll) {
         const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
         yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
         yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
     yield put(addNoteModal(false))
@@ -76,6 +90,8 @@ function* manageNotes(action) {
 
 function* manageRepetitionFunc(action) {
   const token = yield select(state => state.auth.token)
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
   const { data, customerId, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).manageRepetition, data)
@@ -83,9 +99,11 @@ function* manageRepetitionFunc(action) {
       if (isCustomerAll) {
         const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
         yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
         yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
 
@@ -99,6 +117,8 @@ function* manageRepetitionFunc(action) {
 
 function* clearSectionTasks(action) {
   const token = yield select(state => state.auth.token)
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
   const { data, customerId, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).clearSection, data)
@@ -106,9 +126,11 @@ function* clearSectionTasks(action) {
       if (isCustomerAll) {
         const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
         yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
         yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
     yield put(clearSectionModal(false))
@@ -120,6 +142,8 @@ function* clearSectionTasks(action) {
 
 function* bulkAssignFunc(action) {
   const token = yield select(state => state.auth.token)
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
   const { data, customerId, isCustomerAll, inputFieldsSet } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).bulkAssign, data)
@@ -127,9 +151,11 @@ function* bulkAssignFunc(action) {
       if (isCustomerAll) {
         const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
         yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
         yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
 

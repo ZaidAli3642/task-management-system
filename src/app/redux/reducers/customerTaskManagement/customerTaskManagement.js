@@ -3,7 +3,9 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   loading: false,
   taskGroupWithSchedules: [],
+  perPageTaskGroupWithSchedules: [],
   customersWithTaskGroup: [],
+  perPageCustomersWithTaskGroup: [],
   taskGroups: [],
   tasks: [],
   responsibles: [],
@@ -16,13 +18,52 @@ const initialState = {
   editNoteModal: false,
   repeatModal: false,
   editRepeatModal: false,
+  clientInfoModal: false,
+  clientInfo: {},
   error: null,
+  perPage: 10,
+  pageCount: 10,
+  pageNo: 0,
 }
 
 const customerTaskManagementSlice = createSlice({
   name: 'customerTaskManagement',
   initialState: initialState,
   reducers: {
+    clientInfo: (state, action) => {
+      const { clientInfo } = action.payload
+      state.clientInfo = clientInfo
+    },
+    clientInfoModal: (state, action) => {
+      state.clientInfoModal = action.payload
+    },
+    setPageNo: (state, action) => {
+      const { pageNo } = action.payload
+      state.pageNo = pageNo
+    },
+    setPerPage: (state, action) => {
+      const { perPage, isCustomerAll } = action.payload
+      state.perPage = perPage
+      state.pageCount = Math.ceil(isCustomerAll ? state.customersWithTaskGroup.length : state.taskGroupWithSchedules.length / perPage)
+
+      if (isCustomerAll) {
+        state.perPageCustomersWithTaskGroup = state.customersWithTaskGroup.slice(0, perPage + 1)
+      } else {
+        state.perPageTaskGroupWithSchedules = state.taskGroupWithSchedules.slice(0, perPage + 1)
+      }
+    },
+    setPageCount: (state, action) => {
+      const { pageNo, isCustomerAll } = action.payload
+      state.pageCount = Math.ceil(isCustomerAll ? state.customersWithTaskGroup.length : state.taskGroupWithSchedules.length / state.perPage)
+      let start = pageNo * state.perPage
+      let end = (pageNo + 1) * state.perPage
+
+      if (isCustomerAll) {
+        state.perPageCustomersWithTaskGroup = state.customersWithTaskGroup.slice(start, end)
+      } else {
+        state.perPageTaskGroupWithSchedules = state.taskGroupWithSchedules.slice(start, end)
+      }
+    },
     fetchTaskGroupWithSchedules: (state, action) => {
       state.loading = true
       state.error = null
@@ -175,4 +216,4 @@ const customerTaskManagementSlice = createSlice({
 })
 
 export default customerTaskManagementSlice.reducer
-export const { bulkAssign, bulkAssignFailed, bulkAssignSuccess, clearSection, clearSectionFailed, clearSectionSuccess, manageRepetition, manageRepetitionError, manageRepetitionSuccess, allCustomerFilters, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addResponsible, addResponsibleFailed, addResponsibleSuccess, filters, addNoteModal, addResponsibleModal, bulkAssignEditModal, bulkAssignModal, clearSectionModal, editNoteModal, editRepeatModal, editResponsibleModal, repeatModal, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess } = customerTaskManagementSlice.actions
+export const { clientInfo, clientInfoModal, setPageNo, setPageCount, setPerPage, bulkAssign, bulkAssignFailed, bulkAssignSuccess, clearSection, clearSectionFailed, clearSectionSuccess, manageRepetition, manageRepetitionError, manageRepetitionSuccess, allCustomerFilters, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addResponsible, addResponsibleFailed, addResponsibleSuccess, filters, addNoteModal, addResponsibleModal, bulkAssignEditModal, bulkAssignModal, clearSectionModal, editNoteModal, editRepeatModal, editResponsibleModal, repeatModal, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess } = customerTaskManagementSlice.actions

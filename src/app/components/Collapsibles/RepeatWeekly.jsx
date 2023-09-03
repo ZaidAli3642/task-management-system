@@ -15,8 +15,6 @@ const weekDays2 = [
 ]
 
 const RepeatWeekly = ({ repetitionWeeklyDays, toggleWeekly, isOpenWeekly, errorMessage, onChange, inputFieldsWeekly }) => {
-  console.log('Weekly days : ', repetitionWeeklyDays)
-
   return (
     <Box marginY={'20px'} w={'full'}>
       <Box mt={'10px'} display='flex' alignItems='center' justifyContent={'space-between'}>

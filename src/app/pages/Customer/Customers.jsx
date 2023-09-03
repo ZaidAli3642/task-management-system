@@ -63,7 +63,7 @@ const Customers = () => {
       {customersData.length > 0 && (
         <Box mx='30px' mb='20px'>
           <Table
-            onCustomerClick={item => {
+            onClickItem={item => {
               navigate('/customers/task-management', { state: { customerData: item } })
             }}
             setEmployeeId={setEmployeeId}

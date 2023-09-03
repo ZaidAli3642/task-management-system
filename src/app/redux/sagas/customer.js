@@ -6,7 +6,7 @@ function* fetchCustomers(action) {
   const token = yield select(state => state.auth.token)
   const { perPage, page } = action.payload
   try {
-    const response = yield call(customers(token).fetchCustomers, perPage, page)
+    const response = yield call(customers(token).fetchCustomersForAdmin, perPage, page)
     yield put(customerFetchSuccess(response.data.data))
   } catch (error) {
     yield put(customerFetchFailed({ error }))

@@ -40,12 +40,9 @@ export const customerTaskManagement = authToken => {
     },
     manageRepetition: async data => {
       try {
-        console.log('data : ', data)
         const response = await apiClient.post(`/customers_task_management/manage_repetition`, data, { headers })
-        console.log('Response call : ', response)
         return response
       } catch (error) {
-        console.log('Error : ', error)
         throw error
       }
     },
@@ -60,10 +57,8 @@ export const customerTaskManagement = authToken => {
     bulkAssign: async data => {
       try {
         const response = await apiClient.post(`/customers_task_management/assign_bulk`, data, { headers })
-        console.log('Bulk assign : ', response)
         return response
       } catch (error) {
-        console.log('Bulk assign Error: ', error)
         throw error
       }
     },

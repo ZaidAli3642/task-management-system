@@ -6,6 +6,7 @@ import customers from './reducers/customer/customer'
 import taskGroup from './reducers/taskGroup/taskGroup'
 import employeeCustomer from './reducers/employeeCustomer/employeeCustomer'
 import customerTaskManagement from './reducers/customerTaskManagement/customerTaskManagement'
+import employeeTaskManagement from './reducers/employeeTaskManagement/employeeTaskManagement'
 
 export default combineReducers({
   auth,
@@ -14,4 +15,5 @@ export default combineReducers({
   taskGroup,
   employeeCustomer,
   customerTaskManagement,
+  employeeTaskManagement,
 })

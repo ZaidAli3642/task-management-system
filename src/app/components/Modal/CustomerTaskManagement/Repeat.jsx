@@ -6,7 +6,7 @@ import RepeatMonthly from '../../Collapsibles/RepeatMonthly'
 import RepeatWeekly from '../../Collapsibles/RepeatWeekly'
 import RepeatYearly from '../../Collapsibles/RepeatYearly'
 
-const Repeat = ({ inputFieldsYearly, onChangeYearly, setYearlyRadio, yearlyRadio, monthlyRadio, isOpen, onClose, onSaveRepetition, errorMessagesWeekly, onChangeWeekly, onChangeMonthly, isInvalid, inputFieldsWeekly, errorMessagesMonthly, inputFieldsMonthly, setMonthlyRadio, setRepetitionType }) => {
+const Repeat = ({ subHeading, inputFieldsYearly, onChangeYearly, setYearlyRadio, yearlyRadio, monthlyRadio, isOpen, onClose, onSaveRepetition, errorMessagesWeekly, onChangeWeekly, onChangeMonthly, isInvalid, inputFieldsWeekly, errorMessagesMonthly, inputFieldsMonthly, setMonthlyRadio, setRepetitionType }) => {
   const [isOpenWeekly, setIsOpenWeekly] = useState(false)
   const [isOpenMonthly, setIsOpenMonthly] = useState(false)
   const [isOpenYearly, setIsOpenYearly] = useState(false)
@@ -33,7 +33,7 @@ const Repeat = ({ inputFieldsYearly, onChangeYearly, setYearlyRadio, yearlyRadio
   }
 
   return (
-    <Modal minW={'fit-content'} isOpen={isOpen} onClose={onClose} modalHeading='Repeat' subHeading={'Capital budgeting'}>
+    <Modal minW={'fit-content'} isOpen={isOpen} onClose={onClose} modalHeading='Repeat' subHeading={subHeading}>
       <Form onSubmit={onSaveRepetition} isInvalid={isInvalid}>
         <ModalBody paddingY={0}>
           {/* Weekly */}

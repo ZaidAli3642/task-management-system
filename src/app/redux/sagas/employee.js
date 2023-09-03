@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
-import { activeEmployeeFetch, activeEmployeeFetchFailed, activeEmployeeFetchSuccess, employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeEdit, employeeEditFailed, employeeFetch, employeeFetchFailed, employeesDataSet } from '../reducers/employee/employees'
+import { activeEmployeeFetch, activeEmployeeFetchFailed, activeEmployeeFetchSuccess, employeeAdd, employeeAddFailed, employeeAddSuccess, employeeDelete, employeeDeleteFailed, employeeEdit, employeeEditFailed, employeeFetch, employeeFetchFailed, employeesDataSet, fetchCustomersAssignedTask, fetchCustomersAssignedTaskFailed, fetchCustomersAssignedTaskSuccess } from '../reducers/employee/employees'
 import { users } from '../../api/users/users'
 import _ from 'lodash'
 
@@ -8,10 +8,21 @@ function* fetchEmplpyee(action) {
   const { perPage, page } = action.payload
   try {
     const response = yield call(users(token).fetchUsers, perPage, page)
-    const employeeData = _.orderBy(response.data.data, ['first_name'], 'asc')
+    const employeeData = _.orderBy(response.data, ['first_name'], 'asc')
     yield put(employeesDataSet(employeeData))
   } catch (error) {
     yield put(employeeFetchFailed({ error }))
+  }
+}
+
+function* getCustomersAssignedTask(action) {
+  const token = yield select(state => state.auth.token)
+  try {
+    const response = yield call(users(token).fetchCustomersAssignedTask)
+    response.data.first_name = 'Customers'
+    yield put(fetchCustomersAssignedTaskSuccess(response.data))
+  } catch (error) {
+    yield put(fetchCustomersAssignedTaskFailed({ error }))
   }
 }
 
@@ -99,4 +110,5 @@ export function* employeeSaga() {
   yield takeEvery(employeeEdit.type, editEmplpyee)
   yield takeEvery(employeeFetch.type, fetchEmplpyee)
   yield takeEvery(activeEmployeeFetch.type, fetchActiveEmplpyees)
+  yield takeEvery(fetchCustomersAssignedTask.type, getCustomersAssignedTask)
 }

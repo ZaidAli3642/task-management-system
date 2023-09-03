@@ -8,7 +8,17 @@ export const users = authToken => {
   return {
     fetchUsers: async (perPage, page) => {
       try {
-        const response = await apiClient.get(`/users?per_page=${perPage}&page=${page}&timestamp=${Date.now()}`, { headers })
+        const response = await apiClient.get(`/counts_data/get_tasks_count_for_all_employees?timestamp=${Date.now()}`, { headers })
+
+        return response
+      } catch (error) {
+        throw error
+      }
+    },
+    fetchCustomersAssignedTask: async (perPage, page) => {
+      try {
+        const response = await apiClient.get(`/counts_data/get_customers_assigned_tasks?timestamp=${Date.now()}`, { headers })
+
         return response
       } catch (error) {
         throw error

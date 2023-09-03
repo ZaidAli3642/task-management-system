@@ -155,6 +155,30 @@ body {
   margin-right: 0;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+.pagination-container .page-classname {
+  margin: 10px;
+  font-weight: 400;
+  font-size: 14px;
+}
+.pagination-container .active-classname {
+  background-color: #1ba076;
+  color: #ffffff;
+  padding: 5px 13px;
+  border-radius: 5px;
+}
+.pagination-container .disabled-prev-next {
+  color: rgba(27, 27, 26, 0.5);
+}
+.pagination-container .prev-classname {
+  margin-right: 10px;
+}
+
 .login {
   height: 100vh;
   width: 100%;

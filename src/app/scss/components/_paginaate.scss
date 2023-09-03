@@ -1,0 +1,30 @@
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+
+  .page-classname {
+    margin: 10px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .active-classname {
+    background-color: $dark-green;
+    color: $white;
+    padding: 5px 13px;
+    border-radius: 5px;
+  }
+
+  .disabled-prev-next {
+    color: rgba(27, 27, 26, 0.5);
+  }
+
+  .next-classname {
+  }
+
+  .prev-classname {
+    margin-right: 10px;
+  }
+}

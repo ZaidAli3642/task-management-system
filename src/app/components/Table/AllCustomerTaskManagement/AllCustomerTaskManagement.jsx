@@ -10,6 +10,8 @@ import { ButtonWithIcon } from '../../Form'
 import Filter from '../../Filter'
 import { repetitionWeeklyDays } from '../../../constants/repetitions'
 import { getDay, getMonthlyRepetition, getWeeklyRepetition, getYearlyRepetition } from '../../../utils/taskManagement'
+import { useDispatch } from 'react-redux'
+import { clientInfo, clientInfoModal } from '../../../redux/reducers/customerTaskManagement/customerTaskManagement'
 
 const repetitionFunc = {
   weekly: getWeeklyRepetition,
@@ -55,6 +57,8 @@ const getWeeklyDays = taskRepetition => {
 }
 
 const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRepeat, setCustomer, data, onSortTaskGroup, onOpenBulkAssign, taskGroups, tasks, onFilter, taskGroupsFilter, tasksFilter, responsibles, responsiblesFilter, onOpenAddResponsible, onOpenNoteModal }) => {
+  const dispatch = useDispatch()
+
   return (
     <TableWrapper>
       <TableHead>
@@ -122,7 +126,19 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
             <TableRow key={index} alignItems={'flex-start'} borderBottom={data.length - 1 === index ? 0 : 1}>
               <Td paddingLeft={'20px'} w={'17%'} fontWeight={600} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} fontSize={'14px'} border={0}>
                 <Text>{customer.name}</Text>
-                <Icon display='flex' justifyContent='center' alignItems='center' marginLeft='5px' image={assets.icons.warning} w='18px' h='20px' />
+                <Icon
+                  onClick={() => {
+                    dispatch(clientInfo({ clientInfo: { code: customer.code, name: customer.name, description: customer.description } }))
+                    dispatch(clientInfoModal(true))
+                  }}
+                  display='flex'
+                  justifyContent='center'
+                  alignItems='center'
+                  marginLeft='5px'
+                  image={assets.icons.warning}
+                  w='18px'
+                  h='20px'
+                />
               </Td>
               <Td paddingLeft={'15px'} paddingY={'5px'} w={'100%'} h={'fit-content'} fontWeight={600} display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
                 {customer.taskGroups.map((taskGroup, index) => (
@@ -147,7 +163,7 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
 
                       <Td w={'100%'} paddingLeft={'10px'} paddingY={0} border={0}>
                         {taskGroup.tasks.map((task, index) => (
-                          <Box borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
+                          <Box role='group' cursor={'pointer'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
                             <Box paddingLeft={'10px'} w={'40%'}>
                               <Text paddingY={'15px'} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
                                 {task.name}
@@ -170,12 +186,14 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                                     cursor={'pointer'}
                                     w={'fit-content'}
                                   >
-                                    <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _groupHover={{ color: colors.darkGreen }} w={'100%'}>
+                                    <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _hover={{ color: colors.darkGreen }} w={'100%'}>
                                       {task.task_item?.responsible?.first_name}
                                     </Text>
                                   </Box>
                                 ) : (
                                   <ButtonWithIcon
+                                    display='none'
+                                    _groupHover={{ display: 'block' }}
                                     title='Add responsible'
                                     onClick={() => {
                                       setCustomer(customer)
@@ -205,6 +223,8 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                                   </Box>
                                 ) : (
                                   <ButtonWithIcon
+                                    display='none'
+                                    _groupHover={{ display: 'block' }}
                                     title='Add repetition'
                                     onClick={() => {
                                       setCustomer(customer)
@@ -232,6 +252,8 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                                   />
                                 ) : (
                                   <ButtonWithIcon
+                                    display='none'
+                                    _groupHover={{ display: 'block' }}
                                     onClick={() => {
                                       setCustomer(customer)
                                       onOpenNoteModal(taskGroup, task)
