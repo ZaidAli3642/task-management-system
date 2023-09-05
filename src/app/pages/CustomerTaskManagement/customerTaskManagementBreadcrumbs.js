@@ -5,6 +5,7 @@ const customerTaskManagementBreadcrumbs = [
     id: 1,
     title: 'Customers',
     icon: assets.icons.blackBag,
+    path: '/customers',
   },
   {
     id: 2,

@@ -24,20 +24,29 @@ const EmployeeTaskManagement = () => {
   const [pageNo, setPageNo] = useState(0)
   const [sortOrderTimestamp, setSortOrderTimestamp] = useState('desc')
   const [selectedYear, setSelectedYear] = useState(moment().year())
+  const [weekNumber, setWeekNumber] = useState(null)
   const solvedUnSolvedFilters = [
     { id: 1, value: 'solved', name: 'Solved' },
     { id: 3, value: 'unsolved', name: 'Unsolved' },
   ]
-  const [filters, filterIds, onChangeFilters] = useFilter({
+  const [filters, filterIds, onChangeFilters, onClearKeyValues] = useFilter({
     week: [],
     taskGroup: [],
     task: [],
     solvedUnsolved: [],
   })
-  const allWeeksInYear = useMemo(() => generateWeeksInYear(selectedYear), [selectedYear])
+  const allWeeksInYear = useMemo(() => {
+    const allWeeks = generateWeeksInYear(selectedYear)
+    const weekNo = moment().week()
+    const currentWeek = allWeeks.find(week => week.week === weekNo)
+    setWeekNumber(weekNo)
+    setFilters(currentWeek, true, 'week')
+    localStorage.setItem('weekNo', weekNo)
+    return allWeeks
+  }, [selectedYear])
 
-  const setFilters = (data, checked, key) => {
-    onChangeFilters({ target: { key, checked, value: data } })
+  function setFilters(data, checked, key, isPreviousRemove = false) {
+    onChangeFilters({ target: { key, checked, value: data, isPreviousRemove } })
   }
 
   const changeSortingOrder = (order, onChangeOrder) => {
@@ -112,7 +121,7 @@ const EmployeeTaskManagement = () => {
     dispatch(fetchAllEmployees())
     dispatch(fetchAllCustomers())
     if (state?.employeeData && state?.customerData) {
-      fetchTaskData(state?.employeeData.id, state?.customerData.id, { ...filterIds, year: selectedYear })
+      fetchTaskData(state?.employeeData.id, state?.customerData.id, { ...filterIds, year: selectedYear, weekNumber })
       setSelectedEmployee(state.employeeData)
       setSelectedCustomer(state.customerData)
     }
@@ -120,10 +129,10 @@ const EmployeeTaskManagement = () => {
 
   useEffect(() => {
     if (!selectedCustomer?.id && selectedEmployee) {
-      return fetchTaskDataAllCustomer(selectedEmployee?.id, { ...filterIds, year: selectedYear }, pageNo)
+      return fetchTaskDataAllCustomer(selectedEmployee?.id, { ...filterIds, year: selectedYear, weekNumber }, pageNo)
     }
 
-    fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear })
+    fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear, weekNumber })
   }, [selectedCustomer, selectedEmployee, filters])
 
   return (
@@ -134,7 +143,7 @@ const EmployeeTaskManagement = () => {
         <DropDown label={selectedCustomer?.name || 'Select'} data={allCustomers || []} optionKey='name' onSelectItem={option => selectCustomerOption(option)} />
       </Box>
       <Box mx='30px'>
-        <EmployeeTaskManagementTable onSortByTimeStamp={sortByTimeStamp} filters={filters} onChangeSolvedUnSolved={changeSolvedUnsolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroups} tasksFilter={tasks} data={selectedCustomer?.id ? taskForEmployees : perPageAllCustomerTaskEmployees} selectYear={selectYear} allWeeksInYear={allWeeksInYear} selectedYear={selectedYear} />
+        <EmployeeTaskManagementTable weekNumber={weekNumber} setWeekNumber={setWeekNumber} onSortByTimeStamp={sortByTimeStamp} filters={filters} onChangeSolvedUnSolved={changeSolvedUnsolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} onClearKeyValues={onClearKeyValues} setFilters={setFilters} taskGroupsFilter={taskGroups} tasksFilter={tasks} data={selectedCustomer?.id ? taskForEmployees : perPageAllCustomerTaskEmployees} selectYear={selectYear} allWeeksInYear={allWeeksInYear} selectedYear={selectedYear} />
         {selectedCustomer?.id === null && <Pagination onChangePerPage={handleChangePerPage} pageCount={pageCount} perPage={perPage} onChangePage={handleChangePage} />}
       </Box>
 

@@ -22,17 +22,39 @@ export const employeeTaskManagement = authToken => {
         throw error
       }
     },
-    fetchTaskForEmployees: async (responsibleId, customerId, { year, week, taskGroup, task, solvedUnsolved }) => {
+    fetchTaskForEmployees: async (responsibleId, customerId, { year, week = [36], taskGroup, task, solvedUnsolved = 'unsolved', weekNumber }) => {
+      let apiRoute = `/employees_task_management/get_tasks_for_employee?customer_id=${JSON.stringify(customerId)}&selectedTaskGroups=${JSON.stringify(taskGroup)}&selectedTasks=${JSON.stringify(task)}&year=${year}`
+      if (solvedUnsolved) apiRoute += `&status=${solvedUnsolved}`
+      if (responsibleId) apiRoute += `&responsible_id=${JSON.stringify(responsibleId)}`
+      if (!responsibleId) apiRoute += `&responsible_role=customer`
+      if (weekNumber) apiRoute += `&weekNumber=${JSON.stringify(weekNumber)}`
+      if (!weekNumber) apiRoute += `&selectedWeeks=${JSON.stringify(week)}`
+
+      console.log('weekn umbqwe e: ', weekNumber)
+
+      apiRoute += `&timestamp=${Date.now()}`
+
       try {
-        const response = await apiClient.get(`/employees_task_management/get_tasks_for_employee?customer_id=${JSON.stringify(customerId)}&responsible_id=${JSON.stringify(responsibleId)}&selectedTaskGroups=${JSON.stringify(taskGroup)}&selectedTasks=${JSON.stringify(task)}&year=${year}&weekNumber=${week}&status=${solvedUnsolved}&timestamp=${Date.now()}`, { headers })
+        const response = await apiClient.get(apiRoute, { headers })
+        console.log('Response : ', response)
         return response
       } catch (error) {
         throw error
       }
     },
-    fetchTaskForEmployeesAllCustomers: async (responsibleId, { year, week, taskGroup, task, solvedUnsolved }) => {
+    fetchTaskForEmployeesAllCustomers: async (responsibleId, { year, week, taskGroup, task, solvedUnsolved, weekNumber }) => {
+      let apiRoute = `/employees_task_management/get_tasks_for_employee_from_all_customers?year=${year}&selectedWeeks=${JSON.stringify(week)}&selectedTaskGroups=${JSON.stringify(taskGroup)}&selectedTasks=${JSON.stringify(task)}`
+
+      if (solvedUnsolved) apiRoute += `&status=${solvedUnsolved}`
+      if (responsibleId) apiRoute += `&responsible_id=${JSON.stringify(responsibleId)}`
+      if (!responsibleId) apiRoute += `&responsible_role=customer`
+      if (weekNumber) apiRoute += `&weekNumber=${JSON.stringify(weekNumber)}`
+      if (!weekNumber) apiRoute += `&selectedWeeks=${JSON.stringify(week)}`
+
+      apiRoute += `&timestamp=${Date.now()}`
       try {
-        const response = await apiClient.get(`/employees_task_management/get_tasks_for_employee_from_all_customers?responsible_id=${responsibleId}&year=${year}&weekNumber=${week}&selectedTaskGroups=${JSON.stringify(taskGroup)}&selectedTasks=${JSON.stringify(task)}&status=${solvedUnsolved}&timestamp=${Date.now()}`, { headers })
+        const response = await apiClient.get(apiRoute, { headers })
+
         return response
       } catch (error) {
         throw error

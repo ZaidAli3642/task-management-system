@@ -6,7 +6,7 @@ import RepeatMonthly from '../../Collapsibles/RepeatMonthly'
 import RepeatWeekly from '../../Collapsibles/RepeatWeekly'
 import RepeatYearly from '../../Collapsibles/RepeatYearly'
 
-const Repeat = ({ subHeading, inputFieldsYearly, onChangeYearly, setYearlyRadio, yearlyRadio, monthlyRadio, isOpen, onClose, onSaveRepetition, errorMessagesWeekly, onChangeWeekly, onChangeMonthly, isInvalid, inputFieldsWeekly, errorMessagesMonthly, inputFieldsMonthly, setMonthlyRadio, setRepetitionType }) => {
+const Repeat = ({ radioCheckedYearly, radioCheckedMonthly, subHeading, inputFieldsYearly, onChangeYearly, setYearlyRadio, yearlyRadio, monthlyRadio, isOpen, onClose, onSaveRepetition, errorMessagesWeekly, onChangeWeekly, onChangeMonthly, isInvalid, inputFieldsWeekly, errorMessagesMonthly, inputFieldsMonthly, setMonthlyRadio, setRepetitionType }) => {
   const [isOpenWeekly, setIsOpenWeekly] = useState(false)
   const [isOpenMonthly, setIsOpenMonthly] = useState(false)
   const [isOpenYearly, setIsOpenYearly] = useState(false)
@@ -39,9 +39,9 @@ const Repeat = ({ subHeading, inputFieldsYearly, onChangeYearly, setYearlyRadio,
           {/* Weekly */}
           <RepeatWeekly inputFieldsWeekly={inputFieldsWeekly} onChange={onChangeWeekly} errorMessage={errorMessagesWeekly} toggleWeekly={toggleWeekly} isOpenWeekly={isOpenWeekly} />
           {/* Monthly */}
-          <RepeatMonthly monthlyRadio={monthlyRadio} setMonthlyRadio={setMonthlyRadio} onChange={onChangeMonthly} inputFieldsMonthly={inputFieldsMonthly} errorMessage={errorMessagesMonthly} isOpenMonthly={isOpenMonthly} toggleMonthly={toggleMonthly} />
+          <RepeatMonthly radioChecked={radioCheckedMonthly} monthlyRadio={monthlyRadio} setMonthlyRadio={setMonthlyRadio} onChange={onChangeMonthly} inputFieldsMonthly={inputFieldsMonthly} errorMessage={errorMessagesMonthly} isOpenMonthly={isOpenMonthly} toggleMonthly={toggleMonthly} />
           {/* Yearly */}
-          <RepeatYearly inputFieldsYearly={inputFieldsYearly} onChangeYearly={onChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} toggleYearly={toggleYearly} isOpenYearly={isOpenYearly} />
+          <RepeatYearly radioChecked={radioCheckedYearly} inputFieldsYearly={inputFieldsYearly} onChangeYearly={onChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} toggleYearly={toggleYearly} isOpenYearly={isOpenYearly} />
         </ModalBody>
         <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
           <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />

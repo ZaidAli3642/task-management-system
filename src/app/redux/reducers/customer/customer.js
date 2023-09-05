@@ -45,11 +45,11 @@ const customersSlice = createSlice({
 
       const customerData = {
         ...customer,
-        t1: 25,
-        t2: 35,
-        t3: 45,
-        t4: 15,
-        todayTasks: 45,
+        t1: 0,
+        t2: 0,
+        t3: 0,
+        t4: 0,
+        todayTasks: 0,
         unsolvedTasks: 0,
       }
       state.customersData.push(customerData)

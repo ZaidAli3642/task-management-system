@@ -30,7 +30,16 @@ const RepeatMonthly = ({ radioChecked, monthlyRadio, toggleMonthly, isOpenMonthl
           </Box>
           <Box marginTop={'5px'}>
             <Box display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
-              <Radio defaultChecked={true} checked={radioChecked === 1} onChange={() => setMonthlyRadio(1)} name='monthly' id='monthly-1' radioContainerStyles={{ margin: 0 }} />
+              <Radio
+                defaultChecked={true}
+                checked={radioChecked === 1}
+                onChange={() => {
+                  setMonthlyRadio(1)
+                }}
+                name='monthly'
+                id='monthly-1'
+                radioContainerStyles={{ margin: 0 }}
+              />
               <SelectBox isRadioSelection={true} options={datesWithPostfixes} selectedRadio={monthlyRadio !== 1} onSelect={option => onChange({ target: { name: 'repetitionMonthlyDate', value: option } })} isPositionRelative={false} showOption={'label'} width='200px' marginX={'10px'} selectedOption={inputFieldsMonthly.repetitionMonthlyDate?.label} />
             </Box>
             <Box display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>

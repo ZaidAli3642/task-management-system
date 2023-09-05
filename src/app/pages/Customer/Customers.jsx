@@ -57,7 +57,7 @@ const Customers = () => {
   return (
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
-        <Breadcrumbs onClick={() => navigate('/customers/task-management')} navigationLocation={customerBreadcrumb} iconImage={assets.icons.employees} />
+        <Breadcrumbs navigationLocation={customerBreadcrumb} iconImage={assets.icons.employees} />
         {userInfo.role === 'admin' && <ButtonWithIcon title='Add customer' onClick={() => dispatch(customerAddModal(true))} size='medium' />}
       </Box>
       {customersData.length > 0 && (

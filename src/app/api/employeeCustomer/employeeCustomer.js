@@ -8,7 +8,7 @@ export const employeeCustomer = authToken => {
   return {
     fetchEmployeeCustomer: async (perPage, page, employeeId) => {
       try {
-        const response = await apiClient.get(`/counts_data/get_tasks_count_for_customers?employee_id=${employeeId}&timestamp=${Date.now()}`, { headers })
+        const response = await apiClient.get(`/counts_data/get_tasks_count_for_customers?employeeId=${employeeId}&timestamp=${Date.now()}`, { headers })
         return response
       } catch (error) {
         throw error

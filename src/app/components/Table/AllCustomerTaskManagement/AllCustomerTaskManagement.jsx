@@ -126,24 +126,27 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
             <TableRow key={index} alignItems={'flex-start'} borderBottom={data.length - 1 === index ? 0 : 1}>
               <Td paddingLeft={'20px'} w={'17%'} fontWeight={600} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} fontSize={'14px'} border={0}>
                 <Text>{customer.name}</Text>
-                <Icon
-                  onClick={() => {
-                    dispatch(clientInfo({ clientInfo: { code: customer.code, name: customer.name, description: customer.description } }))
-                    dispatch(clientInfoModal(true))
-                  }}
-                  display='flex'
-                  justifyContent='center'
-                  alignItems='center'
-                  marginLeft='5px'
-                  image={assets.icons.warning}
-                  w='18px'
-                  h='20px'
-                />
+                {(customer?.description || customer?.code) && (
+                  <Icon
+                    cursor='pointer'
+                    onClick={() => {
+                      dispatch(clientInfo({ clientInfo: { code: customer.code, name: customer.name, description: customer.description } }))
+                      dispatch(clientInfoModal(true))
+                    }}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
+                    marginLeft='5px'
+                    image={assets.icons.warning}
+                    w='18px'
+                    h='20px'
+                  />
+                )}
               </Td>
               <Td paddingLeft={'15px'} paddingY={'5px'} w={'100%'} h={'fit-content'} fontWeight={600} display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
                 {customer.taskGroups.map((taskGroup, index) => (
                   <>
-                    <Box borderBottomWidth={customer.taskGroups.length - 1 === index ? 0 : 1} borderColor={colors.borderGrey} w={'full'} borderStyle={'solid'} display={'flex'} justifyContent={'flex-start'} h={'full'} alignItems={'flex-start'}>
+                    <Box key={index} borderBottomWidth={customer.taskGroups.length - 1 === index ? 0 : 1} borderColor={colors.borderGrey} w={'full'} borderStyle={'solid'} display={'flex'} justifyContent={'flex-start'} h={'full'} alignItems={'flex-start'}>
                       <Box role='group' borderBottom={0} w='20%' paddingY={'10px'} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'}>
                         <Box>
                           <Text>{taskGroup.name}</Text>
@@ -172,7 +175,7 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
 
                             <>
                               <Box w={'20%'}>
-                                {task.task_item?.responsible ? (
+                                {task.task_item?.responsible || task?.task_item?.responsible_role === 'customer' ? (
                                   <Box
                                     onClick={() => {
                                       setCustomer(customer)
@@ -187,7 +190,7 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                                     w={'fit-content'}
                                   >
                                     <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _hover={{ color: colors.darkGreen }} w={'100%'}>
-                                      {task.task_item?.responsible?.first_name}
+                                      {task.task_item?.responsible?.first_name || task?.task_item?.responsible_role}
                                     </Text>
                                   </Box>
                                 ) : (

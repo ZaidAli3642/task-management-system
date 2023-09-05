@@ -11,7 +11,7 @@ const Breadcrumbs = ({ navigationLocation = [], onClick }) => {
   return (
     <Breadcrumb border={1} borderColor={colors.lightGrey} borderStyle='solid' p='5px' borderRadius='40px' backgroundColor={colors.white} w='fit-content'>
       {navigationLocation.map((value, index) => (
-        <BreadcrumbItem onClick={onClick} key={value.id} backgroundColor={lastIndex(index) ? colors.lightGreen : 'transparent'} padding={lastIndex(index) ? '5px' : 0} paddingRight='10px' height='40px' borderRadius='40px' display='flex' justifyContent='space-between' alignItems='center' cursor='pointer'>
+        <BreadcrumbItem onClick={() => navigate(value.path)} key={value.id} backgroundColor={lastIndex(index) ? colors.lightGreen : 'transparent'} padding={lastIndex(index) ? '5px' : 0} paddingRight='10px' height='40px' borderRadius='40px' display='flex' justifyContent='space-between' alignItems='center' cursor='pointer'>
           {value.icon && (
             <Box marginRight='5px' display='flex' justifyContent='center' alignItems='center' w={lastIndex(index) ? '30px' : '40px'} height={lastIndex(index) ? '30px' : '40px'} borderRadius='full' backgroundColor={lastIndex(index) ? colors.darkGreen : colors.borderGrey}>
               <Icon display='flex' justifyContent='center' alignItems='center' image={value.icon} />

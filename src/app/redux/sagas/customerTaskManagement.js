@@ -92,7 +92,7 @@ function* manageRepetitionFunc(action) {
   const token = yield select(state => state.auth.token)
   const pageNo = yield select(state => state.customerTaskManagement.pageNo)
 
-  const { data, customerId, isCustomerAll } = action.payload
+  const { data, customerId, isCustomerAll, setInputFieldsWeekly, setInputFieldsMonthly, setInputFieldsYearly } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).manageRepetition, data)
     if (response) {
@@ -109,8 +109,12 @@ function* manageRepetitionFunc(action) {
 
     yield put(editRepeatModal(false))
     yield put(repeatModal(false))
+    setInputFieldsWeekly && setInputFieldsWeekly({ repetitionWeeklyNo: '1' })
+    setInputFieldsMonthly && setInputFieldsMonthly({ repetitionMonthlyNo: '1', repetitionMonthlyWeekDay: { id: 1, day: 'Monday' }, repetitionMonthlyWeekNo: { id: 1, week: 'First' }, repetitionMonthlyDate: { id: 1, label: '1st' } })
+    setInputFieldsYearly && setInputFieldsYearly({ repetitionYearlyWeekNo: { id: 1, week: 'First' }, repetitionYearlyMonth: { id: 1, month: 'January' }, repetitionYearlyMonthDate: { id: 1, label: '1st' }, repetitionYearlyDay: { id: 1, day: 'Monday' } })
     yield put(manageRepetitionSuccess({ data: response.data }))
   } catch (error) {
+    console.log('Error : ', error)
     yield put(manageRepetitionError({ error }))
   }
 }

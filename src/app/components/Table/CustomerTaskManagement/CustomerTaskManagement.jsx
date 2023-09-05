@@ -131,10 +131,10 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
 
                     <>
                       <Box w={'21%'}>
-                        {task.task_item?.responsible ? (
+                        {task.task_item?.responsible || task?.task_item?.responsible_role === 'customer' ? (
                           <Box onClick={() => onOpenAddResponsible(taskGroup, task, true)} paddingX={'10px'} paddingY={'5px'} borderRadius='5px' role='group' _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen }} cursor={'pointer'} w={'fit-content'}>
                             <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _hover={{ color: colors.darkGreen }} w={'100%'}>
-                              {task.task_item?.responsible?.first_name}
+                              {task.task_item?.responsible?.first_name || task?.task_item?.responsible_role}
                             </Text>
                           </Box>
                         ) : (

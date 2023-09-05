@@ -54,7 +54,8 @@ const customerTaskManagementSlice = createSlice({
     },
     setPageCount: (state, action) => {
       const { pageNo, isCustomerAll } = action.payload
-      state.pageCount = Math.ceil(isCustomerAll ? state.customersWithTaskGroup.length : state.taskGroupWithSchedules.length / state.perPage)
+      const length = isCustomerAll ? state.customersWithTaskGroup.length : state.taskGroupWithSchedules.length
+      state.pageCount = Math.ceil(length / state.perPage)
       let start = pageNo * state.perPage
       let end = (pageNo + 1) * state.perPage
 

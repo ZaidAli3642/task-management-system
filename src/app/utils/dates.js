@@ -14,14 +14,14 @@ export const generateWeeksInYear = year => {
   let weekLastDate = firstWeekEndDate.format('MMM D')
 
   // Generate the first week
-  const firstWeekInfo = {
-    id: weekNumber,
-    week: weekNumber,
-    weekFirstDate,
-    weekLastDate,
-    description: `Week ${weekNumber} . ${weekFirstDate} to ${weekLastDate}`,
-  }
-  weeks.push(firstWeekInfo)
+  // const firstWeekInfo = {
+  //   id: weekNumber,
+  //   week: weekNumber,
+  //   weekFirstDate,
+  //   weekLastDate,
+  //   description: `Week ${weekNumber} . ${weekFirstDate} to ${weekLastDate}`,
+  // }
+  // weeks.push(firstWeekInfo)
 
   // Move to the first day of the second week
   startDate = firstWeekEndDate.clone().add(1, 'day')
@@ -29,7 +29,6 @@ export const generateWeeksInYear = year => {
   // Loop through the year until December 31 of the given year
   while (startDate.year() === year) {
     const endDate = startDate.clone().add(6, 'days')
-    weekNumber++
 
     weekFirstDate = startDate.format('MMM D')
     weekLastDate = endDate.format('MMM D')
@@ -42,6 +41,8 @@ export const generateWeeksInYear = year => {
     }
 
     weeks.push(weekInfo)
+
+    weekNumber++
 
     // Move to the first day of the next week
     startDate = endDate.clone().add(1, 'day')

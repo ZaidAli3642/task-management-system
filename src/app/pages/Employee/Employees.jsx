@@ -85,7 +85,7 @@ const Employees = () => {
   return (
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
-        <Breadcrumbs onClick={() => navigate('/employees/customers')} navigationLocation={employeeBreadcrumb} iconImage={assets.icons.employees} />
+        <Breadcrumbs navigationLocation={employeeBreadcrumb} iconImage={assets.icons.employees} />
         {user.role === 'admin' && <ButtonWithIcon onClick={() => dispatch(employeeAddModal(true))} size='medium' />}
       </Box>
       <Box mx='30px'>

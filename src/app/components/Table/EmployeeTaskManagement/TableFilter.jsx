@@ -3,7 +3,7 @@ import TableRow from './TableRow'
 import Filter from '../../Filter'
 import colors from '../../../config/colors'
 
-const TableFilter = ({ filters, filterIds, solvedUnSolvedFilters, setFilters, selectYear, selectedYear, allWeeksInYear, taskGroupsFilter, tasksFilter }) => {
+const TableFilter = ({ setWeekNumber, onClearKeyValues, filters, filterIds, solvedUnSolvedFilters, setFilters, selectYear, selectedYear, allWeeksInYear, taskGroupsFilter, tasksFilter }) => {
   const isSelectedSolved = filters.solvedUnsolved.length === 0
 
   return (
@@ -17,6 +17,7 @@ const TableFilter = ({ filters, filterIds, solvedUnSolvedFilters, setFilters, se
             data={allWeeksInYear}
             onSelectItem={(checked, item) => {
               setFilters(item, checked, 'week')
+              setWeekNumber(null)
             }}
             filterCheck={filterIds.week}
             isClosable={false}
@@ -66,7 +67,7 @@ const TableFilter = ({ filters, filterIds, solvedUnSolvedFilters, setFilters, se
             label={'All'}
             filterCheck={filterIds.solvedUnsolved}
             onSelectItem={(checked, item) => {
-              setFilters(item, checked, 'solvedUnsolved')
+              setFilters(item, checked, 'solvedUnsolved', true)
             }}
             optionKey='name'
             dropDownContainerWidth={'250px'}

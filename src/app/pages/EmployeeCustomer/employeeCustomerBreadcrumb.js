@@ -5,6 +5,7 @@ const employeeBreadcrumb = [
     id: 1,
     title: 'Employees',
     icon: assets.icons.employeesBlack,
+    path: '/employees',
   },
   {
     id: 1,

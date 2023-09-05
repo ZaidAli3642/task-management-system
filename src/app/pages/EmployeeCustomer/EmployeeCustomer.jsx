@@ -47,7 +47,7 @@ const EmployeeCustomer = () => {
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-          <Breadcrumbs onClick={() => navigate('/employees')} navigationLocation={employeeCustomerBreadcrumb} iconImage={assets.icons.employees} />
+          <Breadcrumbs navigationLocation={employeeCustomerBreadcrumb} iconImage={assets.icons.employees} />
           <DropDown label={selectedEmployeeOption || 'Select'} optionKey={'first_name'} data={employeeData} onSelectItem={selectedEmployee} />
         </Box>
       </Box>

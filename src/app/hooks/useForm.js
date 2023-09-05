@@ -11,13 +11,13 @@ const useForm = (fields, errorFields) => {
     setIsInvalid(false)
   }
 
-  const onSubmit = async (schema, func) => {
+  const onSubmit = async (schema, func, isClearFields = true) => {
     try {
       schema && (await schema.validate(inputFields))
       setIsInvalid(false)
       if (func) func()
 
-      setInputFields(fields)
+      isClearFields && setInputFields(fields)
 
       return true
     } catch (error) {

@@ -123,7 +123,7 @@ const employeeTaskManagementSlice = createSlice({
       let tasks = []
 
       for (let item of data) {
-        if (item.currentTasks.length) {
+        if (item?.currentTasks?.length) {
           for (let task of item.currentTasks) {
             const found = taskGroups.find(taskGroup => taskGroup.id === task.taskItem.task_group_id)
             const foundTask = tasks.find(taskVal => taskVal.id === task.taskItem.task_id)
@@ -132,7 +132,7 @@ const employeeTaskManagementSlice = createSlice({
             if (!found) taskGroups.push({ id: task.taskItem.task_group_id, name: task.taskItem.task_group_name })
           }
         }
-        if (item.futureTasks.length) {
+        if (item?.futureTasks?.length) {
           for (let task of item.futureTasks) {
             const found = taskGroups.find(taskGroup => taskGroup.id === task.taskItem.task_group_id)
             const foundTask = tasks.find(taskVal => taskVal.id === task.taskItem.task_id)
@@ -141,7 +141,7 @@ const employeeTaskManagementSlice = createSlice({
             if (!found) taskGroups.push({ id: task.taskItem.task_group_id, name: task.taskItem.task_group_name })
           }
         }
-        if (item.pastTasks.length) {
+        if (item?.pastTasks?.length) {
           for (let task of item.pastTasks) {
             const found = taskGroups.find(taskGroup => taskGroup.id === task.taskItem.task_group_id)
             const foundTask = tasks.find(taskVal => taskVal.id === task.taskItem.task_id)

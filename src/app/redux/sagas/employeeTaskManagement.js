@@ -6,6 +6,7 @@ function* getAllEmplpyees(action) {
   const token = yield select(state => state.auth.token)
   try {
     const response = yield call(employeeTaskManagement(token).fetchAllEmployees)
+    response.data.push({ id: null, first_name: 'customer' })
     yield put(fetchAllEmployeesSuccess(response.data))
   } catch (error) {
     yield put(fetchAllEmployeesFailed({ error }))
@@ -25,11 +26,14 @@ function* getAllCustomers(action) {
 function* getTaskForEmployees(action) {
   const token = yield select(state => state.auth.token)
   const { responsibleId, customerId, filters } = action.payload
-  const { year, week, taskGroup, task, solvedUnsolved } = filters
+  const { year, week, taskGroup, task, solvedUnsolved, weekNumber } = filters
+  let status = solvedUnsolved.length === 0 ? null : solvedUnsolved[0] === 1 ? 'solved' : 'unsolved'
   try {
-    const response = yield call(employeeTaskManagement(token).fetchTaskForEmployees, responsibleId, customerId, { taskGroup, task, week, year, solvedUnsolved: solvedUnsolved[0] === 1 ? 'solved' : 'unsolved' })
+    const response = yield call(employeeTaskManagement(token).fetchTaskForEmployees, responsibleId, customerId, { taskGroup, task, week, year, solvedUnsolved: status, weekNumber })
     yield put(fetchTaskForEmployeesSuccess(response.data.customers))
-    if (!filters.taskGroup.length && !filters.task.length && !filters.solvedUnsolved.length) yield put(setFilters({ data: response.data.customers }))
+    if (!filters.taskGroup.length && !filters.task.length && !filters.solvedUnsolved.length) {
+      yield put(setFilters({ data: response.data.customers }))
+    }
   } catch (error) {
     yield put(fetchTaskForEmployeesFailed({ error }))
   }
@@ -38,9 +42,10 @@ function* getTaskForEmployees(action) {
 function* getTaskForEmployeesAllCustomers(action) {
   const token = yield select(state => state.auth.token)
   const { responsibleId, filters, pageNo } = action.payload
-  const { year, week, taskGroup, task, solvedUnsolved } = filters
+  const { year, week, taskGroup, task, solvedUnsolved, weekNumber } = filters
+  let status = solvedUnsolved.length === 0 ? null : solvedUnsolved[0] === 1 ? 'solved' : 'unsolved'
   try {
-    const response = yield call(employeeTaskManagement(token).fetchTaskForEmployeesAllCustomers, responsibleId, { taskGroup, task, week, year, solvedUnsolved: solvedUnsolved[0] === 1 ? 'solved' : 'unsolved' })
+    const response = yield call(employeeTaskManagement(token).fetchTaskForEmployeesAllCustomers, responsibleId, { taskGroup, task, week, year, solvedUnsolved: status, weekNumber })
     yield put(fetchTaskForEmployeesAllCustomersSuccess(response.data.customers))
     yield put(setPageCount({ pageNo: pageNo }))
     if (!filters.taskGroup.length && !filters.task.length && !filters.solvedUnsolved.length) yield put(setFilters({ data: response.data.customers }))
@@ -53,17 +58,17 @@ function* updateTask(action) {
   const token = yield select(state => state.auth.token)
   const { data, pageNo, isCustomerAll, responsibleId, customerId, filters } = action.payload
 
-  const { year, week, taskGroup, task } = filters
-
+  const { year, week, taskGroup, task, solvedUnsolved } = filters
+  let status = solvedUnsolved.length === 0 ? null : solvedUnsolved[0] === 1 ? 'solved' : 'unsolved'
   try {
     const response = yield call(employeeTaskManagement(token).updateTaskByEmployee, data)
     if (response) {
       if (isCustomerAll) {
-        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployeesAllCustomers, responsibleId, { year, week, taskGroup, task })
+        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployeesAllCustomers, responsibleId, { year, week, taskGroup, task, solvedUnsolved: status })
         yield put(fetchTaskForEmployeesAllCustomersSuccess(response.data.customers))
         yield put(setPageCount({ pageNo: pageNo }))
       } else {
-        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployees, responsibleId, customerId, { year, week, taskGroup, task })
+        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployees, responsibleId, customerId, { year, week, taskGroup, task, solvedUnsolved: status })
         yield put(fetchTaskForEmployeesSuccess(response.data.customers))
       }
     }
