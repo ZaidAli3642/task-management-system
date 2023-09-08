@@ -3,7 +3,7 @@ import { ModalBody, ModalFooter, Text } from '@chakra-ui/react'
 import Modal from '../Modal'
 import { Button, Form } from '../../Form'
 
-const ClearSection = ({ isOpen, onClose, onClearSectionEmployee, subHeading }) => {
+const ClearSection = ({ isLoading, isOpen, onClose, onClearSectionEmployee, subHeading }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} modalHeading='Clear Section' subHeading={subHeading}>
       <Form onSubmit={onClearSectionEmployee}>
@@ -17,7 +17,7 @@ const ClearSection = ({ isOpen, onClose, onClearSectionEmployee, subHeading }) =
         </ModalBody>
         <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
           <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />
-          <Button margin={'10px'} title='Clear' size='small' color='red' type='submit' />
+          <Button isLoading={isLoading} margin={'10px'} title='Clear' size='small' color='red' type='submit' />
         </ModalFooter>
       </Form>
     </Modal>

@@ -13,6 +13,7 @@ import employeeCustomerBreadcrumb from './employeeCustomerBreadcrumb'
 import DropDown from '../../components/DropDown'
 import { employeeCustomerFetch } from '../../redux/reducers/employeeCustomer/employeeCustomer'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Spinner from '../../components/Spinner'
 
 const EmployeeCustomer = () => {
   const toast = useToast()
@@ -21,6 +22,7 @@ const EmployeeCustomer = () => {
   const { state } = useLocation()
   const employeeData = useSelector(state => state.employees.employeeData)
   const employeeCustomerData = useSelector(state => state.employeeCustomer.employeeCustomerData)
+  const isEmployeeCustomerDataFetch = useSelector(state => state.employeeCustomer.employeeCustomerDataFetch)
   const [perPage, setPerPage] = useState(10)
   const [page, setPage] = useState(1)
   const [employeeId, setEmployeeId] = useState('')
@@ -51,24 +53,28 @@ const EmployeeCustomer = () => {
           <DropDown label={selectedEmployeeOption || 'Select'} optionKey={'first_name'} data={employeeData} onSelectItem={selectedEmployee} />
         </Box>
       </Box>
-      <Box mx='30px'>
-        {employeeCustomerData.length > 0 && (
-          <Table
-            onClickItem={item => {
-              navigate('/employees/task-management', {
-                state: {
-                  customerData: item,
-                  employeeData: selectedEmployeeData,
-                },
-              })
-            }}
-            isEdit={false}
-            setEmployeeId={setEmployeeId}
-            columns={employeeColumns}
-            data={employeeCustomerData}
-          />
-        )}
-      </Box>
+      {isEmployeeCustomerDataFetch ? (
+        <Spinner marginTop='30px' isLoading={isEmployeeCustomerDataFetch} />
+      ) : (
+        <Box mx='30px'>
+          {employeeCustomerData.length > 0 && (
+            <Table
+              onClickItem={item => {
+                navigate('/employees/task-management', {
+                  state: {
+                    customerData: item,
+                    employeeData: selectedEmployeeData,
+                  },
+                })
+              }}
+              isEdit={false}
+              setEmployeeId={setEmployeeId}
+              columns={employeeColumns}
+              data={employeeCustomerData}
+            />
+          )}
+        </Box>
+      )}
     </>
   )
 }

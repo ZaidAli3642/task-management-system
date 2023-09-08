@@ -13,4 +13,8 @@
   &:hover .icon:nth-child(2) {
     display: block;
   }
+
+  &-rotated {
+    transform: rotate(180deg);
+  }
 }

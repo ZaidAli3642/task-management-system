@@ -22,23 +22,23 @@ const Tasks = ({ filters, isShowBorderByDefault, onChangeSolvedUnSolved, data = 
       {/* shows one line */}
       {data?.length > 0 &&
         data?.map((data, index) => (
-          <Box h={'55px'} background={backgroundColor} borderBottom={1} borderBottomColor={colors.veryLightGrey} borderLeft={currentWeek >= data.week_no ? 1 : 0} borderLeftColor={borderLeftColor} borderStyle={'solid'} key={index} display={'flex'} alignItems={'center'}>
+          <Box paddingY={'5px'} minH={'55px'} background={backgroundColor} borderBottom={1} borderBottomColor={colors.veryLightGrey} borderLeft={currentWeek >= data.week_no ? 1 : 0} borderLeftColor={borderLeftColor} borderStyle={'solid'} key={index} display={'flex'} alignItems={'center'}>
             {/* shows each line item  */}
-            <ShowDate isSelectedSolved={isSelectedSolved} date={data.weekRange} day={data.week_day} weekNo={data.week_no} />
-            <ShowTaskGroup isSelectedSolved={isSelectedSolved} taskGroup={data.week_no < currentWeek ? data?.taskItem?.task_group_name : data?.taskItem?.task_group?.name} />
-            <ShowTask isSelectedSolved={isSelectedSolved} task={data.week_no < currentWeek ? data?.taskItem?.task_name : data?.taskItem?.task?.name} />
-            <ShowRepetition repetition={data?.taskItem?.tasks_repetition || {}} isSelectedSolved={isSelectedSolved} />
-            <SolvedAndUnSolved onChangeSolvedUnSolved={(checked, completionStatus) => onChangeSolvedUnSolved(data.task_item_id, data.week_no, data.week_day, checked, completionStatus)} isSelectedSolved={isSelectedSolved} completionStatus={data?.completion_status} />
+            <ShowDate isSelectedSolved={isSelectedSolved} date={data.week_range} day={data.week_day} weekNo={data.week_no} />
+            <ShowTaskGroup isSelectedSolved={isSelectedSolved} taskGroup={data.week_no < currentWeek ? data?.task_item?.task_group_name : data?.task_item?.task_group?.name} />
+            <ShowTask isSelectedSolved={isSelectedSolved} task={data.week_no < currentWeek ? data?.task_item?.task_name : data?.task_item?.task?.name} />
+            <ShowRepetition repetition={data?.task_item?.tasks_repetition || {}} isSelectedSolved={isSelectedSolved} />
+            <SolvedAndUnSolved onChangeSolvedUnSolved={(checked, completionStatus) => onChangeSolvedUnSolved(data.task_item_id, data.week_no, data.week_day, checked, completionStatus, data.occurance_date)} isSelectedSolved={isSelectedSolved} completionStatus={data?.completion_status} />
             <ShowNote
-              note={data?.taskItem?.notes}
+              note={data?.task_item?.notes}
               onClickNote={() => {
-                dispatch(setNoteText({ noteText: data?.taskItem?.notes }))
+                dispatch(setNoteText({ noteText: data?.task_item?.notes }))
                 dispatch(noteModal(true))
               }}
               isSelectedSolved={isSelectedSolved}
             />
-            <ShowResponsible isSelectedSolved={isSelectedSolved} responsibleName={data?.taskItem?.responsible?.first_name || 'customer'} />
-            <ShowTimeStamp name={data?.completedTask?.done_by?.first_name} timestamp={data?.completedTask?.updated_at} isSelectedSolved={isSelectedSolved} />
+            <ShowResponsible isSelectedSolved={isSelectedSolved} responsibleName={data?.task_item?.responsible?.first_name || 'customer'} />
+            <ShowTimeStamp name={data?.done_by?.first_name} timestamp={data?.done_at} isSelectedSolved={isSelectedSolved} />
           </Box>
         ))}
     </Box>

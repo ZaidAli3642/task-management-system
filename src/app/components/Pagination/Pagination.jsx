@@ -40,7 +40,56 @@ const Pagination = ({ onChangePerPage, onChangePage, pageCount, perPage, pageNo 
         </Box>
       </Box>
 
-      <ReactPaginate forcePage={pageNo} onPageChange={onChangePage} breakLabel='...' nextLabel='>' disabledClassName='disabled-prev-next' nextClassName='next-classname' pageClassName='page-classname' activeClassName='active-classname' pageRangeDisplayed={5} className='pagination-container' pageCount={pageCount} previousLabel='<' renderOnZeroPageCount={null} />
+      <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+        <ReactPaginate
+          forcePage={pageNo}
+          onPageChange={onChangePage}
+          breakClassName='break-classname'
+          breakLabel='...'
+          nextLabel={
+            <Icon
+              onClick={() => {
+                pageNo + 1 !== pageCount && onChangePage({ selected: pageNo + 1 })
+              }}
+              marginLeft='10px'
+              cursor='pointer'
+              image={pageNo + 1 === pageCount ? assets.icons.chevronRightDisabled : assets.icons.chevronRight}
+              w='10px'
+              h='6px'
+              marginBottom='1px'
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+            />
+          }
+          disabledClassName='disabled-prev-next'
+          nextClassName='next-classname'
+          pageClassName='page-classname'
+          activeClassName='active-classname'
+          pageCount={pageCount}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          breakLinkClassName='break-classname'
+          className='pagination-container'
+          nextLinkClassName='arrows'
+          previousLabel={
+            <Icon
+              onClick={() => {
+                pageNo > 0 && onChangePage({ selected: pageNo - 1 })
+              }}
+              cursor='pointer'
+              marginRight='10px'
+              image={pageNo === 0 ? assets.icons.chevronLeftDisabled : assets.icons.chevronLeft}
+              w='10px'
+              h='6px'
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+            />
+          }
+          renderOnZeroPageCount={null}
+        />
+      </Box>
     </Box>
   )
 }

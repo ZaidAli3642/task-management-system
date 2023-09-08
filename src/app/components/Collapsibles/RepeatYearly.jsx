@@ -5,9 +5,9 @@ import SelectBox from '../SelectBox'
 import colors from '../../config/colors'
 import { months, datesWithPostfixes, totalWeeksInMonth, days } from '../../constants/dates'
 
-const RepeatYearly = ({ radioChecked, inputFieldsYearly, onChangeYearly, toggleYearly, isOpenYearly, setYearlyRadio, yearlyRadio }) => {
+const RepeatYearly = ({ isShowBorderBottom = true, radioChecked, inputFieldsYearly, onChangeYearly, toggleYearly, isOpenYearly, setYearlyRadio, yearlyRadio }) => {
   return (
-    <Box marginY={'20px'}>
+    <Box marginTop={'20px'} marginBottom={'10px'}>
       <Box mt={'10px'} display='flex' alignItems='center' justifyContent={'space-between'}>
         <Text fontSize={'16px'} fontWeight={600}>
           Yearly
@@ -15,7 +15,7 @@ const RepeatYearly = ({ radioChecked, inputFieldsYearly, onChangeYearly, toggleY
         <Switch onChange={toggleYearly} size='md' checked={isOpenYearly} />
       </Box>
       <Collapse in={isOpenYearly}>
-        <Box borderBottom={1} borderBottomColor={colors.borderGrey} borderBottomStyle={'solid'} paddingBottom={'10px'}>
+        <Box borderBottom={isShowBorderBottom ? 1 : 0} borderBottomColor={colors.borderGrey} borderBottomStyle={'solid'} paddingBottom={'10px'}>
           <Box marginTop={'10px'} display={'flex'} justifyContent={'start'} alignItems={'center'}>
             <Text fontSize={'14px'} fontWeight={500} color={colors.black}>
               Repeat every on the

@@ -10,6 +10,7 @@ import RepeatMonthly from '../../Collapsibles/RepeatMonthly'
 import RepeatYearly from '../../Collapsibles/RepeatYearly'
 
 const BulkAssign = ({
+  isLoading,
   setRepetitionType,
   inputFieldsYearly,
   onChangeYearly,
@@ -83,8 +84,8 @@ const BulkAssign = ({
             {clearSectionButtonEnabled && <Button onClick={onOpenClearSectionModal} title='Clear all sections' color='default' size='large' />}
           </ModalBody>
           <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
-            <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />
-            <Button margin={'10px'} title='Add' size='small' color='green' type='submit' />
+            <Button margin={'10px'} onClick={onClose} title='Cancel' size='large' color='grey' />
+            <Button isLoading={isLoading} margin={'10px'} title='Add' size='large' color='green' type='submit' />
           </ModalFooter>
         </Form>
       </Modal>

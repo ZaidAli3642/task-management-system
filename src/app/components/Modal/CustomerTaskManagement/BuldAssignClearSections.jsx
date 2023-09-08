@@ -5,7 +5,7 @@ import { Button, Form, Input, Switch } from '../../Form'
 import SelectBox from '../../SelectBox'
 import Badge from '../../Badge'
 
-const BulkAssignClearSections = ({ isOpen, onClose, onAddBulkAssign, onChangeInput, showDeleteModal, errorMessage, isInvalid }) => {
+const BulkAssignClearSections = ({ isLoading, isOpen, onClose, onAddBulkAssign, onChangeInput, showDeleteModal, errorMessage, isInvalid }) => {
   return (
     <Box maxHeight='708px'>
       <Modal isOpen={isOpen} onClose={onClose} modalHeading='Bulk assign' subHeading='Finance' subTitleFontWeight={700}>
@@ -39,7 +39,7 @@ const BulkAssignClearSections = ({ isOpen, onClose, onAddBulkAssign, onChangeInp
           </ModalBody>
           <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
             <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />
-            <Button margin={'10px'} title='Add' size='small' color='green' type='submit' />
+            <Button isLoading={isLoading} margin={'10px'} title='Add' size='small' color='green' type='submit' />
           </ModalFooter>
         </Form>
       </Modal>

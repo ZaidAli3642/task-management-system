@@ -29,7 +29,7 @@ const ClientInfo = ({ onClose, isOpen, clientInfo, modalHeading, subHeading }) =
         )}
       </ModalBody>
       <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
-        <Button w='100px' margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />
+        <Button w='100px' margin={'10px'} onClick={onClose} title='Close' size='small' color='grey' />
       </ModalFooter>
     </Modal>
   )

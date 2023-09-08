@@ -90,7 +90,7 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
             </Text>
           </Td>
           <Td w='17%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} margin={0}>
-            <Text marginLeft={'10px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
+            <Text marginLeft={'7px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
               Repetition
             </Text>
           </Td>
@@ -121,10 +121,10 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
       </TableHead>
 
       {data.length > 0 && (
-        <Tbody h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
+        <Tbody paddingX={'20px'} h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
           {data.map((customer, index) => (
             <TableRow key={index} alignItems={'flex-start'} borderBottom={data.length - 1 === index ? 0 : 1}>
-              <Td paddingLeft={'20px'} w={'17%'} fontWeight={600} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} fontSize={'14px'} border={0}>
+              <Td w={'16.3%'} paddingLeft={'1px'} fontWeight={600} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} fontSize={'14px'} border={0}>
                 <Text>{customer.name}</Text>
                 {(customer?.description || customer?.code) && (
                   <Icon
@@ -137,22 +137,24 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                     justifyContent='center'
                     alignItems='center'
                     marginLeft='5px'
-                    image={assets.icons.warning}
+                    image={assets.icons.info}
+                    hoveredImage={assets.icons.infoHovered}
                     w='18px'
                     h='20px'
                   />
                 )}
               </Td>
-              <Td paddingLeft={'15px'} paddingY={'5px'} w={'100%'} h={'fit-content'} fontWeight={600} display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
+              <Td paddingLeft={'4.5px'} paddingRight={0} paddingY={'5px'} w={'100%'} h={'fit-content'} fontWeight={600} display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
                 {customer.taskGroups.map((taskGroup, index) => (
                   <>
-                    <Box key={index} borderBottomWidth={customer.taskGroups.length - 1 === index ? 0 : 1} borderColor={colors.borderGrey} w={'full'} borderStyle={'solid'} display={'flex'} justifyContent={'flex-start'} h={'full'} alignItems={'flex-start'}>
-                      <Box role='group' borderBottom={0} w='20%' paddingY={'10px'} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'}>
+                    <Box key={index} borderBottomWidth={customer.taskGroups.length - 1 === index ? 0 : 1} borderColor={colors.veryLightGrey} w={'full'} borderStyle={'solid'} display={'flex'} justifyContent={'flex-start'} h={'full'} alignItems={'flex-start'}>
+                      <Box role='group' paddingRight={'10px'} borderBottom={0} w='21.5%' paddingY={'10px'} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'}>
                         <Box>
                           <Text>{taskGroup.name}</Text>
                         </Box>
                         <Box display='none' _groupHover={{ display: 'flex' }}>
                           <Icon
+                            cursor='pointer'
                             onClick={() => {
                               setCustomer(customer)
                               onOpenBulkAssign(taskGroup)
@@ -164,17 +166,17 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                         </Box>
                       </Box>
 
-                      <Td w={'100%'} paddingLeft={'10px'} paddingY={0} border={0}>
+                      <Td w={'100%'} paddingLeft={'0px'} paddingRight={0} paddingY={0} border={0}>
                         {taskGroup.tasks.map((task, index) => (
                           <Box role='group' cursor={'pointer'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
-                            <Box paddingLeft={'10px'} w={'40%'}>
+                            <Box w={'37.3%'}>
                               <Text paddingY={'15px'} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
                                 {task.name}
                               </Text>
                             </Box>
 
                             <>
-                              <Box w={'20%'}>
+                              <Box w={'21%'}>
                                 {task.task_item?.responsible || task?.task_item?.responsible_role === 'customer' ? (
                                   <Box
                                     onClick={() => {
@@ -182,10 +184,12 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                                       onOpenAddResponsible(taskGroup, task, true)
                                     }}
                                     paddingY={'5px'}
-                                    paddingX={'10px'}
+                                    paddingX={'9.5px'}
                                     borderRadius='5px'
+                                    borderWidth={1}
+                                    borderColor={'white'}
                                     role='group'
-                                    _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.lightGreen }}
+                                    _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.lightGreen, color: colors.darkGreen }}
                                     cursor={'pointer'}
                                     w={'fit-content'}
                                   >
@@ -195,21 +199,24 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                                   </Box>
                                 ) : (
                                   <ButtonWithIcon
+                                    marginLeft='10px'
+                                    h='33px'
+                                    paddingX='10px'
+                                    paddingY='5px'
                                     display='none'
-                                    _groupHover={{ display: 'block' }}
+                                    _groupHover={{ display: 'flex' }}
                                     title='Add responsible'
                                     onClick={() => {
                                       setCustomer(customer)
                                       onOpenAddResponsible(taskGroup, task)
                                     }}
                                     size='small'
-                                    height='30px'
                                     fontSize='14px'
                                     fontWeight={600}
                                   />
                                 )}
                               </Box>
-                              <Box w={'20%'}>
+                              <Box w={'20%'} paddingLeft={'14.5px'}>
                                 {task.task_item?.tasks_repetition ? (
                                   <Box
                                     w={'fit-content'}
@@ -226,44 +233,50 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                                   </Box>
                                 ) : (
                                   <ButtonWithIcon
+                                    h='33px'
+                                    paddingX='10px'
+                                    paddingY='5px'
                                     display='none'
-                                    _groupHover={{ display: 'block' }}
+                                    _groupHover={{ display: 'flex' }}
                                     title='Add repetition'
                                     onClick={() => {
                                       setCustomer(customer)
                                       onOpenRepeat(taskGroup, task)
                                     }}
                                     size='small'
-                                    height='30px'
                                     fontSize='14px'
                                     fontWeight={600}
                                   />
                                 )}
                               </Box>
-                              <Box paddingLeft={'30px'} w={'20%'}>
+                              <Box paddingLeft={'20px'} w={'20%'}>
                                 {task?.task_item?.notes ? (
                                   <Icon
-                                    marginLeft='10px'
+                                    marginLeft='11px'
                                     onClick={() => {
                                       setCustomer(customer)
                                       onOpenNoteModal(taskGroup, task, true)
                                     }}
                                     cursor='pointer'
                                     image={assets.icons.noteIcon}
+                                    hoveredImage={assets.icons.noteIconGreen}
                                     w='20px'
                                     h='18px'
                                   />
                                 ) : (
                                   <ButtonWithIcon
+                                    marginLeft='10px'
+                                    h='33px'
+                                    paddingX='10px'
+                                    paddingY='5px'
                                     display='none'
-                                    _groupHover={{ display: 'block' }}
+                                    _groupHover={{ display: 'flex' }}
                                     onClick={() => {
                                       setCustomer(customer)
                                       onOpenNoteModal(taskGroup, task)
                                     }}
                                     title='Add note'
                                     size='small'
-                                    height='30px'
                                     fontSize='14px'
                                     fontWeight={600}
                                   />

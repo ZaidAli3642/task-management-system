@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   loading: false,
   employeeCustomerData: [],
+  employeeCustomerDataFetch: false,
   error: null,
 }
 
@@ -11,15 +12,15 @@ const employeeCustomerSlice = createSlice({
   initialState: initialState,
   reducers: {
     employeeCustomerFetch: (state, action) => {
-      state.loading = true
+      state.employeeCustomerDataFetch = true
       state.error = null
     },
     employeeCustomerFetchFailed: (state, action) => {
-      state.loading = false
+      state.employeeCustomerDataFetch = false
       state.error = action.payload.error
     },
     employeeCustomerFetchSuccess: (state, action) => {
-      state.loading = false
+      state.employeeCustomerDataFetch = false
       state.error = null
       state.employeeCustomerData = action.payload
     },

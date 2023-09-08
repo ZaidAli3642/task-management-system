@@ -26,10 +26,21 @@ import personBlack from './icons/personBlack.svg'
 import chevronLeftGreen from './icons/chevronLeftGreen.svg'
 import chevronRightGreen from './icons/chevronRightGreen.svg'
 import chevronDown from './icons/chevronDown.svg'
+import chevronRight from './icons/chevron-right.svg'
+import chevronLeft from './icons/chevron-left.svg'
+import chevronLeftDisabled from './icons/chevron-left-disabled.svg'
+import chevronRightDisabled from './icons/chevron-right-disabled.svg'
+import plusGreen from './icons/plus-green.svg'
+import noteIconGreen from './icons/note-icon-green.svg'
 
 const assets = {
   background: {},
   icons: {
+    noteIconGreen,
+    chevronRightDisabled,
+    chevronLeftDisabled,
+    chevronLeft,
+    chevronRight,
     chevronDown,
     book,
     bookHovered,
@@ -52,6 +63,7 @@ const assets = {
     personBlack,
     chevronRightGreen,
     chevronLeftGreen,
+    plusGreen,
   },
   images: {
     logo,

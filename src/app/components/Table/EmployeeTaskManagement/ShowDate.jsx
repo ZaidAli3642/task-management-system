@@ -16,7 +16,7 @@ const ShowDate = ({ isSelectedSolved, date, day, weekNo }) => {
           </Text>
           {day && (
             <Text fontWeight={400} fontSize={'14px'} marginLeft={'25px'}>
-              {weekDay.day}
+              {weekDay?.day}
             </Text>
           )}
         </Box>

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   loading: false,
+  customersDataFetch: false,
   customersData: [],
   activeCustomers: [],
   customerAddModal: false,
@@ -24,15 +25,16 @@ const customersSlice = createSlice({
       state.customerDeleteModal = action.payload
     },
     customerFetch: (state, action) => {
-      state.loading = true
+      state.customersDataFetch = true
+      state.error = null
     },
     customerFetchSuccess: (state, action) => {
-      state.loading = false
+      state.customersDataFetch = false
       state.customersData = action.payload
       state.error = null
     },
     customerFetchFailed: (state, action) => {
-      state.loading = false
+      state.customersDataFetch = false
       state.error = action.payload.error
     },
     customerAdd: (state, action) => {

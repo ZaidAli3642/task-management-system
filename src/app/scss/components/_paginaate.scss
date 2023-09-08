@@ -5,26 +5,48 @@
   list-style: none;
 
   .page-classname {
-    margin: 10px;
+    margin-right: 2px;
+    margin-left: 2px;
     font-weight: 400;
     font-size: 14px;
+    font-weight: 400;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:nth-last-child(2) {
+      margin-right: 2px;
+    }
+  }
+
+  .page-classname:last-child {
+    margin-right: 0;
   }
 
   .active-classname {
     background-color: $dark-green;
     color: $white;
-    padding: 5px 13px;
-    border-radius: 5px;
+    border-radius: 3px;
+    font-weight: 700;
+    padding: 5px 11px;
+  }
+
+  .break-classname {
+    margin-right: 2px;
+    margin-left: 0;
   }
 
   .disabled-prev-next {
     color: rgba(27, 27, 26, 0.5);
   }
 
-  .next-classname {
-  }
-
-  .prev-classname {
-    margin-right: 10px;
+  .arrows {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

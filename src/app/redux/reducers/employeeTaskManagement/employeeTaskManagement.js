@@ -13,8 +13,8 @@ const initialState = {
   noteText: '',
   clientInfoModal: false,
   clientInfo: {},
-  perPage: 2,
-  pageCount: 2,
+  perPage: 10,
+  pageCount: 10,
   error: null,
 }
 
@@ -46,7 +46,7 @@ const employeeTaskManagementSlice = createSlice({
     setPageCount: (state, action) => {
       const { pageNo } = action.payload
 
-      if (state.taskForEmployeesAllCustomers.length > state.perPage) state.pageCount = Math.ceil(state.taskForEmployeesAllCustomers.length / state.perPage)
+      state.pageCount = Math.ceil(state.taskForEmployeesAllCustomers.length / state.perPage)
       let start = pageNo * state.perPage
       let end = (pageNo + 1) * state.perPage
 

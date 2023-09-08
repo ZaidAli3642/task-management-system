@@ -14,6 +14,7 @@ import customerSchema from '../../validations/customerSchema'
 import EditCustomer from '../../components/Modal/Customer/EditCustomer'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import Spinner from '../../components/Spinner'
 
 const Customers = () => {
   const toast = useToast()
@@ -23,6 +24,7 @@ const Customers = () => {
   const customersData = useSelector(state => state.customers.customersData)
   const isCustomerAddModal = useSelector(state => state.customers.customerAddModal)
   const isCustomerEditModal = useSelector(state => state.customers.customerEditModal)
+  const isCustomersDataFetch = useSelector(state => state.customers.customersDataFetch)
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ name: '', description: '', code: '' })
   const [errorMessagesEdit, isInvalidEdit, inputFieldsEdit, setInputFieldsEdit, , onChangeEdit, onSubmitEdit] = useForm({ name: '', description: '', code: '' })
   const [employeeId, setEmployeeId] = useState('')
@@ -53,6 +55,8 @@ const Customers = () => {
   useEffect(() => {
     dispatch(customerFetch({ perPage: 10, page: 1 }))
   }, [])
+
+  if (isCustomersDataFetch) return <Spinner marginTop={20} isLoading={isCustomersDataFetch} />
 
   return (
     <>

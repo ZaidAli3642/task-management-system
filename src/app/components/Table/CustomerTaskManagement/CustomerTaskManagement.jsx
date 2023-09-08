@@ -77,8 +77,8 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
               Responsible
             </Text>
           </Td>
-          <Td w='17%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} margin={0}>
-            <Text marginLeft={'10px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
+          <Td w='17%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} paddingLeft={'10px'} margin={0}>
+            <Text marginLeft={'7px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
               Repetition
             </Text>
           </Td>
@@ -90,28 +90,28 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
         </TableRow>
         <TableRow h={'40px'}>
           <Td w='17%' display={'flex'} alignItems={'center'} borderBottom={0} padding={0} margin={0}>
-            <Box paddingY={'10px'} position={'absolute'} w='16.5%' background={colors.silver} paddingLeft={'10px'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'}>
-              <Filter isClosable={false} filterCheck={taskGroupsFilter} onSelectItem={(checked, item) => onFilter(checked, 'taskGroup', item)} data={taskGroups} left={'-15px'} label={'All'} optionKey='name' dropDownContainerWidth={'250px'} />
+            <Box paddingY={'10px'} w='100%' background={colors.silver} paddingLeft={'10px'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'}>
+              <Filter menuButtonMarginX='10px' isClosable={false} filterCheck={taskGroupsFilter} onSelectItem={(checked, item) => onFilter(checked, 'taskGroup', item)} data={taskGroups} left={'-15px'} label={'All'} optionKey='name' dropDownContainerWidth={'250px'} />
             </Box>
           </Td>
           <Td w='30%' display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
-            <Box paddingY={'10px'} position={'absolute'} w='29%' cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
-              <Filter data={tasks} filterCheck={tasksFilter} onSelectItem={(checked, item) => onFilter(checked, 'tasks', item)} isClosable={false} left={'-15px'} label={'All'} optionKey='name' dropDownContainerWidth={'250px'} />
+            <Box paddingY={'10px'} w='100%' paddingLeft={'2px'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
+              <Filter menuButtonMarginX='10px' data={tasks} filterCheck={tasksFilter} onSelectItem={(checked, item) => onFilter(checked, 'tasks', item)} isClosable={false} left={'-15px'} label={'All'} optionKey='name' dropDownContainerWidth={'250px'} />
             </Box>
           </Td>
-          <Td w='17%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
-            <Box paddingY={'10px'} position={'absolute'} w='17%' cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
-              <Filter data={responsibles} filterCheck={responsiblesFilter} left={'-15px'} label={'All'} onSelectItem={(checked, item) => onFilter(checked, 'responsibles', item)} optionKey='first_name' dropDownContainerWidth={'250px'} />
+          <Td w='17%' cursor={'pointer'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
+            <Box paddingY={'10px'} w='100%' paddingLeft={'2px'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
+              <Filter menuButtonMarginX='10px' data={responsibles} filterCheck={responsiblesFilter} left={'-15px'} label={'All'} onSelectItem={(checked, item) => onFilter(checked, 'responsibles', item)} optionKey='first_name' dropDownContainerWidth={'250px'} />
             </Box>
           </Td>
         </TableRow>
       </TableHead>
 
       {data.length > 0 && (
-        <Tbody h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
+        <Tbody paddingX={'20px'} h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
           {data.map((taskGroup, index) => (
             <TableRow key={taskGroup.uuid} alignItems={'flex-start'} borderBottom={data.length - 1 === index ? 0 : 1}>
-              <Td role='group' paddingLeft={'20px'} cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
+              <Td role='group' paddingLeft={'0px'} paddingRight={'20px'} cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
                 <Box>
                   <Text>{taskGroup.name}</Text>
                 </Box>
@@ -120,7 +120,7 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
                 </Box>
               </Td>
 
-              <Td w={'100%'} paddingLeft={'10px'} paddingY={0} border={0}>
+              <Td w={'100%'} paddingLeft={'0'} paddingRight={'0'} paddingY={0} border={0}>
                 {taskGroup.tasks.map((task, index) => (
                   <Box role='group' cursor={'pointer'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
                     <Box w={'36%'}>
@@ -130,28 +130,30 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
                     </Box>
 
                     <>
-                      <Box w={'21%'}>
+                      <Box w={'22%'} position={'relative'}>
                         {task.task_item?.responsible || task?.task_item?.responsible_role === 'customer' ? (
-                          <Box onClick={() => onOpenAddResponsible(taskGroup, task, true)} paddingX={'10px'} paddingY={'5px'} borderRadius='5px' role='group' _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen }} cursor={'pointer'} w={'fit-content'}>
+                          <Box marginLeft={'2px'} onClick={() => onOpenAddResponsible(taskGroup, task, true)} paddingX={'10px'} paddingY={'5px'} borderWidth={1} borderColor={'white'} borderRadius='5px' role='group' _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen, color: colors.darkGreen }} cursor={'pointer'} w={'fit-content'}>
                             <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _hover={{ color: colors.darkGreen }} w={'100%'}>
                               {task.task_item?.responsible?.first_name || task?.task_item?.responsible_role}
                             </Text>
                           </Box>
                         ) : (
-                          <ButtonWithIcon display='none' _groupHover={{ display: 'block' }} title='Add responsible' onClick={() => onOpenAddResponsible(taskGroup, task)} size='small' height='30px' fontSize='14px' fontWeight={600} />
+                          <ButtonWithIcon marginLeft={'10px'} display='none' _groupHover={{ display: 'flex' }} title='Add responsible' onClick={() => onOpenAddResponsible(taskGroup, task)} size='small' h='33px' paddingX='10px' paddingY='5px' fontSize='14px' fontWeight={600} />
                         )}
                       </Box>
-                      <Box w={'21%'}>
+                      <Box w={'21%'} paddingLeft={'6px'}>
                         {task.task_item?.tasks_repetition ? (
                           <Box w={'fit-content'} onClick={() => onOpenEditRepeat(taskGroup, task)} cursor={'pointer'} display={'flex'} flexDirection={'column'}>
                             <Box display={'flex'}>{getWeeklyDays(task.task_item?.tasks_repetition || {})}</Box>
                             {getTaskRepetition(task.task_item?.tasks_repetition || {})}
                           </Box>
                         ) : (
-                          <ButtonWithIcon display='none' _groupHover={{ display: 'block' }} onClick={() => onOpenRepeat(taskGroup, task)} title='Add repetition' size='small' height='30px' fontSize='14px' fontWeight={600} />
+                          <ButtonWithIcon display='none' _groupHover={{ display: 'flex' }} onClick={() => onOpenRepeat(taskGroup, task)} title='Add repetition' size='small' h='33px' paddingX='10px' paddingY='5px' fontSize='14px' fontWeight={600} />
                         )}
                       </Box>
-                      <Box w={'21%'}>{task?.task_item?.notes ? <Icon onClick={() => onOpenNoteModal(taskGroup, task, true)} cursor='pointer' image={assets.icons.noteIcon} w='20px' h='18px' /> : <ButtonWithIcon display='none' _groupHover={{ display: 'block' }} onClick={() => onOpenNoteModal(taskGroup, task)} title='Add note' size='small' height='30px' fontSize='14px' fontWeight={600} />}</Box>
+                      <Box w={'21%'} paddingLeft={'0'}>
+                        {task?.task_item?.notes ? <Icon onClick={() => onOpenNoteModal(taskGroup, task, true)} cursor='pointer' image={assets.icons.noteIcon} hoveredImage={assets.icons.noteIconGreen} w='20px' h='18px' /> : <ButtonWithIcon display='none' _groupHover={{ display: 'flex' }} onClick={() => onOpenNoteModal(taskGroup, task)} title='Add note' size='small' h='33px' fontSize='14px' paddingX='10px' paddingY='5px' fontWeight={600} />}
+                      </Box>
                     </>
                   </Box>
                 ))}

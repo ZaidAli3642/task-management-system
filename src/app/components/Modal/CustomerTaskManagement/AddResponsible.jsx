@@ -3,7 +3,7 @@ import { Button, Form } from '../../Form'
 import Modal from '../Modal'
 import SelectBox from '../../SelectBox'
 
-const AddResponsible = ({ isOpen, onClose, onAddResponsible, errorMessage, isInvalid, showOption, options, selectedOption, onSelect, subHeading }) => {
+const AddResponsible = ({ isLoading, isOpen, onClose, onAddResponsible, errorMessage, isInvalid, showOption, options, selectedOption, onSelect, subHeading }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} modalHeading='Add responsible' subHeading={subHeading}>
       <Form onSubmit={onAddResponsible} isInvalid={isInvalid}>
@@ -12,7 +12,7 @@ const AddResponsible = ({ isOpen, onClose, onAddResponsible, errorMessage, isInv
         </ModalBody>
         <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
           <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />
-          <Button margin={'10px'} title='Add' size='small' color='green' type='submit' />
+          <Button isLoading={isLoading} margin={'10px'} title='Add' size='small' color='green' type='submit' />
         </ModalFooter>
       </Form>
     </Modal>

@@ -3,11 +3,12 @@ import { Button as ChakraButton } from '@chakra-ui/react'
 
 import { buttonStyle } from '../../utils/buttonStyle'
 
-const Button = ({ title, color = 'green', size = 'small', type, onClick, ...props }) => {
+const Button = ({ isLoading = false, title, color = 'green', size = 'small', type, onClick, ...props }) => {
   const { classes, style } = useMemo(() => buttonStyle(size, color), [])
 
   return (
     <ChakraButton
+      isLoading={isLoading}
       {...props}
       onClick={onClick}
       type={type}

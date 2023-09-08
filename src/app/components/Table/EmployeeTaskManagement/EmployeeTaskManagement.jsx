@@ -17,17 +17,19 @@ const EmployeeTaskManagement = ({ weekNumber, setWeekNumber, onClearKeyValues, o
 
   const isSelectedSolved = filters.solvedUnsolved.length === 0
 
+  const length = data?.length
+
   return (
     <TableWrapper>
       <TableHead>
         <TableHeadColumn onSortByTimeStamp={onSortByTimeStamp} isSelectedSolved={filters.solvedUnsolved.length === 0} />
-        <TableFilter setWeekNumber={setWeekNumber} onClearKeyValues={onClearKeyValues} filters={filters} onChangeSolvedUnSolved={onChangeSolvedUnSolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} selectYear={selectYear} selectedYear={selectedYear} allWeeksInYear={allWeeksInYear} isSelectedSolved={isSelectedSolved} />
+        <TableFilter setWeekNumber={setWeekNumber} onClearKeyValues={onClearKeyValues} filters={filters} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} selectYear={selectYear} selectedYear={selectedYear} allWeeksInYear={allWeeksInYear} isSelectedSolved={isSelectedSolved} />
       </TableHead>
       <Tbody h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
         {data.length > 0 &&
           data?.map((data, index) =>
             data.customer_info ? (
-              <TableRow key={index} alignItems={'flex-start'}>
+              <TableRow borderBottom={index === length - 1 ? 0 : 1} key={index} alignItems={'flex-start'}>
                 <Td paddingLeft={'20px'} h={'45px'} w={!isSelectedSolved ? '13.8%' : '15%'} fontWeight={600} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} fontSize={'14px'} border={0}>
                   <Text fontWeight={400} fontSize={'14px'}>
                     {data.customer_info.name}
@@ -40,7 +42,8 @@ const EmployeeTaskManagement = ({ weekNumber, setWeekNumber, onClearKeyValues, o
                         dispatch(clientInfoModal(true))
                       }}
                       marginLeft='5px'
-                      image={assets.icons.warning}
+                      image={assets.icons.info}
+                      hoveredImage={assets.icons.infoHovered}
                       display='flex'
                       justifyContent='center'
                       alignItems='center'

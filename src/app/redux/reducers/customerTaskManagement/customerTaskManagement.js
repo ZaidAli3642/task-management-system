@@ -44,7 +44,8 @@ const customerTaskManagementSlice = createSlice({
     setPerPage: (state, action) => {
       const { perPage, isCustomerAll } = action.payload
       state.perPage = perPage
-      state.pageCount = Math.ceil(isCustomerAll ? state.customersWithTaskGroup.length : state.taskGroupWithSchedules.length / perPage)
+      let length = isCustomerAll ? state.customersWithTaskGroup.length : state.taskGroupWithSchedules.length
+      state.pageCount = Math.ceil(length / perPage)
 
       if (isCustomerAll) {
         state.perPageCustomersWithTaskGroup = state.customersWithTaskGroup.slice(0, perPage + 1)
@@ -88,7 +89,7 @@ const customerTaskManagementSlice = createSlice({
       state.customersWithTaskGroup = action.payload
     },
     fetchCustomersWithTaskGroupFailed: (state, action) => {
-      state.loading = true
+      state.loading = false
       state.error = action.payload.error
     },
     manageRepetition: (state, action) => {
@@ -159,11 +160,11 @@ const customerTaskManagementSlice = createSlice({
       state.error = null
     },
     addResponsibleSuccess: (state, action) => {
-      state.loading = true
+      state.loading = false
       state.error = null
     },
     addResponsibleFailed: (state, action) => {
-      state.loading = true
+      state.loading = false
       state.error = action.payload.error
     },
     addEditRemoveNote: (state, action) => {
@@ -171,11 +172,11 @@ const customerTaskManagementSlice = createSlice({
       state.error = null
     },
     addEditRemoveNoteSuccess: (state, action) => {
-      state.loading = true
+      state.loading = false
       state.error = null
     },
     addEditRemoveNoteFailed: (state, action) => {
-      state.loading = true
+      state.loading = false
       state.error = action.payload.error
     },
     filters: (state, action) => {
@@ -183,9 +184,10 @@ const customerTaskManagementSlice = createSlice({
 
       state.taskGroups = taskGroupsWithSchedules
       for (let taskGroupsWithSchedule of taskGroupsWithSchedules) {
-        state.tasks = [...state.tasks, ...taskGroupsWithSchedule.tasks]
-
         for (let tasks of taskGroupsWithSchedule.tasks) {
+          const found = state.tasks.find(task => task.id === tasks?.id)
+          if (!found) state.tasks = [...state.tasks, tasks]
+
           if (tasks?.task_item && tasks?.task_item?.responsible) {
             const found = state.responsibles.find(responsible => responsible.id === tasks?.task_item?.responsible.id)
             if (!found) state.responsibles = [...state.responsibles, tasks?.task_item?.responsible]

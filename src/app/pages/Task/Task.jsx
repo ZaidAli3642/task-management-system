@@ -82,8 +82,8 @@ const Task = () => {
   }
 
   const handleEditTask = async () => {
-    await onSubmitTaskEdit(taskSchema, () => dispatch(editTaskAction({ updatedTask: inputFieldsTaskEdit, taskId: taskId.uuid, toast })))
-    dispatch(taskEditModal(false))
+    await onSubmitTaskEdit(taskSchema, () => dispatch(editTaskAction({ updatedTask: inputFieldsTaskEdit, taskId: taskId.uuid, toast })), false)
+    // dispatch(taskEditModal(false))
   }
 
   const editTask = (taskGroup, task) => {
@@ -119,7 +119,7 @@ const Task = () => {
     <>
       <Box display='flex' justifyContent='space-between' alignItems='center' my='20px' mx='30px'>
         <Breadcrumbs navigationLocation={taskBreadcrumb} />
-        <Box>
+        <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
           <ButtonWithIcon onClick={() => dispatch(taskGroupAddModal(true))} title='Add task group' size='medium' marginRight='10px' />
           <ButtonWithIcon onClick={() => dispatch(taskAddModal(true))} title='Add task' size='medium' />
         </Box>

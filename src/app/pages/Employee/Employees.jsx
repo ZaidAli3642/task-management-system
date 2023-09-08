@@ -19,6 +19,7 @@ import EditEmployee from '../../components/Modal/Employee/EditEmployee'
 import DeleteEmployee from '../../components/Modal/Employee/DeleteEmployee'
 import employeeBreadcrumb from './employeeBreadcrumbs'
 import { useNavigate } from 'react-router-dom'
+import Spinner from '../../components/Spinner'
 
 const Employees = () => {
   const toast = useToast()
@@ -30,6 +31,7 @@ const Employees = () => {
   const isEmployeeAddModal = useSelector(state => state.employees.employeeAddModal)
   const isEmployeeEditModal = useSelector(state => state.employees.employeeEditModal)
   const isEmployeeDeleteModal = useSelector(state => state.employees.employeeDeleteModal)
+  const isEmployeeDataFetch = useSelector(state => state.employees.employeeDataFetch)
   const [errorMessages, isInvalid, inputFields, , , onChange, onSubmit] = useForm({ firstname: '', lastname: '', username: '', password: '', confirmPassword: '' })
   const [errorMessagesEdit, isInvalidEdit, inputFieldsEdit, setInputFieldsEdit, , onChangeEdit, onSubmitEdit] = useForm({ firstname: '', lastname: '', username: '', password: '', confirmPassword: '' })
   const [perPage, setPerPage] = useState(10)
@@ -88,10 +90,14 @@ const Employees = () => {
         <Breadcrumbs navigationLocation={employeeBreadcrumb} iconImage={assets.icons.employees} />
         {user.role === 'admin' && <ButtonWithIcon onClick={() => dispatch(employeeAddModal(true))} size='medium' />}
       </Box>
-      <Box mx='30px'>
-        {employeeData.length > 0 && <Table onClickItem={item => navigate('/employees/customers', { state: { employeeData: item } })} setEmployeeId={setEmployeeId} columns={employeeColumns} data={employeeData} onOpenEditModal={openEditModal} />}
-        <TableWrapper tableBoxStyles={{ marginTop: '30px', marginBottom: '30px' }}>{employeeData.length > 0 && <TableFoot columns={employeeColumns} data={[customersAssignedTask]} />}</TableWrapper>
-      </Box>
+      {isEmployeeDataFetch ? (
+        <Spinner isLoading={isEmployeeDataFetch} />
+      ) : (
+        <Box mx='30px'>
+          {employeeData.length > 0 && <Table onClickItem={item => navigate('/employees/customers', { state: { employeeData: item } })} setEmployeeId={setEmployeeId} columns={employeeColumns} data={employeeData} onOpenEditModal={openEditModal} />}
+          <TableWrapper tableBoxStyles={{ marginTop: '30px', marginBottom: '30px' }}>{employeeData.length > 0 && <TableFoot columns={employeeColumns} data={[customersAssignedTask]} />}</TableWrapper>
+        </Box>
+      )}
       <AddEmployee isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddEmployee={() => onSubmitForm(false)} />
       <EditEmployee inputEditFields={inputFieldsEdit} showDeleteModal={showDeleteModal} isInvalid={isInvalidEdit} errorMessage={errorMessagesEdit} onChangeInput={onChangeEdit} isOpen={isEmployeeEditModal} onClose={() => dispatch(employeeEditModal(false))} onEditEmployee={() => onSubmitForm(true)} />
       <DeleteEmployee employee={employeeId} isOpen={isEmployeeDeleteModal} onClose={() => dispatch(employeeDeleteModal(false))} onDeleteEmployee={() => deleteEmployee()} />

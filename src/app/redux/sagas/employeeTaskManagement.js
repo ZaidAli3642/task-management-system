@@ -58,17 +58,17 @@ function* updateTask(action) {
   const token = yield select(state => state.auth.token)
   const { data, pageNo, isCustomerAll, responsibleId, customerId, filters } = action.payload
 
-  const { year, week, taskGroup, task, solvedUnsolved } = filters
+  const { year, week, taskGroup, task, solvedUnsolved, weekNumber } = filters
   let status = solvedUnsolved.length === 0 ? null : solvedUnsolved[0] === 1 ? 'solved' : 'unsolved'
   try {
     const response = yield call(employeeTaskManagement(token).updateTaskByEmployee, data)
     if (response) {
       if (isCustomerAll) {
-        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployeesAllCustomers, responsibleId, { year, week, taskGroup, task, solvedUnsolved: status })
+        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployeesAllCustomers, responsibleId, { year, week, taskGroup, task, solvedUnsolved: status, weekNumber })
         yield put(fetchTaskForEmployeesAllCustomersSuccess(response.data.customers))
         yield put(setPageCount({ pageNo: pageNo }))
       } else {
-        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployees, responsibleId, customerId, { year, week, taskGroup, task, solvedUnsolved: status })
+        const response = yield call(employeeTaskManagement(token).fetchTaskForEmployees, responsibleId, customerId, { year, week, taskGroup, task, solvedUnsolved: status, weekNumber })
         yield put(fetchTaskForEmployeesSuccess(response.data.customers))
       }
     }

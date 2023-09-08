@@ -99,6 +99,9 @@ body {
 .icon-container:hover .icon:nth-child(2) {
   display: block;
 }
+.icon-container-rotated {
+  transform: rotate(180deg);
+}
 
 .table {
   border-radius: 20px;
@@ -162,21 +165,43 @@ body {
   list-style: none;
 }
 .pagination-container .page-classname {
-  margin: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
   font-weight: 400;
   font-size: 14px;
+  font-weight: 400;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination-container .page-classname:nth-last-child(2) {
+  margin-right: 2px;
+}
+.pagination-container .page-classname:last-child {
+  margin-right: 0;
 }
 .pagination-container .active-classname {
   background-color: #1ba076;
   color: #ffffff;
-  padding: 5px 13px;
-  border-radius: 5px;
+  border-radius: 3px;
+  font-weight: 700;
+  padding: 5px 11px;
+}
+.pagination-container .break-classname {
+  margin-right: 2px;
+  margin-left: 0;
 }
 .pagination-container .disabled-prev-next {
   color: rgba(27, 27, 26, 0.5);
 }
-.pagination-container .prev-classname {
-  margin-right: 10px;
+.pagination-container .arrows {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login {

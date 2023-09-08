@@ -27,10 +27,10 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask,
           </Td>
         </TableRow>
       </TableHead>
-      <Tbody h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
+      <Tbody paddingX={'20px'} h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
         {taskGroupsAndTasks.map((taskGroup, index) => (
           <TableRow key={taskGroup.uuid} alignItems={'flex-start'} borderBottom={taskGroupsAndTasks.length - 1 === index ? 0 : 1}>
-            <Td role='group' cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
+            <Td role='group' paddingLeft={'0px'} cursor={'pointer'} w={'23%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
               <Box>
                 <Text>{taskGroup.name}</Text>
                 <Text fontSize={'14px'} fontWeight={400} color={colors.darkGrey}>
@@ -43,7 +43,7 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask,
               </Box>
             </Td>
 
-            <Td w={'100%'} marginLeft={'30px'} paddingY={0} border={0}>
+            <Td w={'100%'} paddingLeft='4px' paddingRight={0} paddingY={0} border={0}>
               {taskGroup.tasks.map((task, index) => (
                 <Box role='group' cursor={'pointer'} onClick={() => onEditTask(taskGroup, task)} key={task.uuid} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                   <Text paddingY={'15px'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>

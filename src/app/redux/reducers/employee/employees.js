@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   loading: false,
+  employeeDataFetch: false,
   employeeData: [],
   activeEmployees: [],
   customersAssignedTask: {},
@@ -77,16 +78,16 @@ const employeesSlice = createSlice({
       state.error = null
     },
     employeeFetch: (state, action) => {
-      state.loading = true
+      state.employeeDataFetch = true
       state.error = null
     },
     employeesDataSet: (state, action) => {
       state.employeeData = action.payload
-      state.loading = false
+      state.employeeDataFetch = false
       state.error = null
     },
     employeeFetchFailed: (state, action) => {
-      state.loading = false
+      state.employeeDataFetch = false
       state.error = action.payload.error
     },
     activeEmployeeFetch: (state, action) => {

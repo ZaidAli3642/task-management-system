@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Text } from '@chakra-ui/react'
 import Icon from './Icon'
 import colors from '../config/colors'
 import { useNavigate } from 'react-router-dom'
@@ -9,7 +9,20 @@ const Breadcrumbs = ({ navigationLocation = [], onClick }) => {
   const navigate = useNavigate()
 
   return (
-    <Breadcrumb border={1} borderColor={colors.lightGrey} borderStyle='solid' p='5px' borderRadius='40px' backgroundColor={colors.white} w='fit-content'>
+    <Breadcrumb
+      border={1}
+      separator={
+        <Text color={colors.darkGrey} fontSize={'16px'} fontWeight={600}>
+          /
+        </Text>
+      }
+      borderColor={colors.lightGrey}
+      borderStyle='solid'
+      p='5px'
+      borderRadius='40px'
+      backgroundColor={colors.white}
+      w='fit-content'
+    >
       {navigationLocation.map((value, index) => (
         <BreadcrumbItem onClick={() => navigate(value.path)} key={value.id} backgroundColor={lastIndex(index) ? colors.lightGreen : 'transparent'} padding={lastIndex(index) ? '5px' : 0} paddingRight='10px' height='40px' borderRadius='40px' display='flex' justifyContent='space-between' alignItems='center' cursor='pointer'>
           {value.icon && (
@@ -17,7 +30,7 @@ const Breadcrumbs = ({ navigationLocation = [], onClick }) => {
               <Icon display='flex' justifyContent='center' alignItems='center' image={value.icon} />
             </Box>
           )}
-          <BreadcrumbLink marginLeft='5px' marginRight='5px' fontWeight={600} fontSize='16px' textDecoration='none'>
+          <BreadcrumbLink color={index === navigationLocation.length - 1 ? colors.black : colors.darkGrey} marginLeft='5px' marginRight='5px' fontWeight={600} fontSize='16px' textDecoration='none'>
             {value.title}
           </BreadcrumbLink>
         </BreadcrumbItem>

@@ -21,6 +21,7 @@ const EmployeeTaskManagement = () => {
   const { allCustomers, allEmployees, taskForEmployees, taskForEmployeesAllCustomers, noteText, taskGroups, tasks, perPage, pageCount, perPageAllCustomerTaskEmployees, noteModal: isNoteModal, clientInfoModal: isClientInfoModal, clientInfo } = useSelector(state => state.employeeTaskManagement)
   const [selectedCustomer, setSelectedCustomer] = useState(null)
   const [selectedEmployee, setSelectedEmployee] = useState(null)
+  const [shouldRun, setShouldRun] = useState(false)
   const [pageNo, setPageNo] = useState(0)
   const [sortOrderTimestamp, setSortOrderTimestamp] = useState('desc')
   const [selectedYear, setSelectedYear] = useState(moment().year())
@@ -63,8 +64,9 @@ const EmployeeTaskManagement = () => {
     const sortedData = _.map(data, customerTask => {
       return {
         ...customerTask,
-        currentTasks: _.orderBy(customerTask.currentTasks, ['completedTask.updated_at'], sortOrderTimestamp),
-        futureTasks: _.orderBy(customerTask.futureTasks, ['completedTask.updated_at'], sortOrderTimestamp),
+        currentTasks: _.orderBy(customerTask.currentTasks, ['done_at'], sortOrderTimestamp),
+        futureTasks: _.orderBy(customerTask.futureTasks, ['done_at'], sortOrderTimestamp),
+        pastTasks: _.orderBy(customerTask.pastTasks, ['done_at'], sortOrderTimestamp),
       }
     })
 
@@ -98,14 +100,15 @@ const EmployeeTaskManagement = () => {
 
   const isCustomerAll = () => selectedCustomer?.id === null
 
-  const changeSolvedUnsolved = (taskItemId, weekNo, weekDay, checked, completionStatus) => {
+  const changeSolvedUnsolved = (taskItemId, weekNo, weekDay, checked, completionStatus, occurance_date) => {
     const data = {
       task_item_id: taskItemId,
       week_no: weekNo,
       week_day: weekDay,
       completion_status: checked ? completionStatus : null,
+      occurance_date: occurance_date,
     }
-    dispatch(updateTaskByEmployee({ data, pageNo, isCustomerAll: isCustomerAll(), responsibleId: selectedEmployee?.id, customerId: selectedCustomer?.id, filters: { ...filterIds, year: selectedYear } }))
+    dispatch(updateTaskByEmployee({ data, pageNo, isCustomerAll: isCustomerAll(), responsibleId: selectedEmployee?.id, customerId: selectedCustomer?.id, filters: { ...filterIds, year: selectedYear, weekNumber } }))
   }
 
   const handleChangePage = ({ selected }) => {
@@ -121,10 +124,12 @@ const EmployeeTaskManagement = () => {
     dispatch(fetchAllEmployees())
     dispatch(fetchAllCustomers())
     if (state?.employeeData && state?.customerData) {
-      fetchTaskData(state?.employeeData.id, state?.customerData.id, { ...filterIds, year: selectedYear, weekNumber })
+      // fetchTaskData(state?.employeeData.id, state?.customerData.id, { ...filterIds, year: selectedYear, weekNumber })
       setSelectedEmployee(state.employeeData)
       setSelectedCustomer(state.customerData)
     }
+
+    setShouldRun(true)
   }, [])
 
   useEffect(() => {
@@ -132,7 +137,10 @@ const EmployeeTaskManagement = () => {
       return fetchTaskDataAllCustomer(selectedEmployee?.id, { ...filterIds, year: selectedYear, weekNumber }, pageNo)
     }
 
-    fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear, weekNumber })
+    if (shouldRun) {
+      console.log('Hiiiiiii', shouldRun)
+      fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear, weekNumber })
+    }
   }, [selectedCustomer, selectedEmployee, filters])
 
   return (
@@ -144,7 +152,7 @@ const EmployeeTaskManagement = () => {
       </Box>
       <Box mx='30px'>
         <EmployeeTaskManagementTable weekNumber={weekNumber} setWeekNumber={setWeekNumber} onSortByTimeStamp={sortByTimeStamp} filters={filters} onChangeSolvedUnSolved={changeSolvedUnsolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} onClearKeyValues={onClearKeyValues} setFilters={setFilters} taskGroupsFilter={taskGroups} tasksFilter={tasks} data={selectedCustomer?.id ? taskForEmployees : perPageAllCustomerTaskEmployees} selectYear={selectYear} allWeeksInYear={allWeeksInYear} selectedYear={selectedYear} />
-        {selectedCustomer?.id === null && <Pagination onChangePerPage={handleChangePerPage} pageCount={pageCount} perPage={perPage} onChangePage={handleChangePage} />}
+        {selectedCustomer?.id === null && <Pagination pageNo={pageNo} onChangePerPage={handleChangePerPage} pageCount={pageCount} perPage={perPage} onChangePage={handleChangePage} />}
       </Box>
 
       <Note isOpen={isNoteModal} onClose={() => dispatch(noteModal(false))} noteText={noteText} />
