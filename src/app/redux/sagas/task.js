@@ -4,11 +4,13 @@ import { addTask, addTaskError, addTaskSuccess, deleteTask, deleteTaskError, del
 
 function* createTask(action) {
   const token = yield select(state => state.auth.token)
+  const { setSelectedOption } = action.payload
 
   try {
     const response = yield call(task(token).addTask, action.payload.task)
     yield put(addTaskSuccess({ task: response.data.data }))
     yield put(taskAddModal(false))
+    setSelectedOption(null)
   } catch (error) {
     const errors = error?.response?.data?.errors
     yield put(taskAddModal(false))

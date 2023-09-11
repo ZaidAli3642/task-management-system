@@ -54,7 +54,7 @@ const getWeeklyDays = taskRepetition => {
   )
 }
 
-const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpenBulkAssign, taskGroups, tasks, onFilter, taskGroupsFilter, tasksFilter, responsibles, responsiblesFilter, onOpenAddResponsible, onOpenNoteModal, onOpenRepeat }) => {
+const CustomerTaskManagement = ({ taskGroupSort, onOpenEditRepeat, data, onSortTaskGroup, onOpenBulkAssign, taskGroups, tasks, onFilter, taskGroupsFilter, tasksFilter, responsibles, responsiblesFilter, onOpenAddResponsible, onOpenNoteModal, onOpenRepeat }) => {
   return (
     <TableWrapper>
       <TableHead>
@@ -64,7 +64,7 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
               <Text marginLeft={'20px'} cursor={'pointer'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
                 Task Group
               </Text>
-              <Icon cursor={'pointer'} image={assets.icons.swap} />
+              <Icon cursor={'pointer'} display='flex' justifyContent='center' alignItems='center' image={taskGroupSort === 'desc' ? assets.icons.swap : assets.icons.swap2} />
             </Box>
           </Td>
           <Td w='30%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} margin={0}>
@@ -124,7 +124,7 @@ const CustomerTaskManagement = ({ onOpenEditRepeat, data, onSortTaskGroup, onOpe
                 {taskGroup.tasks.map((task, index) => (
                   <Box role='group' cursor={'pointer'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
                     <Box w={'36%'}>
-                      <Text paddingY={'15px'} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
+                      <Text paddingY={'15px'} _groupHover={{ color: colors.darkGreen }} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
                         {task.name}
                       </Text>
                     </Box>

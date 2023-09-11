@@ -77,8 +77,7 @@ const Task = () => {
   }
 
   const handleAddTask = async () => {
-    await onSubmitTask(taskSchema, () => dispatch(addTask({ task: { ...inputFieldsTask, task_group_id: inputFieldsTask.id }, toast })))
-    setSelectedOption(null)
+    await onSubmitTask(taskSchema, () => dispatch(addTask({ task: { ...inputFieldsTask, task_group_id: inputFieldsTask.id }, toast })), false)
   }
 
   const handleEditTask = async () => {
@@ -125,7 +124,7 @@ const Task = () => {
         </Box>
       </Box>
 
-      <Box mx='30px'>{taskGroupsAndTasks?.length > 0 && <TaskTable onSortTaskGroup={sortTaskGroup} onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
+      <Box mx='30px'>{taskGroupsAndTasks?.length > 0 && <TaskTable taskGroupSort={taskGroupSort} onSortTaskGroup={sortTaskGroup} onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
       <AddTaskGroup isOpen={isTaskGroupAddModal} onClose={() => dispatch(taskGroupAddModal(false))} errorMessages={errorMessages} isInvalid={isInvalid} onChangeInput={onChange} onAddTaskGroup={handleAddTaskGroup} />
       <EditTaskGroup
         deleteTaskGroupModal={() => {

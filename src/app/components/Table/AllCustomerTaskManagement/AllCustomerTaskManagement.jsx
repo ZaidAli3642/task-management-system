@@ -56,7 +56,7 @@ const getWeeklyDays = taskRepetition => {
   )
 }
 
-const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRepeat, setCustomer, data, onSortTaskGroup, onOpenBulkAssign, taskGroups, tasks, onFilter, taskGroupsFilter, tasksFilter, responsibles, responsiblesFilter, onOpenAddResponsible, onOpenNoteModal }) => {
+const AllCustomerTaskManagement = ({ customersSort, taskGroupSort, onOpenEditRepeat, onSortCustomers, onOpenRepeat, setCustomer, data, onSortTaskGroup, onOpenBulkAssign, taskGroups, tasks, onFilter, taskGroupsFilter, tasksFilter, responsibles, responsiblesFilter, onOpenAddResponsible, onOpenNoteModal }) => {
   const dispatch = useDispatch()
 
   return (
@@ -68,7 +68,7 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
               <Text marginLeft={'20px'} cursor={'pointer'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
                 Customers
               </Text>
-              <Icon cursor={'pointer'} image={assets.icons.swap} />
+              <Icon cursor={'pointer'} image={customersSort === 'desc' ? assets.icons.swap : assets.icons.swap2} />
             </Box>
           </Td>
           <Td w='17%' borderBottom={0} padding={0} margin={0}>
@@ -76,7 +76,7 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
               <Text marginLeft={'10px'} cursor={'pointer'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
                 Task Group
               </Text>
-              <Icon cursor={'pointer'} image={assets.icons.swap} />
+              <Icon cursor={'pointer'} image={taskGroupSort === 'desc' ? assets.icons.swap : assets.icons.swap2} />
             </Box>
           </Td>
           <Td w='30%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} margin={0}>
@@ -170,7 +170,7 @@ const AllCustomerTaskManagement = ({ onOpenEditRepeat, onSortCustomers, onOpenRe
                         {taskGroup.tasks.map((task, index) => (
                           <Box role='group' cursor={'pointer'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} key={task.uuid} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
                             <Box w={'37.3%'}>
-                              <Text paddingY={'15px'} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
+                              <Text paddingY={'15px'} _groupHover={{ color: colors.darkGreen }} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
                                 {task.name}
                               </Text>
                             </Box>

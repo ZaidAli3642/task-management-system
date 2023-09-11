@@ -3,7 +3,7 @@ import TableRow from './TableRow'
 import Icon from '../../Icon'
 import assets from '../../../assets/assets'
 
-const TableHeadColumn = ({ onSortByTimeStamp, isSelectedSolved }) => {
+const TableHeadColumn = ({ sortOrderTimestamp, onSortByTimeStamp, isSelectedSolved }) => {
   return (
     <TableRow>
       <Td w='15%' borderBottom={0} padding={0} margin={0}>
@@ -69,7 +69,7 @@ const TableHeadColumn = ({ onSortByTimeStamp, isSelectedSolved }) => {
             <Text marginLeft={'10px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
               Timestamp
             </Text>
-            <Icon image={assets.icons.swap} />
+            <Icon display='flex' justifyContent='center' alignItems='center' image={sortOrderTimestamp === 'desc' ? assets.icons.swap : assets.icons.swap2} />
           </Box>
         </Td>
       )}

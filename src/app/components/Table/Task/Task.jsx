@@ -6,7 +6,7 @@ import Icon from '../../Icon'
 import assets from '../../../assets/assets'
 import colors from '../../../config/colors'
 
-const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask, onSortTaskGroup }) => {
+const Task = ({ taskGroupSort, taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask, onSortTaskGroup }) => {
   return (
     <TableWrapper>
       <TableHead>
@@ -16,7 +16,7 @@ const Task = ({ taskGroupsAndTasks = [], onEditTaskGroup, onEditTask, onAddTask,
               <Text cursor={'pointer'} marginLeft={'20px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
                 Task group
               </Text>
-              <Icon cursor={'pointer'} image={assets.icons.swap} />
+              <Icon marginLeft='2px' display='flex' justifyContent='center' alignItems='center' cursor={'pointer'} image={taskGroupSort === 'desc' ? assets.icons.swap : assets.icons.swap2} />
             </Box>
           </Td>
 

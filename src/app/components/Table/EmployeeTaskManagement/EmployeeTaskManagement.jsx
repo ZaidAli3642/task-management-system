@@ -12,7 +12,7 @@ import Tasks from './Tasks'
 import { useDispatch } from 'react-redux'
 import { clientInfo, clientInfoModal } from '../../../redux/reducers/employeeTaskManagement/employeeTaskManagement'
 
-const EmployeeTaskManagement = ({ weekNumber, setWeekNumber, onClearKeyValues, onSortByTimeStamp, filters, onChangeSolvedUnSolved, filterIds, solvedUnSolvedFilters, setFilters, selectedYear, allWeeksInYear, selectYear, data, taskGroupsFilter, tasksFilter }) => {
+const EmployeeTaskManagement = ({ sortOrderTimestamp, weekNumber, setWeekNumber, onClearKeyValues, onSortByTimeStamp, filters, onChangeSolvedUnSolved, filterIds, solvedUnSolvedFilters, setFilters, selectedYear, allWeeksInYear, selectYear, data, taskGroupsFilter, tasksFilter }) => {
   const dispatch = useDispatch()
 
   const isSelectedSolved = filters.solvedUnsolved.length === 0
@@ -22,7 +22,7 @@ const EmployeeTaskManagement = ({ weekNumber, setWeekNumber, onClearKeyValues, o
   return (
     <TableWrapper>
       <TableHead>
-        <TableHeadColumn onSortByTimeStamp={onSortByTimeStamp} isSelectedSolved={filters.solvedUnsolved.length === 0} />
+        <TableHeadColumn sortOrderTimestamp={sortOrderTimestamp} onSortByTimeStamp={onSortByTimeStamp} isSelectedSolved={filters.solvedUnsolved.length === 0} />
         <TableFilter setWeekNumber={setWeekNumber} onClearKeyValues={onClearKeyValues} filters={filters} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} selectYear={selectYear} selectedYear={selectedYear} allWeeksInYear={allWeeksInYear} isSelectedSolved={isSelectedSolved} />
       </TableHead>
       <Tbody h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>

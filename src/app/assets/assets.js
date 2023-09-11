@@ -16,6 +16,7 @@ import blackBag from './icons/black-bag.svg'
 import task from './icons/task.svg'
 import chevronDownGreen from './icons/chevron-down-green.svg'
 import swap from './icons/swap_horiz_24px.svg'
+import swap2 from './icons/swap2.svg'
 import add from './icons/add.svg'
 import person from './icons/person.svg'
 import taskNote from './icons/taskNote.svg'
@@ -54,6 +55,7 @@ const assets = {
     task,
     chevronDownGreen,
     swap,
+    swap2,
     add,
     person,
     taskNote,

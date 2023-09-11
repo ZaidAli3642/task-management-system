@@ -138,7 +138,6 @@ const EmployeeTaskManagement = () => {
     }
 
     if (shouldRun) {
-      console.log('Hiiiiiii', shouldRun)
       fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear, weekNumber })
     }
   }, [selectedCustomer, selectedEmployee, filters])
@@ -151,7 +150,7 @@ const EmployeeTaskManagement = () => {
         <DropDown label={selectedCustomer?.name || 'Select'} data={allCustomers || []} optionKey='name' onSelectItem={option => selectCustomerOption(option)} />
       </Box>
       <Box mx='30px'>
-        <EmployeeTaskManagementTable weekNumber={weekNumber} setWeekNumber={setWeekNumber} onSortByTimeStamp={sortByTimeStamp} filters={filters} onChangeSolvedUnSolved={changeSolvedUnsolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} onClearKeyValues={onClearKeyValues} setFilters={setFilters} taskGroupsFilter={taskGroups} tasksFilter={tasks} data={selectedCustomer?.id ? taskForEmployees : perPageAllCustomerTaskEmployees} selectYear={selectYear} allWeeksInYear={allWeeksInYear} selectedYear={selectedYear} />
+        <EmployeeTaskManagementTable sortOrderTimestamp={sortOrderTimestamp} weekNumber={weekNumber} setWeekNumber={setWeekNumber} onSortByTimeStamp={sortByTimeStamp} filters={filters} onChangeSolvedUnSolved={changeSolvedUnsolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} onClearKeyValues={onClearKeyValues} setFilters={setFilters} taskGroupsFilter={taskGroups} tasksFilter={tasks} data={selectedCustomer?.id ? taskForEmployees : perPageAllCustomerTaskEmployees} selectYear={selectYear} allWeeksInYear={allWeeksInYear} selectedYear={selectedYear} />
         {selectedCustomer?.id === null && <Pagination pageNo={pageNo} onChangePerPage={handleChangePerPage} pageCount={pageCount} perPage={perPage} onChangePage={handleChangePage} />}
       </Box>
 

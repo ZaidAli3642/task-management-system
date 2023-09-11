@@ -38,11 +38,11 @@ const Filter = ({ selectYear, selectedYear, data, onSelectItem, menuButtonMargin
     <>
       <Menu isOpen={isOpen} closeOnSelect={false} onClose={() => setIsOpen(false)}>
         <MenuButton marginX={menuButtonMarginX} onClick={() => setIsOpen(!isOpen)}>
-          <Flex justifyContent={'center'} alignItems={'center'}>
+          <Flex alignItems={'center'}>
             <Text color={colors.black} fontSize={'14px'} textColor={colors.darkGreen} fontWeight={600}>
               {setLabel() || label}
             </Text>
-            <Icon display='flex' justifyContent='center' alignItems='center' image={isOpen ? assets.icons.chevronUpGreen : assets.icons.chevronDownGreen} />
+            <Icon marginLeft='5px' marginBottom='1px' display='flex' justifyContent='center' alignItems='center' image={isOpen ? assets.icons.chevronUpGreen : assets.icons.chevronDownGreen} />
           </Flex>
         </MenuButton>
         <MenuList zIndex={99} position={'absolute'} top={'5px'} left={'-10px'} background={'white'} minW={dropDownContainerWidth} padding={'10px'} paddingLeft={0} margin={0}>
