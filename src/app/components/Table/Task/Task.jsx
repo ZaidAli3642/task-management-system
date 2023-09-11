@@ -43,7 +43,7 @@ const Task = ({ taskGroupSort, taskGroupsAndTasks = [], onEditTaskGroup, onEditT
               </Box>
             </Td>
 
-            <Td w={'100%'} paddingLeft='4px' paddingRight={0} paddingY={0} border={0}>
+            <Td w={'100%'} paddingLeft='3px' paddingRight={0} paddingY={0} border={0}>
               {taskGroup.tasks.map((task, index) => (
                 <Box role='group' cursor={'pointer'} onClick={() => onEditTask(taskGroup, task)} key={task.uuid} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                   <Text paddingY={'15px'} borderBottomWidth={taskGroup.tasks.length - 1 === index ? 0 : 1} borderBottomColor={colors.veryLightGrey} borderStyle={'solid'} fontWeight={400} fontSize={'14px'} w={'100%'}>
