@@ -30,7 +30,7 @@ const TableHeadColumn = ({ sortOrderTimestamp, onSortByTimeStamp, isSelectedSolv
       </Td>
       <Td w='10%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} margin={0}>
         <Text marginLeft={'10px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
-          TaskGroup
+          Task group
         </Text>
       </Td>
       <Td w='20%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} margin={0}>
@@ -63,7 +63,7 @@ const TableHeadColumn = ({ sortOrderTimestamp, onSortByTimeStamp, isSelectedSolv
           Responsible
         </Text>
       </Td>
-      {!isSelectedSolved && (
+      {isSelectedSolved && (
         <Td w='10%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} margin={0}>
           <Box cursor={'pointer'} onClick={() => onSortByTimeStamp()} w={'fit-content'} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
             <Text marginLeft={'10px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>

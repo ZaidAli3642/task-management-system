@@ -70,7 +70,6 @@ body {
 }
 
 .button-with-icon {
-  background-color: #ffffff !important;
   color: #61c0a2 !important;
   border: 1px solid #cff0e6;
   border-radius: 5px;
@@ -83,7 +82,7 @@ body {
   height: 1.875rem !important;
 }
 .button-with-icon:hover {
-  background-color: #f0f4f3 !important;
+  background-color: #f0f4f3;
 }
 
 .icon-container {

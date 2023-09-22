@@ -104,6 +104,18 @@ const customerTaskManagementSlice = createSlice({
       state.loading = false
       state.error = action.payload.error
     },
+    removeRepetition: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    removeRepetitionSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+    },
+    removeRepetitionError: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
     bulkAssign: (state, action) => {
       state.loading = true
       state.error = null
@@ -167,6 +179,18 @@ const customerTaskManagementSlice = createSlice({
       state.loading = false
       state.error = action.payload.error
     },
+    removeResponsible: (state, action) => {
+      state.loading = true
+      state.error = null
+    },
+    removeResponsibleSuccess: (state, action) => {
+      state.loading = false
+      state.error = null
+    },
+    removeResponsibleFailed: (state, action) => {
+      state.loading = false
+      state.error = action.payload.error
+    },
     addEditRemoveNote: (state, action) => {
       state.loading = true
       state.error = null
@@ -181,6 +205,10 @@ const customerTaskManagementSlice = createSlice({
     },
     filters: (state, action) => {
       const taskGroupsWithSchedules = action.payload
+
+      state.taskGroups = []
+      state.tasks = []
+      state.responsibles = []
 
       state.taskGroups = taskGroupsWithSchedules
       for (let taskGroupsWithSchedule of taskGroupsWithSchedules) {
@@ -197,6 +225,10 @@ const customerTaskManagementSlice = createSlice({
     },
     allCustomerFilters: (state, action) => {
       const customersWithTaskGroups = action.payload
+
+      state.taskGroups = []
+      state.tasks = []
+      state.responsibles = []
 
       for (let customers of customersWithTaskGroups) {
         for (let taskGroupValue of customers.taskGroups) {
@@ -219,4 +251,4 @@ const customerTaskManagementSlice = createSlice({
 })
 
 export default customerTaskManagementSlice.reducer
-export const { clientInfo, clientInfoModal, setPageNo, setPageCount, setPerPage, bulkAssign, bulkAssignFailed, bulkAssignSuccess, clearSection, clearSectionFailed, clearSectionSuccess, manageRepetition, manageRepetitionError, manageRepetitionSuccess, allCustomerFilters, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addResponsible, addResponsibleFailed, addResponsibleSuccess, filters, addNoteModal, addResponsibleModal, bulkAssignEditModal, bulkAssignModal, clearSectionModal, editNoteModal, editRepeatModal, editResponsibleModal, repeatModal, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess } = customerTaskManagementSlice.actions
+export const { removeResponsible, removeResponsibleFailed, removeResponsibleSuccess, removeRepetition, removeRepetitionError, removeRepetitionSuccess, clientInfo, clientInfoModal, setPageNo, setPageCount, setPerPage, bulkAssign, bulkAssignFailed, bulkAssignSuccess, clearSection, clearSectionFailed, clearSectionSuccess, manageRepetition, manageRepetitionError, manageRepetitionSuccess, allCustomerFilters, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addResponsible, addResponsibleFailed, addResponsibleSuccess, filters, addNoteModal, addResponsibleModal, bulkAssignEditModal, bulkAssignModal, clearSectionModal, editNoteModal, editRepeatModal, editResponsibleModal, repeatModal, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess } = customerTaskManagementSlice.actions

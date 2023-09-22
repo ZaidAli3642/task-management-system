@@ -1,12 +1,12 @@
 import { Box, Modal as ChakraModal, ModalContent, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react'
 import colors from '../../config/colors'
 
-const Modal = ({ isOpen, onClose, children, modalHeading, subHeading, subTitleFontWeight = 400, minW, ...props }) => {
+const Modal = ({ isOpen, onClose, children, modalHeading, subHeading, subTitleFontWeight = 400, headerPadding, contentPadding, minW, minH, ...props }) => {
   return (
     <ChakraModal {...props} isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent minW={minW}>
-        <ModalHeader display={'flex'} paddingBottom={0} alignItems={'center'}>
+      <ModalContent scrollBehavior={'auto'} minW={minW} padding={contentPadding}>
+        <ModalHeader display={'flex'} paddingBottom={0} alignItems={'center'} padding={headerPadding}>
           <Text fontWeight={600} fontSize={'20px'}>
             {modalHeading}
           </Text>

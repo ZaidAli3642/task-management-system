@@ -25,7 +25,10 @@ const EmployeeTaskManagement = () => {
   const [pageNo, setPageNo] = useState(0)
   const [sortOrderTimestamp, setSortOrderTimestamp] = useState('desc')
   const [selectedYear, setSelectedYear] = useState(moment().year())
+  const [task, setTask] = useState(null)
   const [weekNumber, setWeekNumber] = useState(null)
+  const [filterChanged, setFilterChanged] = useState(false)
+  const [changeFilter, setChangeFiler] = useState(true)
   const solvedUnSolvedFilters = [
     { id: 1, value: 'solved', name: 'Solved' },
     { id: 3, value: 'unsolved', name: 'Unsolved' },
@@ -40,8 +43,11 @@ const EmployeeTaskManagement = () => {
     const allWeeks = generateWeeksInYear(selectedYear)
     const weekNo = moment().week()
     const currentWeek = allWeeks.find(week => week.week === weekNo)
-    setWeekNumber(weekNo)
-    setFilters(currentWeek, true, 'week')
+    if (changeFilter) {
+      setWeekNumber(weekNo)
+      setFilters(currentWeek, true, 'week')
+      setChangeFiler(false)
+    }
     localStorage.setItem('weekNo', weekNo)
     return allWeeks
   }, [selectedYear])
@@ -91,16 +97,16 @@ const EmployeeTaskManagement = () => {
   }
 
   const fetchTaskData = (employeeId, customerId, filters) => {
-    dispatch(fetchTaskForEmployees({ responsibleId: employeeId, customerId: customerId, filters }))
+    dispatch(fetchTaskForEmployees({ responsibleId: employeeId, customerId: customerId, filters, setFilterChanged, filterChanged }))
   }
 
   const fetchTaskDataAllCustomer = (employeeId, filters, pageNo) => {
-    dispatch(fetchTaskForEmployeesAllCustomers({ responsibleId: employeeId, filters, pageNo }))
+    dispatch(fetchTaskForEmployeesAllCustomers({ responsibleId: employeeId, filters, pageNo, setFilterChanged, filterChanged }))
   }
 
   const isCustomerAll = () => selectedCustomer?.id === null
 
-  const changeSolvedUnsolved = (taskItemId, weekNo, weekDay, checked, completionStatus, occurance_date) => {
+  const changeSolvedUnsolved = (taskItemId, weekNo, weekDay, checked, completionStatus, occurance_date, isPast) => {
     const data = {
       task_item_id: taskItemId,
       week_no: weekNo,
@@ -108,7 +114,7 @@ const EmployeeTaskManagement = () => {
       completion_status: checked ? completionStatus : null,
       occurance_date: occurance_date,
     }
-    dispatch(updateTaskByEmployee({ data, pageNo, isCustomerAll: isCustomerAll(), responsibleId: selectedEmployee?.id, customerId: selectedCustomer?.id, filters: { ...filterIds, year: selectedYear, weekNumber } }))
+    dispatch(updateTaskByEmployee({ data, pageNo, isCustomerAll: isCustomerAll(), responsibleId: selectedEmployee?.id, customerId: selectedCustomer?.id, filters: { ...filterIds, year: selectedYear, weekNumber }, setFilterChanged, filterChanged, isPast }))
   }
 
   const handleChangePage = ({ selected }) => {
@@ -134,27 +140,27 @@ const EmployeeTaskManagement = () => {
 
   useEffect(() => {
     if (!selectedCustomer?.id && selectedEmployee) {
-      return fetchTaskDataAllCustomer(selectedEmployee?.id, { ...filterIds, year: selectedYear, weekNumber }, pageNo)
+      return fetchTaskDataAllCustomer(selectedEmployee?.id, { ...filterIds, year: selectedYear, weekNumber }, pageNo, setFilterChanged)
     }
 
     if (shouldRun) {
-      fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear, weekNumber })
+      fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear, weekNumber }, setFilterChanged)
     }
   }, [selectedCustomer, selectedEmployee, filters])
 
   return (
     <>
       <Box display='flex' alignItems='center' my='20px' mx='30px'>
-        <Breadcrumbs onClick={() => navigate('/customers')} navigationLocation={employeeTaskManagementBreadcrumb} />
+        <Breadcrumbs navigationLocation={employeeTaskManagementBreadcrumb} navigationState={{ employeeData: selectedEmployee }} />
         <DropDown label={selectedEmployee?.first_name || 'Select'} data={allEmployees || []} optionKey='first_name' onSelectItem={option => selectEmployeeOption(option)} />
         <DropDown label={selectedCustomer?.name || 'Select'} data={allCustomers || []} optionKey='name' onSelectItem={option => selectCustomerOption(option)} />
       </Box>
-      <Box mx='30px'>
-        <EmployeeTaskManagementTable sortOrderTimestamp={sortOrderTimestamp} weekNumber={weekNumber} setWeekNumber={setWeekNumber} onSortByTimeStamp={sortByTimeStamp} filters={filters} onChangeSolvedUnSolved={changeSolvedUnsolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} onClearKeyValues={onClearKeyValues} setFilters={setFilters} taskGroupsFilter={taskGroups} tasksFilter={tasks} data={selectedCustomer?.id ? taskForEmployees : perPageAllCustomerTaskEmployees} selectYear={selectYear} allWeeksInYear={allWeeksInYear} selectedYear={selectedYear} />
-        {selectedCustomer?.id === null && <Pagination pageNo={pageNo} onChangePerPage={handleChangePerPage} pageCount={pageCount} perPage={perPage} onChangePage={handleChangePage} />}
+      <Box mx='30px' mb={'32px'}>
+        <EmployeeTaskManagementTable onClearKeyValues={onClearKeyValues} filterChanged={filterChanged} setFilterChanged={setFilterChanged} setTask={setTask} sortOrderTimestamp={sortOrderTimestamp} weekNumber={weekNumber} setWeekNumber={setWeekNumber} onSortByTimeStamp={sortByTimeStamp} filters={filters} onChangeSolvedUnSolved={changeSolvedUnsolved} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroups} tasksFilter={tasks} data={selectedCustomer?.id ? taskForEmployees : perPageAllCustomerTaskEmployees} selectYear={selectYear} allWeeksInYear={allWeeksInYear} selectedYear={selectedYear} />
+        {selectedCustomer?.id === null && <Pagination name='Task groups' totalItems={taskForEmployeesAllCustomers.length} pageNo={pageNo} onChangePerPage={handleChangePerPage} pageCount={pageCount} perPage={perPage} onChangePage={handleChangePage} />}
       </Box>
 
-      <Note isOpen={isNoteModal} onClose={() => dispatch(noteModal(false))} noteText={noteText} />
+      <Note subHeading={task?.name} isOpen={isNoteModal} onClose={() => dispatch(noteModal(false))} noteText={noteText} />
       <ClientInfo isOpen={isClientInfoModal} onClose={() => dispatch(clientInfoModal(false))} clientInfo={clientInfo} />
     </>
   )

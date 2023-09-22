@@ -33,10 +33,12 @@ import chevronLeftDisabled from './icons/chevron-left-disabled.svg'
 import chevronRightDisabled from './icons/chevron-right-disabled.svg'
 import plusGreen from './icons/plus-green.svg'
 import noteIconGreen from './icons/note-icon-green.svg'
+import hoveredNoteIcon from './icons/hoveredNoteIcon.svg'
 
 const assets = {
   background: {},
   icons: {
+    hoveredNoteIcon,
     noteIconGreen,
     chevronRightDisabled,
     chevronLeftDisabled,

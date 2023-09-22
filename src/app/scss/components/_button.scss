@@ -22,7 +22,6 @@
 
 .button-with-icon {
   // width: 9.688rem !important;
-  background-color: $white !important;
   color: $medium-green !important;
   border: 1px solid $light-green;
   border-radius: 5px;
@@ -37,6 +36,6 @@
   }
 
   &:hover {
-    background-color: $light-grey !important;
+    background-color: $light-grey;
   }
 }

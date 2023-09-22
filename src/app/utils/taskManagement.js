@@ -16,24 +16,17 @@ export function getMonth(option) {
 }
 
 export function getWeeklyRepetition(taskRepetition) {
-  return `Every ${taskRepetition?.[repitetionNo[taskRepetition?.repetition_type]]} ${repititionType[taskRepetition?.repetition_type]}`
+  if (taskRepetition?.[repitetionNo[taskRepetition?.repetition_type]] === 1) return `Every week`
+
+  return `Every ${taskRepetition?.[repitetionNo[taskRepetition?.repetition_type]]} ${repititionType[taskRepetition?.repetition_type]}s`
 }
 
 export function getMonthlyRepetition(taskRepetition) {
-  let preFix = ''
+  if (taskRepetition?.[repitetionNo[taskRepetition?.repetition_type]] === 1) return `Every month`
 
-  if (taskRepetition?.repetition_monthly_date) preFix += getDate(taskRepetition?.repetition_monthly_date)?.label ?? ''
-  else {
-    preFix += getWeekNo(taskRepetition?.repetition_monthly_week_no)?.week ?? ''
-    preFix += ' ' + getDay(taskRepetition?.repetition_monthly_week_day)?.day ?? ''
-  }
-  return `${preFix} of the month`
+  return `Every ${taskRepetition?.[repitetionNo[taskRepetition?.repetition_type]]} ${repititionType[taskRepetition?.repetition_type]}s`
 }
 
 export function getYearlyRepetition(taskRepetition) {
-  if (taskRepetition?.repetition_yearly_month_date) {
-    return `${getDate(taskRepetition?.repetition_yearly_month_date)?.label ?? ''} of ${getMonth(taskRepetition?.repetition_yearly_month)?.month ?? ''}`
-  } else {
-    return `Every ${getWeekNo(taskRepetition?.repetition_yearly_week_no)?.week ?? ''} ${getDay(taskRepetition?.repetition_yearly_day).day ?? ''} of the ${getMonth(taskRepetition?.repetition_yearly_month).month ?? ''}`
-  }
+  return `Every year`
 }

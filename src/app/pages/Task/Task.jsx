@@ -74,6 +74,7 @@ const Task = () => {
   const handleEditOptionSelect = option => {
     onChangeTaskEdit({ target: { value: option.id, name: 'id' } })
     setSelectedOption(option.name)
+    setTaskGroupId(option.id)
   }
 
   const handleAddTask = async () => {
@@ -81,7 +82,11 @@ const Task = () => {
   }
 
   const handleEditTask = async () => {
-    await onSubmitTaskEdit(taskSchema, () => dispatch(editTaskAction({ updatedTask: inputFieldsTaskEdit, taskId: taskId.uuid, toast })), false)
+    const data = {
+      task_group_id: taskGroupId,
+      name: inputFieldsTaskEdit?.name,
+    }
+    await onSubmitTaskEdit(taskSchema, () => dispatch(editTaskAction({ updatedTask: data, taskId: taskId.uuid, toast })), false)
     // dispatch(taskEditModal(false))
   }
 
@@ -89,6 +94,7 @@ const Task = () => {
     setSelectedOption(taskGroup.name)
     setInputFieldEditTask({ name: task.name, id: task.task_group_id })
     setTaskId(task)
+    setTaskGroupId(taskGroup.id)
     dispatch(taskEditModal(true))
   }
 
@@ -124,7 +130,9 @@ const Task = () => {
         </Box>
       </Box>
 
-      <Box mx='30px'>{taskGroupsAndTasks?.length > 0 && <TaskTable taskGroupSort={taskGroupSort} onSortTaskGroup={sortTaskGroup} onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}</Box>
+      <Box mx='30px' mb={'32px'}>
+        {taskGroupsAndTasks?.length > 0 && <TaskTable taskGroupSort={taskGroupSort} onSortTaskGroup={sortTaskGroup} onAddTask={addTaskModal} onEditTaskGroup={editTaskGroup} taskGroupsAndTasks={taskGroupsAndTasks} onEditTask={editTask} />}
+      </Box>
       <AddTaskGroup isOpen={isTaskGroupAddModal} onClose={() => dispatch(taskGroupAddModal(false))} errorMessages={errorMessages} isInvalid={isInvalid} onChangeInput={onChange} onAddTaskGroup={handleAddTaskGroup} />
       <EditTaskGroup
         deleteTaskGroupModal={() => {

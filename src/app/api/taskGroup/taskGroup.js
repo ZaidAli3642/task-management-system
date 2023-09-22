@@ -6,9 +6,9 @@ export const taskGroup = authToken => {
   }
 
   return {
-    fetchTaskGroups: async (perPage, page) => {
+    fetchTaskGroups: async () => {
       try {
-        const response = await apiClient.get(`/task_group/getTaskGroupsAndTasks?per_page=${perPage}&page=${page}&timestamp=${Date.now()}`, { headers })
+        const response = await apiClient.get(`/task_group/getTaskGroupsAndTasks?timestamp=${Date.now()}`, { headers })
         return response
       } catch (error) {
         throw error

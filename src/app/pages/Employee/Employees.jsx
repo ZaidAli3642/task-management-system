@@ -93,9 +93,9 @@ const Employees = () => {
       {isEmployeeDataFetch ? (
         <Spinner isLoading={isEmployeeDataFetch} />
       ) : (
-        <Box mx='30px'>
+        <Box mx='30px' mb={'32px'}>
           {employeeData.length > 0 && <Table onClickItem={item => navigate('/employees/customers', { state: { employeeData: item } })} setEmployeeId={setEmployeeId} columns={employeeColumns} data={employeeData} onOpenEditModal={openEditModal} />}
-          <TableWrapper tableBoxStyles={{ marginTop: '30px', marginBottom: '30px' }}>{employeeData.length > 0 && <TableFoot columns={employeeColumns} data={[customersAssignedTask]} />}</TableWrapper>
+          <TableWrapper tableBoxStyles={{ marginTop: '30px', marginBottom: '30px' }}>{employeeData.length > 0 && <TableFoot onClickItem={item => navigate('/employees/customers', { state: { employeeData: { ...item, first_name: 'Customer', id: null } } })} columns={employeeColumns} data={[customersAssignedTask]} />}</TableWrapper>
         </Box>
       )}
       <AddEmployee isInvalid={isInvalid} errorMessage={errorMessages} onChangeInput={onChange} isOpen={isEmployeeAddModal} onClose={() => dispatch(employeeAddModal(false))} onAddEmployee={() => onSubmitForm(false)} />

@@ -39,16 +39,16 @@ const RepeatWeekly = ({ repetitionWeeklyDays, toggleWeekly, isOpenWeekly, errorM
           </Box>
           <Box marginTop={'5px'}>
             <Text fontSize={'14px'} fontWeight={400} color={colors.black}>
-              Specify Repeat Days
+              Specify repeat days
             </Text>
             <Box marginY={'10px'} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
               {weekDays1.map(weekDay => (
-                <Checkbox checked={repetitionWeeklyDays?.includes(weekDay.id)} onChange={checked => onChange({ target: { value: weekDay.id, name: 'repetitionWeeklyDays', checked } })} marginRight='30px' label={weekDay.label} />
+                <Checkbox key={weekDay.id} isChecked={true} checked={repetitionWeeklyDays?.includes(weekDay.id)} onChange={checked => onChange({ target: { value: weekDay.id, name: 'repetitionWeeklyDays', checked } })} marginRight='30px' label={weekDay.label} />
               ))}
             </Box>
             <Box marginBottom={'10px'} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
               {weekDays2.map((weekDay, index) => (
-                <Checkbox checked={repetitionWeeklyDays?.includes(weekDay.id)} marginLeft={index === 1 && '12px'} onChange={checked => onChange({ target: { value: weekDay.id, name: 'repetitionWeeklyDays', checked } })} marginRight='30px' label={weekDay.label} />
+                <Checkbox key={weekDay.id} isChecked={true} checked={repetitionWeeklyDays?.includes(weekDay.id)} marginLeft={index === 1 && '12px'} onChange={checked => onChange({ target: { value: weekDay.id, name: 'repetitionWeeklyDays', checked } })} marginRight='30px' label={weekDay.label} />
               ))}
             </Box>
           </Box>

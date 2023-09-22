@@ -46,6 +46,22 @@ export const customerTaskManagement = authToken => {
         throw error
       }
     },
+    deleteRepetition: async data => {
+      try {
+        const response = await apiClient.post(`/customers_task_management/remove_repetition`, data, { headers })
+        return response
+      } catch (error) {
+        throw error
+      }
+    },
+    deleteResponsible: async data => {
+      try {
+        const response = await apiClient.post(`/customers_task_management/remove_responsible`, data, { headers })
+        return response
+      } catch (error) {
+        throw error
+      }
+    },
     clearSection: async data => {
       try {
         const response = await apiClient.delete(`/customers_task_management/clear_all_selection`, { headers, data: data })

@@ -3,22 +3,20 @@ import TableRow from './TableRow'
 import Filter from '../../Filter'
 import colors from '../../../config/colors'
 
-const TableFilter = ({ setWeekNumber, filters, filterIds, solvedUnSolvedFilters, setFilters, selectYear, selectedYear, allWeeksInYear, taskGroupsFilter, tasksFilter }) => {
-  const isSelectedSolved = filters.solvedUnsolved.length === 0
-
+const TableFilter = ({ onClearKeyValues, filterChanged, isSelectedSolved, setFilterChanged, setWeekNumber, filters, filterIds, solvedUnSolvedFilters, setFilters, selectYear, selectedYear, allWeeksInYear, taskGroupsFilter, tasksFilter }) => {
   return (
-    <TableRow h={'40px'}>
+    <TableRow h={'45px'} paddingTop='5px'>
       <Td w='15%' display={'flex'} alignItems={'center'} borderBottom={0} padding={0} margin={0}></Td>
       <Td w='23%' display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
-        <Box paddingY={'10px'} position={'absolute'} w={!isSelectedSolved ? '20.2%' : '22.2%'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
+        <Box paddingY={'10px'} w={'100%'} borderLeftWidth={1} borderLeftColor={colors.borderGrey} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
           <Filter
             menuButtonMarginX='10px'
             selectYear={selectYear}
             selectedYear={selectedYear}
             data={allWeeksInYear}
-            onSelectItem={(checked, item) => {
-              setFilters(item, checked, 'week')
-              setWeekNumber(null)
+            onClearKeyValues={onClearKeyValues}
+            onSelectItem={(checked, item, isPreviousRemove) => {
+              setFilters(item, checked, 'week', isPreviousRemove)
             }}
             filterCheck={filterIds.week}
             isClosable={false}
@@ -29,7 +27,7 @@ const TableFilter = ({ setWeekNumber, filters, filterIds, solvedUnSolvedFilters,
         </Box>
       </Td>
       <Td w='10%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
-        <Box paddingY={'10px'} position={'absolute'} w={!isSelectedSolved ? '8.7%' : '9.7%'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
+        <Box paddingY={'10px'} w={'100%'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
           <Filter
             menuButtonMarginX='10px'
             data={taskGroupsFilter}
@@ -40,12 +38,12 @@ const TableFilter = ({ setWeekNumber, filters, filterIds, solvedUnSolvedFilters,
               setFilters(item, checked, 'taskGroup')
             }}
             optionKey='name'
-            dropDownContainerWidth='100px'
+            // dropDownContainerWidth='100%'
           />
         </Box>
       </Td>
       <Td w='20%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
-        <Box paddingY={'10px'} position={'absolute'} w={!isSelectedSolved ? '17.5%' : '19.5%'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
+        <Box paddingY={'10px'} w={'100%'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
           <Filter
             menuButtonMarginX='10px'
             data={tasksFilter}
@@ -62,7 +60,7 @@ const TableFilter = ({ setWeekNumber, filters, filterIds, solvedUnSolvedFilters,
       </Td>
       <Td w='10%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}></Td>
       <Td w='10%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
-        <Box paddingY={'10px'} position={'absolute'} w={!isSelectedSolved ? '9%' : '10%'} cursor={'pointer'} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
+        <Box paddingY={'10px'} w={'100%'} cursor={'pointer'} borderLeftWidth={1} borderLeftColor={colors.borderGrey} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
           <Filter
             menuButtonMarginX='10px'
             data={solvedUnSolvedFilters}
@@ -70,16 +68,17 @@ const TableFilter = ({ setWeekNumber, filters, filterIds, solvedUnSolvedFilters,
             label={'All'}
             filterCheck={filterIds.solvedUnsolved}
             onSelectItem={(checked, item) => {
+              setFilterChanged(!filterChanged)
               setFilters(item, checked, 'solvedUnsolved', true)
             }}
             optionKey='name'
-            dropDownContainerWidth={'250px'}
+            dropDownContainerWidth={'134px'}
           />
         </Box>
       </Td>
       <Td w='5%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}></Td>
       <Td w='7%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}></Td>
-      {!isSelectedSolved && <Td w='10%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}></Td>}
+      {isSelectedSolved && <Td w='10%' cursor={'pointer'} display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}></Td>}
     </TableRow>
   )
 }

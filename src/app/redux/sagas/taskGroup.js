@@ -1,13 +1,15 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { addTaskGroup, addTaskGroupError, addTaskGroupSuccess, deleteTaskGroup, deleteTaskGroupError, deleteTaskGroupSuccess, fetchTaskGroup, fetchTaskGroupError, fetchTaskGroupSuccess, taskGroupAddModal, editTaskGroup as editTaskGroupAction, editTaskGroupSuccess, editTaskGroupError, taskEditModal } from '../reducers/taskGroup/taskGroup'
 import { taskGroup } from '../../api/taskGroup/taskGroup'
+import _ from 'lodash'
 
 function* getTaskGroup(action) {
   const token = yield select(state => state.auth.token)
   const { perPage, page } = action.payload
   try {
     const response = yield call(taskGroup(token).fetchTaskGroups, perPage, page)
-    yield put(fetchTaskGroupSuccess(response.data.taskGroups))
+    const sortedData = _.orderBy(response.data.taskGroups, ['name'], 'asc')
+    yield put(fetchTaskGroupSuccess(sortedData))
   } catch (error) {
     yield put(fetchTaskGroupError({ error }))
   }

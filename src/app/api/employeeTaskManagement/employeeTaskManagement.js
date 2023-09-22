@@ -22,14 +22,16 @@ export const employeeTaskManagement = authToken => {
         throw error
       }
     },
-    fetchTaskForEmployees: async (responsibleId, customerId, { year, week = [36], taskGroup, task, solvedUnsolved = 'unsolved', weekNumber }) => {
+    fetchTaskForEmployees: async (responsibleId, customerId, { year, week = [], taskGroup, task, solvedUnsolved = 'unsolved', weekNumber }) => {
       let apiRoute = `/employees_daily_task_management/get_tasks_for_employee?customer_id=${JSON.stringify(customerId)}&selectedTaskGroups=${JSON.stringify(taskGroup)}&selectedTasks=${JSON.stringify(task)}&year=${year}`
 
       if (solvedUnsolved) apiRoute += `&status=${solvedUnsolved}`
-      if (responsibleId) apiRoute += `&responsible_id=${JSON.stringify(responsibleId)}`
-      if (!responsibleId) apiRoute += `&responsible_role=customer`
+      if (responsibleId !== 'all') {
+        if (responsibleId) apiRoute += `&responsible_id=${JSON.stringify(responsibleId)}`
+        if (!responsibleId) apiRoute += `&responsible_role=customer`
+      }
       if (weekNumber) apiRoute += `&weekNumber=${JSON.stringify(weekNumber)}`
-      if (!weekNumber) apiRoute += `&selectedWeeks=${JSON.stringify(week)}`
+      if (!weekNumber) apiRoute += `&selectedWeeks=${JSON.stringify(week.sort())}`
 
       apiRoute += `&timestamp=${Date.now()}`
 
@@ -41,13 +43,15 @@ export const employeeTaskManagement = authToken => {
       }
     },
     fetchTaskForEmployeesAllCustomers: async (responsibleId, { year, week, taskGroup, task, solvedUnsolved, weekNumber }) => {
-      let apiRoute = `/employees_daily_task_management/get_tasks_for_employee_from_all_customers?year=${year}&selectedWeeks=${JSON.stringify(week)}&selectedTaskGroups=${JSON.stringify(taskGroup)}&selectedTasks=${JSON.stringify(task)}`
+      let apiRoute = `/employees_daily_task_management/get_tasks_for_employee_from_all_customers?year=${year}&selectedTaskGroups=${JSON.stringify(taskGroup)}&selectedTasks=${JSON.stringify(task)}`
 
       if (solvedUnsolved) apiRoute += `&status=${solvedUnsolved}`
-      if (responsibleId) apiRoute += `&responsible_id=${JSON.stringify(responsibleId)}`
-      if (!responsibleId) apiRoute += `&responsible_role=customer`
+      if (responsibleId !== 'all') {
+        if (responsibleId) apiRoute += `&responsible_id=${JSON.stringify(responsibleId)}`
+        if (!responsibleId) apiRoute += `&responsible_role=customer`
+      }
       if (weekNumber) apiRoute += `&weekNumber=${JSON.stringify(weekNumber)}`
-      if (!weekNumber) apiRoute += `&selectedWeeks=${JSON.stringify(week)}`
+      if (!weekNumber) apiRoute += `&selectedWeeks=${JSON.stringify(week.sort())}`
 
       apiRoute += `&timestamp=${Date.now()}`
       try {

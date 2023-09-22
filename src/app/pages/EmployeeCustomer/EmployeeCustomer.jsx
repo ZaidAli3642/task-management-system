@@ -56,7 +56,7 @@ const EmployeeCustomer = () => {
       {isEmployeeCustomerDataFetch ? (
         <Spinner marginTop='30px' isLoading={isEmployeeCustomerDataFetch} />
       ) : (
-        <Box mx='30px'>
+        <Box mx='30px' mb={'32px'}>
           {employeeCustomerData.length > 0 && (
             <Table
               onClickItem={item => {

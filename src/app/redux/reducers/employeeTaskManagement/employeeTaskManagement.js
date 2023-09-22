@@ -125,29 +125,37 @@ const employeeTaskManagementSlice = createSlice({
       for (let item of data) {
         if (item?.currentTasks?.length) {
           for (let task of item.currentTasks) {
-            const found = taskGroups.find(taskGroup => taskGroup.id === task.taskItem.task_group_id)
-            const foundTask = tasks.find(taskVal => taskVal.id === task.taskItem.task_id)
+            if (task.task_item) {
+              const found = taskGroups.find(taskGroup => taskGroup.id === task.task_item.task_group_id)
+              const foundTask = tasks.find(taskVal => taskVal.id === task.task_item.task_id)
 
-            if (!foundTask) tasks.push({ id: task.taskItem.task_id, name: task.taskItem.task_name })
-            if (!found) taskGroups.push({ id: task.taskItem.task_group_id, name: task.taskItem.task_group_name })
+              if (!foundTask) tasks.push({ id: task.task_item.task_id, name: task.task_item.task_name })
+              if (!found) taskGroups.push({ id: task.task_item.task_group_id, name: task.task_item.task_group_name })
+            }
           }
         }
+
         if (item?.futureTasks?.length) {
           for (let task of item.futureTasks) {
-            const found = taskGroups.find(taskGroup => taskGroup.id === task.taskItem.task_group_id)
-            const foundTask = tasks.find(taskVal => taskVal.id === task.taskItem.task_id)
+            if (task.task_item) {
+              const found = taskGroups.find(taskGroup => taskGroup.id === task.task_item.task_group_id)
+              const foundTask = tasks.find(taskVal => taskVal.id === task.task_item.task_id)
 
-            if (!foundTask) tasks.push({ id: task.taskItem.task_id, name: task.taskItem.task_name })
-            if (!found) taskGroups.push({ id: task.taskItem.task_group_id, name: task.taskItem.task_group_name })
+              if (!foundTask) tasks.push({ id: task.task_item.task_id, name: task.task_item.task_name })
+              if (!found) taskGroups.push({ id: task.task_item.task_group_id, name: task.task_item.task_group_name })
+            }
           }
         }
+
         if (item?.pastTasks?.length) {
           for (let task of item.pastTasks) {
-            const found = taskGroups.find(taskGroup => taskGroup.id === task.taskItem.task_group_id)
-            const foundTask = tasks.find(taskVal => taskVal.id === task.taskItem.task_id)
+            if (task.task_item) {
+              const found = taskGroups.find(taskGroup => taskGroup.id === task.task_item.task_group_id)
+              const foundTask = tasks.find(taskVal => taskVal.id === task.task_item.task_id)
 
-            if (!foundTask) tasks.push({ id: task.taskItem.task_id, name: task.taskItem.task_name })
-            if (!found) taskGroups.push({ id: task.taskItem.task_group_id, name: task.taskItem.task_group_name })
+              if (!foundTask) tasks.push({ id: task.task_item.task_id, name: task.task_item.task_name })
+              if (!found) taskGroups.push({ id: task.task_item.task_group_id, name: task.task_item.task_group_name })
+            }
           }
         }
       }

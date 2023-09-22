@@ -9,7 +9,7 @@ const EditResponsible = ({ isLoading, isOpen, onClose, onEditResponsible, onDele
       <Form onSubmit={onEditResponsible} isInvalid={isInvalid}>
         <ModalBody paddingY={0}>
           <SelectBox errorMessage={errorMessage.id} showOption={showOption} width='400px' label='Responsible' options={options} selectedOption={selectedOption} onSelect={onSelect} />
-          <Button onClick={() => onDeleteResponsible(true)} title={'Remove responsible'} color='default' size='large' />
+          <Button isLoading={isLoading} onClick={() => onDeleteResponsible(true)} title={'Remove responsible'} color='default' size='large' />
         </ModalBody>
         <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
           <Button margin={'10px'} onClick={onClose} title='Cancel' size='small' color='grey' />

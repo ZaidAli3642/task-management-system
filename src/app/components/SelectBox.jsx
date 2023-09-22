@@ -28,7 +28,7 @@ const SelectBox = ({ label, options = [], onSelect, width, selectedOption, showO
         <Button minW={width} h='50px' _focus={{ borderColor: !selectedRadio && colors.darkGreen }} onClick={toggleOptions} border={2} borderColor={colors.borderGrey} borderStyle={'solid'} variant='none' size='sm' fontSize={'16px'} fontWeight={400} color={selectedOption ? 'black' : '#BFD7CF;'}>
           <Flex justifyContent='space-between' alignItems='center' width='100%' fontWeight={400} fontSize='16px'>
             <Text fontWeight={400} fontSize={'16px'} color={selectedOption ? (selectedRadio ? colors.greyGreen : 'black') : '#bfd7cf'}>
-              {selectedOption !== null ? selectedOption : placeholder}
+              {selectedOption ? selectedOption : placeholder}
             </Text>
             {isOpen ? <ChevronUpIcon color={colors.black} boxSize={6} /> : <ChevronDownIcon color={colors.black} boxSize={6} />}
           </Flex>

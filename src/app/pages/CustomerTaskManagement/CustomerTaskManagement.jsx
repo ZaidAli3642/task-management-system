@@ -9,7 +9,6 @@ import customerTaskManagementBreadcrumbs from './customerTaskManagementBreadcrum
 import assets from '../../assets/assets'
 import CustomerTaskManagementTable from '../../components/Table/CustomerTaskManagement/CustomerTaskManagement'
 import BulkAssign from '../../components/Modal/CustomerTaskManagement/BulkAssign'
-import BulkAssignClearSections from '../../components/Modal/CustomerTaskManagement/BuldAssignClearSections'
 import ClearSection from '../../components/Modal/CustomerTaskManagement/ClearSection'
 import AddResponsible from '../../components/Modal/CustomerTaskManagement/AddResponsible'
 import EditResponsible from '../../components/Modal/CustomerTaskManagement/EditResponsible'
@@ -18,7 +17,7 @@ import EditNote from '../../components/Modal/CustomerTaskManagement/EditNote'
 import Repeat from '../../components/Modal/CustomerTaskManagement/Repeat'
 import { getActiveCustomers } from '../../redux/reducers/customer/customer'
 import DropDown from '../../components/DropDown'
-import { addResponsibleModal, bulkAssignModal, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesSuccess, addResponsible as addResponsibleAction, editResponsibleModal, addNoteModal, editNoteModal, addEditRemoveNote, fetchCustomersWithTaskGroup, repeatModal, manageRepetition, fetchCustomersWithTaskGroupSuccess, clearSectionModal, clearSection, bulkAssign, editRepeatModal, setPerPage, setPageCount, setPageNo, clientInfoModal } from '../../redux/reducers/customerTaskManagement/customerTaskManagement'
+import { addResponsibleModal, bulkAssignModal, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesSuccess, addResponsible as addResponsibleAction, editResponsibleModal, addNoteModal, editNoteModal, addEditRemoveNote, fetchCustomersWithTaskGroup, repeatModal, manageRepetition, fetchCustomersWithTaskGroupSuccess, clearSectionModal, clearSection, bulkAssign, editRepeatModal, setPerPage, setPageCount, setPageNo, clientInfoModal, removeRepetition, removeResponsible } from '../../redux/reducers/customerTaskManagement/customerTaskManagement'
 import { activeEmployeeFetch } from '../../redux/reducers/employee/employees'
 import useForm from '../../hooks/useForm'
 import addResponsible from '../../validations/addResponsible'
@@ -165,10 +164,54 @@ const CustomerTaskManagement = () => {
     if (key === 'responsibles') return handleResponsiblesFilter(checked, item)
   }
 
+  const isAllRepetitionSame = tasks => {
+    const isAllRepetitionSame = tasks.every((task, index, array) => {
+      if (!task?.task_item?.tasks_repetition) return false
+
+      if (array[0]?.task_item?.tasks_repetition.repetition_type === 'weekly') {
+        return _.isMatch(task?.task_item?.tasks_repetition, _.pick(array[0]?.task_item?.tasks_repetition, ['repetition_type', 'repetition_weekly_days', 'repetition_weekly_no']))
+      } else if (array[0]?.task_item?.tasks_repetition.repetition_type === 'monthly') {
+        return _.isMatch(task?.task_item?.tasks_repetition, _.pick(array[0]?.task_item?.tasks_repetition, ['repetition_type', 'repetition_monthly_no', 'repetition_monthly_date', 'repetition_monthly_week_day', 'repetition_monthly_week_no']))
+      } else {
+        return _.isMatch(task?.task_item?.tasks_repetition, _.pick(array[0]?.task_item?.tasks_repetition, ['repetition_type', 'repetition_yearly_day', 'repetition_yearly_month', 'repetition_yearly_month_date', 'repetition_yearly_week_no']))
+      }
+    })
+
+    if (!isAllRepetitionSame) return
+
+    onEditRepetition(tasks[0])
+  }
+
+  const isAllResponsibleSame = tasks => {
+    const isAllResponsibleSame = tasks.every((task, index, array) => {
+      if (task?.task_item?.responsible?.id) return task?.task_item?.responsible?.id === array[0].task_item?.responsible?.id
+    })
+    if (isAllResponsibleSame) handleAddResponsibleSelection(tasks[0].task_item?.responsible)
+  }
+
+  const isAllNoteSame = tasks => {
+    handleNoteChange({ target: { name: 'note', value: '' } })
+    const isAllNoteSame = tasks.every((task, index, array) => {
+      if (!task?.task_item?.notes) return false
+      return _.isMatch(task?.task_item, _.pick(array[0].task_item, ['notes']))
+    })
+
+    if (isAllNoteSame) onChangeNote({ target: { name: 'note', value: tasks[0]?.task_item.notes } })
+  }
+
   const openBulkAssign = taskGroup => {
     const found = taskGroup.tasks.find(task => task.task_item !== null)
     setClearSectionButtonEnabled(found ? true : false)
+    handleAddResponsibleSelection({ id: '', first_name: '' })
+
     setTaskGroup(taskGroup)
+
+    if (taskGroup?.tasks?.length > 0) {
+      isAllResponsibleSame(taskGroup.tasks)
+      isAllRepetitionSame(taskGroup.tasks)
+      isAllNoteSame(taskGroup.tasks)
+    }
+
     dispatch(bulkAssignModal(true))
   }
 
@@ -195,7 +238,6 @@ const CustomerTaskManagement = () => {
         isClosable: true,
       })
     const validateData = {
-      note: inputFieldsNote.note,
       repetitionMonthlyNo: inputFieldsMonthly.repetitionMonthlyNo,
       repetitionWeeklyNo: inputFieldsWeekly.repetitionWeeklyNo,
       responsibleId: inputFieldsResponsible.id,
@@ -207,7 +249,7 @@ const CustomerTaskManagement = () => {
       repetition_yearly_month: inputFieldsYearly.repetitionYearlyMonth.id,
       repetition_weekly_no: inputFieldsWeekly.repetitionWeeklyNo,
       repetition_monthly_no: inputFieldsMonthly.repetitionMonthlyNo,
-      repetition_weekly_days: JSON.stringify(repetitionWeeklyDays.sort()),
+      repetition_weekly_days: JSON.stringify([...repetitionWeeklyDays].sort()),
       responsible_role: !inputFieldsResponsible.id ? inputFieldsResponsible.first_name : 'employee',
       responsible_id: inputFieldsResponsible.id,
       notes: inputFieldsNote.note,
@@ -217,12 +259,11 @@ const CustomerTaskManagement = () => {
     setYearlyRepetitionData(yearlyRadio, data)
 
     try {
-      setBulkAssignErrorMessage({})
+      setBulkAssignErrorMessage({ note: '', repetitionWeeklyNo: '', repetitionMonthlyNo: '', responsibleId: '' })
       setIsInvalidBulkAssign(false)
       await bulkAssignSchema.validate(validateData)
 
-      dispatch(bulkAssign({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), inputFieldsSet: { setInputFieldsNote, setInputFieldsResponsible, setRepetitionType, setResponsibleSelectedOption } }))
-      setRepetitionWeeklyDays([])
+      dispatch(bulkAssign({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), inputFieldsSet: { setInputFieldsNote, setInputFieldsResponsible, setRepetitionType, setResponsibleSelectedOption, setRepetitionWeeklyDays } }))
     } catch (error) {
       if (error.name === 'ValidationError') {
         setIsInvalidBulkAssign(true)
@@ -330,7 +371,7 @@ const CustomerTaskManagement = () => {
   const handleResponsibleToggle = (taskGroup, task, edit) => {
     if (edit) {
       if (!task?.task_item?.responsible) {
-        handleAddResponsibleSelection({ id: null, first_name: 'customer' })
+        handleAddResponsibleSelection({ id: null, first_name: 'Customer' })
         dispatch(editResponsibleModal(true))
       } else {
         const { id, first_name } = task.task_item.responsible
@@ -350,16 +391,25 @@ const CustomerTaskManagement = () => {
     setResponsibleSelectedOption(option.first_name)
   }
 
+  const deleteResponsible = () => {
+    const data = {
+      task_group_id: taskGroup.id,
+      task_id: task.id,
+      customer_id: customer.id,
+    }
+    dispatch(removeResponsible({ data, customerId: customer.id, isCustomerAll: isCustomerAll() }))
+  }
+
   const handleSubmitResponsible = async (isDelete, isEdit = true) => {
     const data = {
       customer_id: customer.id,
-      responsible_id: isDelete ? null : inputFieldsResponsible.id,
-      responsible_role: !inputFieldsResponsible.id ? inputFieldsResponsible.first_name : 'employee',
+      responsible_id: inputFieldsResponsible.id,
+      responsible_role: !inputFieldsResponsible.id ? 'customer' : 'employee',
       task_group_id: taskGroup.id,
       task_id: task.id,
     }
 
-    !isDelete && !isEdit && selectTaskGroupForLeavePage(taskGroup, task)
+    !isEdit && selectTaskGroupForLeavePage(taskGroup, task)
 
     await onSubmitResponsible(addResponsible, () => {
       dispatch(addResponsibleAction({ data, customerId: customer?.id, isCustomerAll: isCustomerAll() }))
@@ -399,7 +449,7 @@ const CustomerTaskManagement = () => {
     onSubmitWeekly(
       repeatWeeklySchema,
       () => {
-        dispatch(manageRepetition({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), setInputFieldsWeekly, setRepetitionWeeklyDays, toast }))
+        dispatch(manageRepetition({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), setInputFieldsWeekly, setRepetitionType, setRepetitionWeeklyDays, toast }))
       },
       false,
     )
@@ -429,7 +479,7 @@ const CustomerTaskManagement = () => {
 
     setMonthlyRepetitionData(monthlyRadio, data)
 
-    await onSubmitMonthly(repeatMonthlySchema, () => dispatch(manageRepetition({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), setInputFieldsMonthly, toast })), false)
+    await onSubmitMonthly(repeatMonthlySchema, () => dispatch(manageRepetition({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), setRepetitionType, setInputFieldsMonthly, toast })), false)
   }
 
   const handleOnChangeYearly = e => {
@@ -456,19 +506,30 @@ const CustomerTaskManagement = () => {
 
     setYearlyRepetitionData(yearlyRadio, data)
 
-    await onSubmitYearly(null, () => dispatch(manageRepetition({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), setInputFieldsYearly, toast })), false)
+    await onSubmitYearly(null, () => dispatch(manageRepetition({ data, customerId: customer.id, isCustomerAll: isCustomerAll(), setRepetitionType, setInputFieldsYearly, toast })), false)
   }
 
-  const handleSubmitRepetition = () => {
-    if (!repetitionType)
-      return toast({
-        title: 'Repetition failed',
-        description: 'You need to select a repetition',
-        status: 'warning',
-        duration: 5000,
-        isClosable: true,
-      })
+  const handleSubmitRepetition = (isEdit = false) => {
+    if (isEdit) {
+      if (!repetitionType) {
+        const data = {
+          task_group_id: taskGroup.id,
+          task_id: task.id,
+          customer_id: customer.id,
+        }
 
+        dispatch(removeRepetition({ data, customerId: customer.id, isCustomerAll: isCustomerAll() }))
+      }
+    } else {
+      if (!repetitionType)
+        return toast({
+          title: 'Repetition failed',
+          description: 'You need to select a repetition',
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+        })
+    }
     selectTaskGroupForLeavePage(taskGroup, task, true)
 
     if (repetitionType === 'weekly') return handleWeeklyRepetition()
@@ -500,7 +561,7 @@ const CustomerTaskManagement = () => {
         repetition_weekly_days: JSON.stringify(repetitionWeeklyDays.sort()),
       }
 
-      dispatch(manageRepetition({ data, customerId: value.customer.id, isCustomerAll: value.isCustomerAll, toast }))
+      dispatch(manageRepetition({ data, customerId: value.customer.id, isCustomerAll: value.isCustomerAll, toast, setRepetitionType }))
       setRepetitionWeeklyDays([])
     }
   }
@@ -531,15 +592,19 @@ const CustomerTaskManagement = () => {
         <DropDown label={selectedCustomerOption || 'Select'} data={activeCustomers || []} optionKey='name' onSelectItem={selectCustomer} />
       </Box>
 
-      <Box mx='30px'>
+      <Box mx='30px' mb={'32px'}>
         {selectedCustomerOption === 'All' && <AllCustomerTaskManagement taskGroupSort={taskGroupSort} customersSort={customersSort} onOpenEditRepeat={handleOpenEditRepeatModal} onSortCustomers={sortCustomers} onOpenRepeat={(taskGroup, task) => handleOpenRepeatModal(taskGroup, task)} setCustomer={setCustomer} onOpenNoteModal={(taskGroup, task, edit) => handleNoteToggle(taskGroup, task, edit)} onOpenAddResponsible={(taskGroup, task, edit) => handleResponsibleToggle(taskGroup, task, edit)} responsiblesFilter={responsiblesFilter} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} onFilter={handleFilters} responsibles={responsibles} tasks={tasks} taskGroups={taskGroups} activeCustomers={activeCustomers} onOpenBulkAssign={openBulkAssign} data={perPageCustomersWithTaskGroup} onSortTaskGroup={sortTaskGroup} />}
         {selectedCustomerOption !== 'All' && <CustomerTaskManagementTable taskGroupSort={taskGroupSort} onOpenEditRepeat={handleOpenEditRepeatModal} onOpenRepeat={(taskGroup, task) => handleOpenRepeatModal(taskGroup, task)} onOpenNoteModal={(taskGroup, task, edit) => handleNoteToggle(taskGroup, task, edit)} onOpenAddResponsible={(taskGroup, task, edit) => handleResponsibleToggle(taskGroup, task, edit)} responsiblesFilter={responsiblesFilter} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} onFilter={handleFilters} responsibles={responsibles} tasks={tasks} taskGroups={taskGroups} activeCustomers={activeCustomers} onOpenBulkAssign={openBulkAssign} data={perPageTaskGroupWithSchedules} onSortTaskGroup={sortTaskGroup} />}
-        {selectedCustomerOption && <Pagination pageNo={pageNo} pageCount={pageCount} perPage={perPage} onChangePerPage={handleOnChangePerPage} onChangePage={handleChangePage} />}
+        {selectedCustomerOption && <Pagination name='Task groups' totalItems={selectedCustomerOption === 'All' ? customersWithTaskGroup.length : taskGroupWithSchedules.length} pageNo={pageNo} pageCount={pageCount} perPage={perPage} onChangePerPage={handleOnChangePerPage} onChangePage={handleChangePage} />}
       </Box>
 
       <BulkAssign
+        inputFieldsNote={inputFieldsNote}
+        repetitionWeeklyDays={repetitionWeeklyDays}
+        subHeading={taskGroup?.name}
         isLoading={loading}
         setRepetitionType={setRepetitionType}
+        repetitionType={repetitionType}
         onAddBulkAssign={handleBulkAssignSubmit}
         errorMessagesNote={bulkAssignErrorMessage}
         onChangeNoteInput={handleNoteChange}
@@ -568,11 +633,11 @@ const CustomerTaskManagement = () => {
       />
       <ClearSection isLoading={loading} subHeading={taskGroup?.name} onClose={() => dispatch(clearSectionModal(false))} onClearSectionEmployee={clearSections} isOpen={isClearSectionModal} />
       <AddResponsible isLoading={loading} subHeading={task?.name} errorMessage={errorMessagesResponsible} onAddResponsible={() => handleSubmitResponsible(false, false)} selectedOption={responsibleSelectedOption} isInvalid={isInvalidResponsible} onSelect={data => handleAddResponsibleSelection(data)} isOpen={isAddResponsibleModal} options={activeEmployees} showOption={'first_name'} onClose={() => dispatch(addResponsibleModal(false))} />
-      <EditResponsible isLoading={loading} onDeleteResponsible={isDelete => handleSubmitResponsible(isDelete)} onEditResponsible={handleSubmitResponsible} selectedOption={responsibleSelectedOption} isInvalid={isInvalidResponsible} subHeading={task?.name} errorMessage={errorMessagesResponsible} onClose={() => dispatch(editResponsibleModal(false))} onSelect={data => handleAddResponsibleSelection(data)} isOpen={isEditResponsibleModal} options={activeEmployees} showOption={'first_name'} />
+      <EditResponsible isLoading={loading} onDeleteResponsible={isDelete => deleteResponsible(isDelete)} onEditResponsible={handleSubmitResponsible} selectedOption={responsibleSelectedOption} isInvalid={isInvalidResponsible} subHeading={task?.name} errorMessage={errorMessagesResponsible} onClose={() => dispatch(editResponsibleModal(false))} onSelect={data => handleAddResponsibleSelection(data)} isOpen={isEditResponsibleModal} options={activeEmployees} showOption={'first_name'} />
       <AddNote isLoading={loading} subHeading={task?.name} isInvalid={isInvalidNote} errorMessage={errorMessagesNote} onChangeInput={handleNoteChange} onAddNote={handleNoteSubmit} onClose={() => dispatch(addNoteModal(false))} isOpen={isAddNoteModal} />
       <EditNote isLoading={loading} subHeading={task?.name} onDeleteNote={isDelete => handleNoteSubmit(isDelete)} isInvalid={isInvalidNote} value={inputFieldsNote} errorMessage={errorMessagesNote} onChangeInput={handleNoteChange} onClose={() => dispatch(editNoteModal(false))} isOpen={isEditNoteModal} onEditNote={handleNoteSubmit} />
-      <Repeat isLoading={loading} radioCheckedYearly={yearlyRadio} radioCheckedMonthly={monthlyRadio} subHeading={task?.name} inputFieldsYearly={inputFieldsYearly} onChangeYearly={handleOnChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} monthlyRadio={monthlyRadio} onChangeMonthly={handleOnChangeMonthly} setMonthlyRadio={setMonthlyRadio} errorMessagesMonthly={errorMessagesMonthly} inputFieldsMonthly={inputFieldsMonthly} inputFieldsWeekly={inputFieldsWeekly} onSaveRepetition={handleSubmitRepetition} isInvalid={isInvalidWeekly || isInvalidMonthly} onChangeWeekly={handleOnChangeWeekly} errorMessagesWeekly={errorMessagesWeekly} setRepetitionType={setRepetitionType} onClose={() => dispatch(repeatModal(false))} isOpen={isRepeatModal} />
-      <EditRepeat isLoading={loading} subHeading={task?.name} radioCheckedYearly={yearlyRadio} radioCheckedMonthly={monthlyRadio} repetitionWeeklyDays={repetitionWeeklyDays} repetitionType={repetitionType} inputFieldsYearly={inputFieldsYearly} onChangeYearly={handleOnChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} monthlyRadio={monthlyRadio} onChangeMonthly={handleOnChangeMonthly} setMonthlyRadio={setMonthlyRadio} errorMessagesMonthly={errorMessagesMonthly} inputFieldsMonthly={inputFieldsMonthly} inputFieldsWeekly={inputFieldsWeekly} onSaveRepetition={handleSubmitRepetition} isInvalid={isInvalidWeekly || isInvalidMonthly} onChangeWeekly={handleOnChangeWeekly} errorMessagesWeekly={errorMessagesWeekly} setRepetitionType={setRepetitionType} onClose={() => dispatch(editRepeatModal(false))} isOpen={isEditRepeatModal} />
+      <Repeat isLoading={loading} repetitionType={repetitionType} radioCheckedYearly={yearlyRadio} radioCheckedMonthly={monthlyRadio} subHeading={task?.name} inputFieldsYearly={inputFieldsYearly} onChangeYearly={handleOnChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} monthlyRadio={monthlyRadio} onChangeMonthly={handleOnChangeMonthly} setMonthlyRadio={setMonthlyRadio} errorMessagesMonthly={errorMessagesMonthly} inputFieldsMonthly={inputFieldsMonthly} inputFieldsWeekly={inputFieldsWeekly} onSaveRepetition={handleSubmitRepetition} isInvalid={isInvalidWeekly || isInvalidMonthly} onChangeWeekly={handleOnChangeWeekly} errorMessagesWeekly={errorMessagesWeekly} setRepetitionType={setRepetitionType} onClose={() => dispatch(repeatModal(false))} isOpen={isRepeatModal} />
+      <EditRepeat isLoading={loading} subHeading={task?.name} radioCheckedYearly={yearlyRadio} radioCheckedMonthly={monthlyRadio} repetitionWeeklyDays={repetitionWeeklyDays} repetitionType={repetitionType} inputFieldsYearly={inputFieldsYearly} onChangeYearly={handleOnChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} monthlyRadio={monthlyRadio} onChangeMonthly={handleOnChangeMonthly} setMonthlyRadio={setMonthlyRadio} errorMessagesMonthly={errorMessagesMonthly} inputFieldsMonthly={inputFieldsMonthly} inputFieldsWeekly={inputFieldsWeekly} onSaveRepetition={() => handleSubmitRepetition(true)} isInvalid={isInvalidWeekly || isInvalidMonthly} onChangeWeekly={handleOnChangeWeekly} errorMessagesWeekly={errorMessagesWeekly} setRepetitionType={setRepetitionType} onClose={() => dispatch(editRepeatModal(false))} isOpen={isEditRepeatModal} />
       <ClientInfo isOpen={isClientInfoModal} onClose={() => dispatch(clientInfoModal(false))} clientInfo={clientInfo} />
     </>
   )

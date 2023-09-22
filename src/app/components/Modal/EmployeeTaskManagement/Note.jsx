@@ -3,9 +3,9 @@ import Modal from '../Modal'
 import colors from '../../../config/colors'
 import { Button } from '../../Form'
 
-const Note = ({ onClose, isOpen, noteText }) => {
+const Note = ({ onClose, isOpen, noteText, subHeading }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Note' subHeading={'Send out statements'}>
+    <Modal isOpen={isOpen} onClose={onClose} modalHeading='Note' subHeading={subHeading}>
       <ModalBody marginY={'13px'} paddingY={0}>
         {noteText && (
           <Text lineHeight={'28px'} fontWeight={400} fontSize={'14px'} color={colors.black}>

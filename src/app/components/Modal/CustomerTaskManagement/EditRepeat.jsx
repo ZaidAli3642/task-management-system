@@ -12,24 +12,28 @@ const EditRepeat = ({ isLoading, subHeading, radioCheckedYearly, radioCheckedMon
   const [isOpenYearly, setIsOpenYearly] = useState()
 
   const toggleWeekly = e => {
-    setRepetitionType('weekly')
+    setRepetitionType(e.target.checked && 'weekly')
     setIsOpenWeekly(e.target.checked)
     setIsOpenMonthly(false)
     setIsOpenYearly(false)
   }
 
   const toggleMonthly = e => {
-    setRepetitionType('monthly')
+    setRepetitionType(e.target.checked && 'monthly')
     setIsOpenMonthly(e.target.checked)
     setIsOpenYearly(false)
     setIsOpenWeekly(false)
   }
 
   const toggleYearly = e => {
-    setRepetitionType('yearly')
+    setRepetitionType(e.target.checked && 'yearly')
     setIsOpenYearly(e.target.checked)
     setIsOpenWeekly(false)
     setIsOpenMonthly(false)
+  }
+
+  const closeRepetitionOptions = () => {
+    setRepetitionType(null)
   }
 
   useEffect(() => {
@@ -41,7 +45,7 @@ const EditRepeat = ({ isLoading, subHeading, radioCheckedYearly, radioCheckedMon
   return (
     <Modal minW={'fit-content'} isOpen={isOpen} onClose={onClose} modalHeading='Edit repeat' subHeading={subHeading}>
       <Form onSubmit={onSaveRepetition} isInvalid={isInvalid}>
-        <ModalBody paddingY={0}>
+        <ModalBody paddingY={0} w={isOpenYearly ? '100%' : '490px'}>
           {/* Weekly */}
           <RepeatWeekly repetitionWeeklyDays={repetitionWeeklyDays} inputFieldsWeekly={inputFieldsWeekly} onChange={onChangeWeekly} errorMessage={errorMessagesWeekly} toggleWeekly={toggleWeekly} isOpenWeekly={isOpenWeekly} />
           {/* Monthly */}
@@ -50,7 +54,16 @@ const EditRepeat = ({ isLoading, subHeading, radioCheckedYearly, radioCheckedMon
           <RepeatYearly radioChecked={radioCheckedYearly} inputFieldsYearly={inputFieldsYearly} onChangeYearly={onChangeYearly} yearlyRadio={yearlyRadio} setYearlyRadio={setYearlyRadio} toggleYearly={toggleYearly} isOpenYearly={isOpenYearly} />
         </ModalBody>
         <ModalFooter paddingX={'15px'} paddingBottom='10px' paddingTop={0}>
-          <Button margin={'10px'} onClick={onClose} title='Cancel' size='large' color='grey' />
+          <Button
+            margin={'10px'}
+            onClick={() => {
+              onClose()
+              closeRepetitionOptions()
+            }}
+            title='Cancel'
+            size='large'
+            color='grey'
+          />
           <Button isLoading={isLoading} margin={'10px'} title='Save' size='large' color='green' type='submit' />
         </ModalFooter>
       </Form>

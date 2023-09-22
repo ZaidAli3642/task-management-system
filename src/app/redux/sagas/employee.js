@@ -32,7 +32,7 @@ function* fetchActiveEmplpyees(action) {
   try {
     const response = yield call(users(token).fetchActiveEmployees)
     const employeeData = _.orderBy(response.data, ['first_name'], 'asc')
-    employeeData.push({ id: null, first_name: 'customer' })
+    employeeData.push({ id: null, first_name: 'Customer' })
     yield put(activeEmployeeFetchSuccess(employeeData))
   } catch (error) {
     yield put(activeEmployeeFetchFailed({ error }))

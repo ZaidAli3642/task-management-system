@@ -4,14 +4,14 @@ import assets from '../../assets/assets'
 import { useState } from 'react'
 import ReactPaginate from 'react-paginate'
 
-const Pagination = ({ onChangePerPage, onChangePage, pageCount, perPage, pageNo }) => {
+const Pagination = ({ onChangePerPage, onChangePage, pageCount, totalItems = 0, name = 'Companies', perPage, pageNo }) => {
   const [openPerPage, setOpenPerPage] = useState(false)
 
   return (
     <Box w={'100%'} marginY={'10px'} display={'flex'} justifyContent={'space-between'} paddingX={'10px'} alignItems={'center'}>
       <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
         <Text color={'#7E919F'} fontWeight={400} fontSize={'12px'}>
-          Companies per page:
+          {name} per page:
         </Text>
 
         <Box
@@ -38,6 +38,10 @@ const Pagination = ({ onChangePerPage, onChangePage, pageCount, perPage, pageNo 
             </Box>
           )}
         </Box>
+      </Box>
+
+      <Box>
+        <Text fontSize={'12px'} lineHeight={'16px'} fontWeight={400} color={'#7E919F'}>{`1 - ${perPage} of ${totalItems} ${name.toLowerCase()}`}</Text>
       </Box>
 
       <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>

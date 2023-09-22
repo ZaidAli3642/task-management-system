@@ -45,7 +45,7 @@ const RepeatMonthly = ({ radioChecked, monthlyRadio, toggleMonthly, isOpenMonthl
             <Box display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
               <Radio name='monthly' checked={radioChecked === 2} onChange={() => setMonthlyRadio(2)} id='monthly-2' radioContainerStyles={{ margin: 0 }} />
               <SelectBox isRadioSelection={true} width='200px' selectedRadio={monthlyRadio !== 2} isPositionRelative={false} onSelect={option => onChange({ target: { name: 'repetitionMonthlyWeekNo', value: option } })} options={totalWeeksInMonth} showOption={'week'} marginX={'10px'} selectedOption={inputFieldsMonthly.repetitionMonthlyWeekNo?.week} placeholder='First' />
-              <SelectBox isRadioSelection={true} width='200px' selectedRadio={monthlyRadio !== 2} isPositionRelative={false} onSelect={option => onChange({ target: { name: 'repetitionMonthlyWeekDay', value: option } })} options={days} showOption={'day'} marginX={'10px'} selectedOption={inputFieldsMonthly.repetitionMonthlyWeekDay?.day} placeholder='Sunday' />
+              <SelectBox isRadioSelection={true} width='200px' selectedRadio={monthlyRadio !== 2} isPositionRelative={false} onSelect={option => onChange({ target: { name: 'repetitionMonthlyWeekDay', value: option } })} options={days} showOption={'day'} marginX={'0px'} selectedOption={inputFieldsMonthly.repetitionMonthlyWeekDay?.day} placeholder='Sunday' />
             </Box>
           </Box>
         </Box>

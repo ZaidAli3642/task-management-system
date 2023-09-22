@@ -1,6 +1,6 @@
 import { call, put, select, take, takeEvery } from 'redux-saga/effects'
 import { customerTaskManagement } from '../../api/customerTaskManagement/customerTaskManagement'
-import { addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addNoteModal, clearSectionModal, addResponsible, addResponsibleFailed, addResponsibleModal, addResponsibleSuccess, allCustomerFilters, clearSection, editNoteModal, editResponsibleModal, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess, filters, manageRepetition, manageRepetitionError, manageRepetitionSuccess, repeatModal, clearSectionSuccess, clearSectionFailed, bulkAssignFailed, bulkAssignSuccess, bulkAssignModal, bulkAssign, editRepeatModal, setPageCount } from '../reducers/customerTaskManagement/customerTaskManagement'
+import { addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addNoteModal, clearSectionModal, addResponsible, addResponsibleFailed, addResponsibleModal, addResponsibleSuccess, allCustomerFilters, clearSection, editNoteModal, editResponsibleModal, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess, filters, manageRepetition, manageRepetitionError, manageRepetitionSuccess, repeatModal, clearSectionSuccess, clearSectionFailed, bulkAssignFailed, bulkAssignSuccess, bulkAssignModal, bulkAssign, editRepeatModal, setPageCount, removeRepetition, removeRepetitionSuccess, removeRepetitionError, removeResponsibleSuccess, removeResponsibleFailed, removeResponsible } from '../reducers/customerTaskManagement/customerTaskManagement'
 
 function* getTaskGroupWithSchedules(action) {
   const token = yield select(state => state.auth.token)
@@ -59,6 +59,7 @@ function* createResponsible(action) {
     yield put(editResponsibleModal(false))
     yield put(addResponsibleSuccess({ data: response.data }))
   } catch (error) {
+    console.log('Erorroro : ', error)
     yield put(addResponsibleFailed({ error }))
   }
 }
@@ -92,7 +93,7 @@ function* manageRepetitionFunc(action) {
   const token = yield select(state => state.auth.token)
   const pageNo = yield select(state => state.customerTaskManagement.pageNo)
 
-  const { data, customerId, isCustomerAll, setInputFieldsWeekly, setInputFieldsMonthly, setInputFieldsYearly, setRepetitionWeeklyDays } = action.payload
+  const { data, customerId, isCustomerAll, setInputFieldsWeekly, setInputFieldsMonthly, setRepetitionType, setInputFieldsYearly, setRepetitionWeeklyDays } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).manageRepetition, data)
     if (response) {
@@ -109,6 +110,7 @@ function* manageRepetitionFunc(action) {
 
     yield put(editRepeatModal(false))
     yield put(repeatModal(false))
+    setRepetitionType(null)
     setInputFieldsWeekly && setInputFieldsWeekly({ repetitionWeeklyNo: '1' })
     setInputFieldsMonthly && setInputFieldsMonthly({ repetitionMonthlyNo: '1', repetitionMonthlyWeekDay: { id: 1, day: 'Monday' }, repetitionMonthlyWeekNo: { id: 1, week: 'First' }, repetitionMonthlyDate: { id: 1, label: '1st' } })
     setInputFieldsYearly && setInputFieldsYearly({ repetitionYearlyWeekNo: { id: 1, week: 'First' }, repetitionYearlyMonth: { id: 1, month: 'January' }, repetitionYearlyMonthDate: { id: 1, label: '1st' }, repetitionYearlyDay: { id: 1, day: 'Monday' } })
@@ -127,6 +129,58 @@ function* manageRepetitionFunc(action) {
       })
     }
     yield put(manageRepetitionError({ error }))
+  }
+}
+
+function* deleteRepetition(action) {
+  const token = yield select(state => state.auth.token)
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
+  const { data, customerId, isCustomerAll } = action.payload
+  try {
+    const response = yield call(customerTaskManagement(token).deleteRepetition, data)
+    if (response) {
+      if (isCustomerAll) {
+        const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
+        yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
+      } else {
+        const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
+        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
+      }
+    }
+    yield put(editRepeatModal(false))
+    yield put(repeatModal(false))
+    yield put(removeRepetitionSuccess())
+  } catch (error) {
+    yield put(removeRepetitionError({ error }))
+  }
+}
+
+function* deleteResponsible(action) {
+  const token = yield select(state => state.auth.token)
+  const pageNo = yield select(state => state.customerTaskManagement.pageNo)
+
+  const { data, customerId, isCustomerAll } = action.payload
+  try {
+    const response = yield call(customerTaskManagement(token).deleteResponsible, data)
+    if (response) {
+      if (isCustomerAll) {
+        const response = yield call(customerTaskManagement(token).fetchCustomersWithTaskGroup, customerId)
+        yield put(fetchCustomersWithTaskGroupSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
+      } else {
+        const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
+        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
+      }
+    }
+    yield put(addResponsibleModal(false))
+    yield put(editResponsibleModal(false))
+    yield put(removeResponsibleSuccess())
+  } catch (error) {
+    yield put(removeResponsibleFailed({ error }))
   }
 }
 
@@ -176,6 +230,7 @@ function* bulkAssignFunc(action) {
 
     yield put(bulkAssignSuccess())
     yield put(bulkAssignModal(false))
+    inputFieldsSet.setRepetitionWeeklyDays([])
     inputFieldsSet.setInputFieldsNote({ note: '' })
     inputFieldsSet.setInputFieldsResponsible({ id: '', first_name: '' })
     inputFieldsSet.setRepetitionType('')
@@ -189,8 +244,10 @@ export function* customerTaskManagementSaga() {
   yield takeEvery(fetchTaskGroupWithSchedules.type, getTaskGroupWithSchedules)
   yield takeEvery(fetchCustomersWithTaskGroup.type, getCustomersWithTaskGroups)
   yield takeEvery(addResponsible.type, createResponsible)
+  yield takeEvery(removeResponsible.type, deleteResponsible)
   yield takeEvery(addEditRemoveNote.type, manageNotes)
   yield takeEvery(manageRepetition.type, manageRepetitionFunc)
+  yield takeEvery(removeRepetition.type, deleteRepetition)
   yield takeEvery(clearSection.type, clearSectionTasks)
   yield takeEvery(bulkAssign.type, bulkAssignFunc)
 }

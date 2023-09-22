@@ -9,7 +9,7 @@ import colors from '../../../config/colors'
 import { ButtonWithIcon } from '../../Form'
 import Filter from '../../Filter'
 import { repetitionWeeklyDays } from '../../../constants/repetitions'
-import { getDay, getMonthlyRepetition, getWeeklyRepetition, getYearlyRepetition } from '../../../utils/taskManagement'
+import { getDate, getDay, getMonth, getMonthlyRepetition, getWeekNo, getWeeklyRepetition, getYearlyRepetition } from '../../../utils/taskManagement'
 
 const repetitionFunc = {
   weekly: getWeeklyRepetition,
@@ -25,7 +25,7 @@ const getTaskRepetition = taskRepetition => {
   if (!text) return null
 
   return (
-    <Text paddingBottom={'5px'} borderStyle={'solid'} color={colors.darkGrey} fontWeight={400} fontSize={'14px'} w={'100%'}>
+    <Text borderStyle={'solid'} color={colors.darkGrey} fontWeight={400} className='task-repetition' fontSize={'14px'} w={'100%'}>
       {text}
     </Text>
   )
@@ -40,15 +40,23 @@ const getWeeklyDays = taskRepetition => {
       weeklyDays += index === taskRepetition.repetition_weekly_days.length - 1 ? repetitionWeeklyDays[value] : `${repetitionWeeklyDays[value]}, `
     }
   } else if (taskRepetition?.repetition_type === 'monthly') {
-    weeklyDays += getDay(taskRepetition?.repetition_monthly_week_day)?.day ?? ''
+    if (taskRepetition?.repetition_monthly_date) weeklyDays += getDate(taskRepetition?.repetition_monthly_date)?.label + ' of the month' ?? ''
+    else {
+      weeklyDays += getWeekNo(taskRepetition?.repetition_monthly_week_no)?.week ?? ''
+      weeklyDays += ' ' + getDay(taskRepetition?.repetition_monthly_week_day)?.day + ' of the month' ?? ''
+    }
   } else {
-    weeklyDays += getDay(taskRepetition?.repetition_yearly_day)?.day ?? ''
+    if (taskRepetition?.repetition_yearly_month_date) {
+      weeklyDays += `${getDate(taskRepetition?.repetition_yearly_month_date)?.label ?? ''} of the ${getMonth(taskRepetition?.repetition_yearly_month)?.month ?? ''}`
+    } else {
+      weeklyDays += `${getWeekNo(taskRepetition?.repetition_yearly_week_no)?.week ?? ''} ${getDay(taskRepetition?.repetition_yearly_day).day ?? ''} of ${getMonth(taskRepetition?.repetition_yearly_month).month ?? ''}`
+    }
   }
 
   if (!weeklyDays) return null
 
   return (
-    <Text paddingTop={'10px'} paddingX={0} borderStyle={'solid'} color={colors.black} fontWeight={400} fontSize={'14px'} w={'fit-content'}>
+    <Text paddingX={0} borderStyle={'solid'} lineHeight={'20px'} color={colors.black} fontWeight={400} fontSize={'14px'} className='weekly-days' w={'fit-content'}>
       {weeklyDays}
     </Text>
   )
@@ -62,7 +70,7 @@ const CustomerTaskManagement = ({ taskGroupSort, onOpenEditRepeat, data, onSortT
           <Td w='17%' borderBottom={0} padding={0} margin={0}>
             <Box onClick={onSortTaskGroup} display={'flex'} alignItems={'center'}>
               <Text marginLeft={'20px'} cursor={'pointer'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
-                Task Group
+                Task group
               </Text>
               <Icon cursor={'pointer'} display='flex' justifyContent='center' alignItems='center' image={taskGroupSort === 'desc' ? assets.icons.swap : assets.icons.swap2} />
             </Box>
@@ -77,7 +85,7 @@ const CustomerTaskManagement = ({ taskGroupSort, onOpenEditRepeat, data, onSortT
               Responsible
             </Text>
           </Td>
-          <Td w='17%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} paddingLeft={'10px'} margin={0}>
+          <Td w='17%' borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='16px' padding={0} paddingLeft={'0'} margin={0}>
             <Text marginLeft={'7px'} paddingY='20px' fontWeight={600} fontStyle={'normal'} fontSize='16px'>
               Repetition
             </Text>
@@ -110,8 +118,8 @@ const CustomerTaskManagement = ({ taskGroupSort, onOpenEditRepeat, data, onSortT
       {data.length > 0 && (
         <Tbody paddingX={'20px'} h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
           {data.map((taskGroup, index) => (
-            <TableRow key={taskGroup.uuid} alignItems={'flex-start'} borderBottom={data.length - 1 === index ? 0 : 1}>
-              <Td role='group' paddingLeft={'0px'} paddingRight={'20px'} cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
+            <TableRow paddingY='15px' key={taskGroup.uuid} alignItems={'flex-start'} borderBottom={data.length - 1 === index ? 0 : 1}>
+              <Td role='group' paddingLeft={'0px'} paddingRight={'20px'} h='auto' cursor={'pointer'} w={'20%'} fontWeight={600} display={'flex'} justifyContent={'space-between'} alignItems={'flex-start'} fontSize={'14px'} border={0}>
                 <Box>
                   <Text>{taskGroup.name}</Text>
                 </Box>
@@ -130,29 +138,49 @@ const CustomerTaskManagement = ({ taskGroupSort, onOpenEditRepeat, data, onSortT
                     </Box>
 
                     <>
-                      <Box w={'22%'} position={'relative'}>
+                      <Box w={'21%'} position={'relative'}>
                         {task.task_item?.responsible || task?.task_item?.responsible_role === 'customer' ? (
-                          <Box marginLeft={'2px'} onClick={() => onOpenAddResponsible(taskGroup, task, true)} paddingX={'10px'} paddingY={'5px'} borderWidth={1} borderColor={'white'} borderRadius='5px' role='group' _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen, color: colors.darkGreen }} cursor={'pointer'} w={'fit-content'}>
+                          <Box marginLeft={'2px'} onClick={() => onOpenAddResponsible(taskGroup, task, true)} paddingX={'10px'} paddingY={'5px'} borderWidth={1} borderColor={'white'} borderRadius='5px' _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen, color: colors.darkGreen }} cursor={'pointer'} w={'fit-content'}>
                             <Text borderStyle={'solid'} fontWeight={400} fontSize={'14px'} _hover={{ color: colors.darkGreen }} w={'100%'}>
-                              {task.task_item?.responsible?.first_name || task?.task_item?.responsible_role}
+                              {task.task_item?.responsible?.first_name || 'Customer'}
                             </Text>
                           </Box>
                         ) : (
-                          <ButtonWithIcon marginLeft={'10px'} display='none' _groupHover={{ display: 'flex' }} title='Add responsible' onClick={() => onOpenAddResponsible(taskGroup, task)} size='small' h='33px' paddingX='10px' paddingY='5px' fontSize='14px' fontWeight={600} />
+                          <ButtonWithIcon marginLeft={'10px'} display='none' _groupHover={{ display: 'flex' }} title='Add responsible' onClick={() => onOpenAddResponsible(taskGroup, task)} size='small' h='33px' paddingX='10px' paddingY='5px' fontSize='14px' fontWeight={600} background={colors.lightGrey} _hover={{ background: colors.white }} />
                         )}
                       </Box>
-                      <Box w={'21%'} paddingLeft={'6px'}>
+                      <Box w={'21%'} paddingLeft={'0px'}>
                         {task.task_item?.tasks_repetition ? (
-                          <Box w={'fit-content'} onClick={() => onOpenEditRepeat(taskGroup, task)} cursor={'pointer'} display={'flex'} flexDirection={'column'}>
-                            <Box display={'flex'}>{getWeeklyDays(task.task_item?.tasks_repetition || {})}</Box>
+                          <Box
+                            w={'fit-content'}
+                            role='group'
+                            marginY={index === 0 && getWeeklyDays(task.task_item?.tasks_repetition || {}) ? '0px' : '5px'}
+                            marginBottom={'5px'}
+                            paddingX={'10px'}
+                            paddingY={'5px'}
+                            borderRadius={'5px'}
+                            borderWidth={1}
+                            borderColor={colors.white}
+                            _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen, color: colors.darkGreen }}
+                            onClick={() => onOpenEditRepeat(taskGroup, task)}
+                            cursor={'pointer'}
+                            display={'flex'}
+                            flexDirection={'column'}
+                            className='repetition'
+                            css={{
+                              '&.repetition:hover > .weekly-days': { color: colors.darkGreen },
+                              '&.repetition:hover > .task-repetition': { color: colors.mediumGreen },
+                            }}
+                          >
+                            {getWeeklyDays(task.task_item?.tasks_repetition || {})}
                             {getTaskRepetition(task.task_item?.tasks_repetition || {})}
                           </Box>
                         ) : (
-                          <ButtonWithIcon display='none' _groupHover={{ display: 'flex' }} onClick={() => onOpenRepeat(taskGroup, task)} title='Add repetition' size='small' h='33px' paddingX='10px' paddingY='5px' fontSize='14px' fontWeight={600} />
+                          <ButtonWithIcon display='none' _groupHover={{ display: 'flex' }} onClick={() => onOpenRepeat(taskGroup, task)} title='Add repetition' size='small' h='33px' paddingX='10px' paddingY='5px' fontSize='14px' fontWeight={600} background={colors.lightGrey} _hover={{ background: colors.white }} />
                         )}
                       </Box>
-                      <Box w={'21%'} paddingLeft={'0'}>
-                        {task?.task_item?.notes ? <Icon onClick={() => onOpenNoteModal(taskGroup, task, true)} cursor='pointer' image={assets.icons.noteIcon} hoveredImage={assets.icons.noteIconGreen} w='20px' h='18px' /> : <ButtonWithIcon display='none' _groupHover={{ display: 'flex' }} onClick={() => onOpenNoteModal(taskGroup, task)} title='Add note' size='small' h='33px' fontSize='14px' paddingX='10px' paddingY='5px' fontWeight={600} />}
+                      <Box w={'21%'} paddingLeft={'3px'}>
+                        {task?.task_item?.notes ? <Icon onClick={() => onOpenNoteModal(taskGroup, task, true)} _hover={{ background: colors.lightGreen, borderWidth: 1, borderColor: colors.mediumGreen, color: colors.darkGreen }} borderWidth={1} borderColor={'white'} borderRadius='5px' cursor='pointer' image={assets.icons.noteIcon} hoveredImage={assets.icons.hoveredNoteIcon} display='flex' justifyContent='center' alignItems='center' w='fit-content' paddingX='8px' paddingY='15px' /> : <ButtonWithIcon display='none' _groupHover={{ display: 'flex' }} onClick={() => onOpenNoteModal(taskGroup, task)} title='Add note' size='small' h='33px' fontSize='14px' paddingX='10px' paddingY='5px' fontWeight={600} background={colors.lightGrey} _hover={{ background: colors.white }} />}
                       </Box>
                     </>
                   </Box>
