@@ -8,7 +8,7 @@ import { clientInfo, clientInfoModal, fetchAllCustomers, fetchAllEmployees, fetc
 import EmployeeTaskManagementTable from '../../components/Table/EmployeeTaskManagement/EmployeeTaskManagement'
 import { generateWeeksInYear } from '../../utils/dates'
 import moment from 'moment'
-import { useLocation } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import useFilter from '../../hooks/useFilter'
 import Pagination from '../../components/Pagination/Pagination'
 import _ from 'lodash'
@@ -147,6 +147,9 @@ const EmployeeTaskManagement = () => {
       fetchTaskData(selectedEmployee?.id, selectedCustomer?.id, { ...filterIds, year: selectedYear, weekNumber }, setFilterChanged)
     }
   }, [selectedCustomer, selectedEmployee, filters])
+
+  if (!state?.employeeData) return <Navigate to='/employees' />
+  if (!state?.customerData) return <Navigate to='/employees/customers' />
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Box, useToast } from '@chakra-ui/react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 
@@ -584,6 +584,8 @@ const CustomerTaskManagement = () => {
     dispatch(getActiveCustomers())
     dispatch(activeEmployeeFetch())
   }, [])
+
+  if (!state?.customerData) return <Navigate to='/customers' />
 
   return (
     <>

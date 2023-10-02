@@ -12,7 +12,7 @@ import assets from '../../assets/assets'
 import employeeCustomerBreadcrumb from './employeeCustomerBreadcrumb'
 import DropDown from '../../components/DropDown'
 import { employeeCustomerFetch } from '../../redux/reducers/employeeCustomer/employeeCustomer'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Spinner from '../../components/Spinner'
 
 const EmployeeCustomer = () => {
@@ -44,6 +44,8 @@ const EmployeeCustomer = () => {
       selectedEmployee(state?.employeeData)
     }
   }, [])
+
+  if (!state?.employeeData) return <Navigate to='/employees' />
 
   return (
     <>
