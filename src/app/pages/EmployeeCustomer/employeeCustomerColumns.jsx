@@ -11,6 +11,7 @@ export const employeeCustomerColumns = [
         {value.name}
       </Text>
     ),
+    width: '150%',
   },
   {
     id: 2,

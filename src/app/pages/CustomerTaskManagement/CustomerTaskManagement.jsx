@@ -249,7 +249,7 @@ const CustomerTaskManagement = () => {
       repetition_yearly_month: inputFieldsYearly.repetitionYearlyMonth.id,
       repetition_weekly_no: inputFieldsWeekly.repetitionWeeklyNo,
       repetition_monthly_no: inputFieldsMonthly.repetitionMonthlyNo,
-      repetition_weekly_days: JSON.stringify([...repetitionWeeklyDays].sort()),
+      repetition_weekly_days: JSON.stringify([...new Set(repetitionWeeklyDays)].sort()),
       responsible_role: !inputFieldsResponsible.id ? inputFieldsResponsible.first_name : 'employee',
       responsible_id: inputFieldsResponsible.id,
       notes: inputFieldsNote.note,
@@ -443,7 +443,7 @@ const CustomerTaskManagement = () => {
       customer_id: customer.id,
       repetition_type: repetitionType,
       repetition_weekly_no: inputFieldsWeekly.repetitionWeeklyNo,
-      repetition_weekly_days: JSON.stringify([...repetitionWeeklyDays].sort()),
+      repetition_weekly_days: JSON.stringify([...new Set(repetitionWeeklyDays)].sort()),
     }
 
     onSubmitWeekly(
@@ -558,7 +558,7 @@ const CustomerTaskManagement = () => {
         customer_id: value.customer.id,
         repetition_type: 'weekly',
         repetition_weekly_no: 1,
-        repetition_weekly_days: JSON.stringify(repetitionWeeklyDays.sort()),
+        repetition_weekly_days: JSON.stringify([...new Set(repetitionWeeklyDays)].sort()),
       }
 
       dispatch(manageRepetition({ data, customerId: value.customer.id, isCustomerAll: value.isCustomerAll, toast, setRepetitionType }))

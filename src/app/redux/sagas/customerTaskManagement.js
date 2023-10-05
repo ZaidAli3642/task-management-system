@@ -1,6 +1,19 @@
 import { call, put, select, take, takeEvery } from 'redux-saga/effects'
 import { customerTaskManagement } from '../../api/customerTaskManagement/customerTaskManagement'
 import { addEditRemoveNote, addEditRemoveNoteFailed, addEditRemoveNoteSuccess, addNoteModal, clearSectionModal, addResponsible, addResponsibleFailed, addResponsibleModal, addResponsibleSuccess, allCustomerFilters, clearSection, editNoteModal, editResponsibleModal, fetchCustomersWithTaskGroup, fetchCustomersWithTaskGroupFailed, fetchCustomersWithTaskGroupSuccess, fetchTaskGroupWithSchedules, fetchTaskGroupWithSchedulesFailed, fetchTaskGroupWithSchedulesSuccess, filters, manageRepetition, manageRepetitionError, manageRepetitionSuccess, repeatModal, clearSectionSuccess, clearSectionFailed, bulkAssignFailed, bulkAssignSuccess, bulkAssignModal, bulkAssign, editRepeatModal, setPageCount, removeRepetition, removeRepetitionSuccess, removeRepetitionError, removeResponsibleSuccess, removeResponsibleFailed, removeResponsible } from '../reducers/customerTaskManagement/customerTaskManagement'
+import _ from 'lodash'
+
+const sortTaskGroup = data => {
+  const sortedTaskGroup = _.sortBy(data, 'name')
+  const sortedData = _.map(sortedTaskGroup, taskGroup => {
+    return {
+      ...taskGroup,
+      tasks: _.sortBy(taskGroup.tasks, 'name'),
+    }
+  })
+
+  return sortedData
+}
 
 function* getTaskGroupWithSchedules(action) {
   const token = yield select(state => state.auth.token)
@@ -9,7 +22,8 @@ function* getTaskGroupWithSchedules(action) {
   const { customerId, selectedTaskGroups, selectedTasks, selectedResponsibles, isCustomerAll } = action.payload
   try {
     const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId, selectedTaskGroups, selectedTasks, selectedResponsibles)
-    yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+    const sortedData = sortTaskGroup(response.data)
+    yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
     yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
 
     if (!selectedTaskGroups?.length && !selectedTasks?.length && !selectedResponsibles?.length) {
@@ -51,7 +65,8 @@ function* createResponsible(action) {
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
-        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        const sortedData = sortTaskGroup(response.data)
+        yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
@@ -77,7 +92,8 @@ function* manageNotes(action) {
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
-        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        const sortedData = sortTaskGroup(response.data)
+        yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
@@ -103,7 +119,8 @@ function* manageRepetitionFunc(action) {
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
-        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        const sortedData = sortTaskGroup(response.data)
+        yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
@@ -146,7 +163,8 @@ function* deleteRepetition(action) {
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
-        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        const sortedData = sortTaskGroup(response.data)
+        yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
@@ -172,7 +190,8 @@ function* deleteResponsible(action) {
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
-        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        const sortedData = sortTaskGroup(response.data)
+        yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
@@ -198,7 +217,8 @@ function* clearSectionTasks(action) {
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
-        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        const sortedData = sortTaskGroup(response.data)
+        yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }
@@ -223,7 +243,8 @@ function* bulkAssignFunc(action) {
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       } else {
         const response = yield call(customerTaskManagement(token).fetchTaskGroupWithSchedules, customerId)
-        yield put(fetchTaskGroupWithSchedulesSuccess(response.data))
+        const sortedData = sortTaskGroup(response.data)
+        yield put(fetchTaskGroupWithSchedulesSuccess(sortedData))
         yield put(setPageCount({ pageNo: pageNo, isCustomerAll }))
       }
     }

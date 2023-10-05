@@ -1,13 +1,15 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { customers } from '../../api/customers/customers'
 import { customerAdd, customerAddFailed, customerAddSuccess, customerEdit, customerEditFailed, customerFetch, customerFetchFailed, customerFetchSuccess, getActiveCustomers, getActiveCustomersFailed, getActiveCustomersSuccess } from '../reducers/customer/customer'
+import _ from 'lodash'
 
 function* fetchCustomers(action) {
   const token = yield select(state => state.auth.token)
   const { perPage, page } = action.payload
   try {
     const response = yield call(customers(token).fetchCustomersForAdmin, perPage, page)
-    yield put(customerFetchSuccess(response.data.data))
+    const sortedCustomers = _.sortBy(response.data.data, ['name'])
+    yield put(customerFetchSuccess(sortedCustomers))
   } catch (error) {
     yield put(customerFetchFailed({ error }))
   }

@@ -7,9 +7,9 @@ const indexColor = {
   2: colors.darkGreen,
 }
 
-const TableColumnTitle = ({ value, index, titleFontSize = '12px' }) => {
+const TableColumnTitle = ({ width, value, index, titleFontSize = '12px' }) => {
   return (
-    <Th key={value.id} h={'100%'} border={0} p={0} px={0} w={'100%'} display={'flex'} alignItems={'space-around'} justifyContent={'center'} flexDirection={'column'} color={colors.black} className='table-heading' textTransform={'none'} fontSize={'14px'} fontWeight={600} letterSpacing={'1px'} textColor={indexColor[index] ? indexColor[index] : colors.black}>
+    <Th key={value.id} h={'100%'} border={0} p={0} px={0} w={width || '100%'} display={'flex'} alignItems={'space-around'} justifyContent={'center'} flexDirection={'column'} color={colors.black} className='table-heading' textTransform={'none'} fontSize={'14px'} fontWeight={600} letterSpacing={'1px'} textColor={indexColor[index] ? indexColor[index] : colors.black}>
       <Text width={'100px'} fontSize={titleFontSize} fontStyle='normal' fontWeight={600} letterSpacing={0}>
         {value?.title || `${value.weekFirstDate} - ${value.weekLastDate}`}
       </Text>
