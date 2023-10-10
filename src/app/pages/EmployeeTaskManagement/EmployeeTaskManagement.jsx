@@ -4,7 +4,7 @@ import DropDown from '../../components/DropDown'
 import employeeTaskManagementBreadcrumb from './employeeTaskManagementBreadcrumb'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { clientInfo, clientInfoModal, fetchAllCustomers, fetchAllEmployees, fetchTaskForEmployees, fetchTaskForEmployeesAllCustomers, fetchTaskForEmployeesAllCustomersSuccess, fetchTaskForEmployeesSuccess, noteModal, setPageCount, setPerPage, updateTaskByEmployee } from '../../redux/reducers/employeeTaskManagement/employeeTaskManagement'
+import { clientInfo, clientInfoModal, fetchAllCustomers, fetchAllCustomersSuccess, fetchAllEmployees, fetchTaskForEmployees, fetchTaskForEmployeesAllCustomers, fetchTaskForEmployeesAllCustomersSuccess, fetchTaskForEmployeesSuccess, noteModal, setPageCount, setPerPage, updateTaskByEmployee } from '../../redux/reducers/employeeTaskManagement/employeeTaskManagement'
 import EmployeeTaskManagementTable from '../../components/Table/EmployeeTaskManagement/EmployeeTaskManagement'
 import { generateWeeksInYear } from '../../utils/dates'
 import moment from 'moment'
@@ -138,6 +138,7 @@ const EmployeeTaskManagement = () => {
   }
 
   useEffect(() => {
+    dispatch(fetchAllCustomersSuccess([]))
     dispatch(fetchAllEmployees())
     dispatch(fetchAllCustomers({ employeeId: state?.employeeData?.id }))
     if (state?.employeeData && state?.customerData) {
