@@ -6,7 +6,7 @@ export const employeeCustomer = authToken => {
   }
 
   return {
-    fetchEmployeeCustomer: async (perPage, page, employeeId) => {
+    fetchEmployeeCustomer: async employeeId => {
       let apiRoute = `/counts_data_list/get_tasks_count_for_customers?timestamp=${Date.now()}`
       if (employeeId) apiRoute += `&employeeId=${employeeId}`
       if (!employeeId) apiRoute += `&responsible_role=customer`

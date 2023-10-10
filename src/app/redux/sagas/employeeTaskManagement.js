@@ -3,6 +3,7 @@ import { employeeTaskManagement } from '../../api/employeeTaskManagement/employe
 import { fetchAllCustomers, fetchAllCustomersFailed, fetchAllCustomersSuccess, fetchAllEmployees, fetchAllEmployeesFailed, fetchAllEmployeesSuccess, fetchTaskForEmployees, fetchTaskForEmployeesAllCustomers, fetchTaskForEmployeesAllCustomersFailed, fetchTaskForEmployeesAllCustomersSuccess, fetchTaskForEmployeesFailed, fetchTaskForEmployeesSuccess, setFilters, setPageCount, setPerPage, updateTaskByEmployee, updateTaskByEmployeeFailed, updateTaskByEmployeeSuccess } from '../reducers/employeeTaskManagement/employeeTaskManagement'
 import moment from 'moment'
 import _ from 'lodash'
+import { employeeCustomer } from '../../api/employeeCustomer/employeeCustomer'
 
 const sortData = response => {
   const sortedData = _.map(response.data.customers, customerTask => {
@@ -30,10 +31,11 @@ function* getAllEmplpyees(action) {
 }
 function* getAllCustomers(action) {
   const token = yield select(state => state.auth.token)
+  const employeeId = action.payload.employeeId
   try {
-    const response = yield call(employeeTaskManagement(token).fetchAllCustomers)
-    response.data.unshift({ id: null, name: 'All' })
-    yield put(fetchAllCustomersSuccess(response.data))
+    const response = yield call(employeeCustomer(token).fetchEmployeeCustomer, employeeId)
+    response.data.data.unshift({ id: null, name: 'All' })
+    yield put(fetchAllCustomersSuccess(response.data.data))
   } catch (error) {
     yield put(fetchAllCustomersFailed({ error }))
   }
@@ -92,6 +94,8 @@ function* getTaskForEmployeesAllCustomers(action) {
   }
 }
 
+let isFetch = false
+
 function* updateTask(action) {
   const token = yield select(state => state.auth.token)
   const { data, pageNo, isCustomerAll, responsibleId, customerId, filters, setFilterChanged, filterChanged, isPast } = action.payload
@@ -125,9 +129,9 @@ function* updateTask(action) {
 
     const debounce = _.debounce(() => {
       setFilterChanged(!filterChanged)
-    }, 500)
+    }, 100)
 
-    if (isPast) debounce()
+    if (isPast || status === 'unsolved') debounce()
 
     yield put(updateTaskByEmployeeSuccess())
   } catch (error) {

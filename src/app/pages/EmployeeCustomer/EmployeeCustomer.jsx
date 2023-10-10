@@ -32,7 +32,7 @@ const EmployeeCustomer = () => {
   const selectedEmployee = employee => {
     setSelectedEmployeeData(employee)
     setSelectedEmployeeOption(employee.first_name)
-    dispatch(employeeCustomerFetch({ perPage, page, employeeId: employee.id }))
+    dispatch(employeeCustomerFetch({ employeeId: employee.id }))
   }
 
   useEffect(() => {

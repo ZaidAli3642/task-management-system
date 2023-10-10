@@ -39,6 +39,7 @@ const EmployeeTaskManagement = () => {
     task: [],
     solvedUnsolved: [],
   })
+
   const allWeeksInYear = useMemo(() => {
     const allWeeks = generateWeeksInYear(selectedYear)
     const weekNo = moment().week()
@@ -46,6 +47,7 @@ const EmployeeTaskManagement = () => {
     if (changeFilter) {
       setWeekNumber(weekNo)
       setFilters(currentWeek, true, 'week')
+      setFilters(solvedUnSolvedFilters[1], true, 'solvedUnsolved', true)
       setChangeFiler(false)
     }
     localStorage.setItem('weekNo', weekNo)
@@ -53,6 +55,7 @@ const EmployeeTaskManagement = () => {
   }, [selectedYear])
 
   function setFilters(data, checked, key, isPreviousRemove = false) {
+    console.log('data checked : ', data, checked, key, isPreviousRemove)
     onChangeFilters({ target: { key, checked, value: data, isPreviousRemove } })
   }
 
@@ -128,7 +131,7 @@ const EmployeeTaskManagement = () => {
 
   useEffect(() => {
     dispatch(fetchAllEmployees())
-    dispatch(fetchAllCustomers())
+    dispatch(fetchAllCustomers({ employeeId: state?.employeeData?.id }))
     if (state?.employeeData && state?.customerData) {
       // fetchTaskData(state?.employeeData.id, state?.customerData.id, { ...filterIds, year: selectedYear, weekNumber })
       setSelectedEmployee(state.employeeData)
