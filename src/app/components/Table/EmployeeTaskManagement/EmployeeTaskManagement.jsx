@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux'
 import { clientInfo, clientInfoModal } from '../../../redux/reducers/employeeTaskManagement/employeeTaskManagement'
 import { useState } from 'react'
 
-const EmployeeTaskManagement = ({ onClearKeyValues, filterChanged, setFilterChanged, setTask, sortOrderTimestamp, weekNumber, setWeekNumber, onSortByTimeStamp, filters, onChangeSolvedUnSolved, filterIds, solvedUnSolvedFilters, setFilters, selectedYear, allWeeksInYear, selectYear, data, taskGroupsFilter, tasksFilter }) => {
+const EmployeeTaskManagement = ({ id, onClearKeyValues, filterChanged, setFilterChanged, setTask, sortOrderTimestamp, weekNumber, setWeekNumber, onSortByTimeStamp, filters, onChangeSolvedUnSolved, filterIds, solvedUnSolvedFilters, setFilters, selectedYear, allWeeksInYear, selectYear, data, taskGroupsFilter, tasksFilter }) => {
   const dispatch = useDispatch()
 
   const isSelectedSolved = filters.solvedUnsolved.length !== 0 && filters.solvedUnsolved[0].value === 'solved'
@@ -21,7 +21,7 @@ const EmployeeTaskManagement = ({ onClearKeyValues, filterChanged, setFilterChan
   const length = data?.length
 
   return (
-    <TableWrapper>
+    <TableWrapper id={id} tableBoxStyles={{ position: 'sticky', top: 0 }}>
       <TableHead>
         <TableHeadColumn sortOrderTimestamp={sortOrderTimestamp} onSortByTimeStamp={onSortByTimeStamp} isSelectedSolved={isSelectedSolved} />
         <TableFilter filterChanged={filterChanged} setFilterChanged={setFilterChanged} setWeekNumber={setWeekNumber} onClearKeyValues={onClearKeyValues} filters={filters} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} selectYear={selectYear} selectedYear={selectedYear} allWeeksInYear={allWeeksInYear} isSelectedSolved={isSelectedSolved} />

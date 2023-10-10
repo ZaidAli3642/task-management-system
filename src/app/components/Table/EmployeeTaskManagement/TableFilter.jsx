@@ -1,12 +1,16 @@
-import { Box, Td } from '@chakra-ui/react'
+import { Box, Td, Text } from '@chakra-ui/react'
 import TableRow from './TableRow'
 import Filter from '../../Filter'
 import colors from '../../../config/colors'
 
-const TableFilter = ({ onClearKeyValues, filterChanged, isSelectedSolved, setFilterChanged, setWeekNumber, filters, filterIds, solvedUnSolvedFilters, setFilters, selectYear, selectedYear, allWeeksInYear, taskGroupsFilter, tasksFilter }) => {
+const TableFilter = ({ name, onClearKeyValues, filterChanged, isSelectedSolved, setFilterChanged, setWeekNumber, filters, filterIds, solvedUnSolvedFilters, setFilters, selectYear, selectedYear, allWeeksInYear, taskGroupsFilter, tasksFilter }) => {
   return (
     <TableRow h={'45px'} paddingTop='5px'>
-      <Td w='15%' display={'flex'} alignItems={'center'} borderBottom={0} padding={0} margin={0}></Td>
+      <Td w='15%' display={'flex'} alignItems={'center'} borderBottom={0} padding={0} margin={0} paddingLeft={'20px'}>
+        <Text fontWeight={600} fontSize={'14px'}>
+          {name}
+        </Text>
+      </Td>
       <Td w='23%' display={'flex'} alignItems={'center'} borderBottom={0} fontWeight={600} fontStyle={'normal'} fontSize='14px' padding={0} margin={0}>
         <Box paddingY={'10px'} w={'100%'} borderLeftWidth={1} borderLeftColor={colors.borderGrey} borderRightColor={colors.borderGrey} borderRightWidth={1} borderStyle={'solid'} backgroundColor={colors.silver}>
           <Filter
