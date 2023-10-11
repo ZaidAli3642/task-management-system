@@ -16,6 +16,13 @@ body {
   color: #61c0a2;
 }
 
+.sticky-filters {
+  position: fixed !important;
+  top: 60px !important;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
 .input-container {
   margin-top: 10px;
   margin-bottom: 10px;

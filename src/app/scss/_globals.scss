@@ -14,3 +14,10 @@ body {
 .active-link {
   color: $medium-green;
 }
+
+.sticky-filters {
+  position: fixed !important;
+  top: 60px !important;
+  padding-left: 30px;
+  padding-right: 30px;
+}

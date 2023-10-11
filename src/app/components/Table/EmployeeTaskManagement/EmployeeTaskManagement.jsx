@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux'
 import { clientInfo, clientInfoModal } from '../../../redux/reducers/employeeTaskManagement/employeeTaskManagement'
 import { useState } from 'react'
 
-const EmployeeTaskManagement = ({ id, onClearKeyValues, filterChanged, setFilterChanged, setTask, sortOrderTimestamp, weekNumber, setWeekNumber, onSortByTimeStamp, filters, onChangeSolvedUnSolved, filterIds, solvedUnSolvedFilters, setFilters, selectedYear, allWeeksInYear, selectYear, data, taskGroupsFilter, tasksFilter }) => {
+const EmployeeTaskManagement = ({ name, position, offsetTop, onClearKeyValues, filterChanged, setFilterChanged, setTask, sortOrderTimestamp, weekNumber, setWeekNumber, onSortByTimeStamp, filters, onChangeSolvedUnSolved, filterIds, solvedUnSolvedFilters, setFilters, selectedYear, allWeeksInYear, selectYear, data, taskGroupsFilter, tasksFilter }) => {
   const dispatch = useDispatch()
 
   const isSelectedSolved = filters.solvedUnsolved.length !== 0 && filters.solvedUnsolved[0].value === 'solved'
@@ -21,10 +21,16 @@ const EmployeeTaskManagement = ({ id, onClearKeyValues, filterChanged, setFilter
   const length = data?.length
 
   return (
-    <TableWrapper id={id} tableBoxStyles={{ position: 'sticky', top: 0 }}>
+    <TableWrapper>
       <TableHead>
         <TableHeadColumn sortOrderTimestamp={sortOrderTimestamp} onSortByTimeStamp={onSortByTimeStamp} isSelectedSolved={isSelectedSolved} />
-        <TableFilter filterChanged={filterChanged} setFilterChanged={setFilterChanged} setWeekNumber={setWeekNumber} onClearKeyValues={onClearKeyValues} filters={filters} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} selectYear={selectYear} selectedYear={selectedYear} allWeeksInYear={allWeeksInYear} isSelectedSolved={isSelectedSolved} />
+        <Box id='sticky-ref' zIndex={1} background={'transparent'} width={'100%'}>
+          <Box background={'white'}>
+            <TableFilter name={name} filterChanged={filterChanged} setFilterChanged={setFilterChanged} setWeekNumber={setWeekNumber} onClearKeyValues={onClearKeyValues} filters={filters} filterIds={filterIds} solvedUnSolvedFilters={solvedUnSolvedFilters} setFilters={setFilters} taskGroupsFilter={taskGroupsFilter} tasksFilter={tasksFilter} selectYear={selectYear} selectedYear={selectedYear} allWeeksInYear={allWeeksInYear} isSelectedSolved={isSelectedSolved} />
+          </Box>
+        </Box>
+
+        {/* {name && <Box h={'45px'} paddingTop='5px'></Box>} */}
       </TableHead>
       <Tbody h='auto' display={'flex'} flexDirection={'column'} w={'100%'} paddingBottom={'20px'}>
         {data.length > 0 &&
